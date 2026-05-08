@@ -72,8 +72,8 @@ export default function CustomerLayout({
         {/* Header */}
         <CustomerHeader onMenuClick={handleMenuClick} sidebarCollapsed={sidebarCollapsed} />
         
-        {/* Page Content - Add pt-16 for fixed header */}
-        <main className="p-4 lg:p-6 pt-20">
+        {/* Page Content - Add lg:pt-24 for fixed header on desktop */}
+        <main className="p-4 pt-20 lg:p-6 lg:pt-24">
           {children}
         </main>
       </div>
