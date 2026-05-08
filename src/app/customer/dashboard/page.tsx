@@ -197,7 +197,6 @@ export default function CustomerDashboard() {
           <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{greeting}, {user?.name?.split(' ')[0] || 'there'}! 👋</h1>
           <p className="text-gray-500 mt-1">Here's what's happening with your laundry</p>
         </div>
-        <Link href="/customer/orders/new"><Button className="bg-gradient-to-r from-teal-500 to-cyan-500 hover:from-teal-600 hover:to-cyan-600 shadow-lg shadow-teal-500/30 font-semibold px-6"><Plus className="w-4 h-4 mr-2" />New Order</Button></Link>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
