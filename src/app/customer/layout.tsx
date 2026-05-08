@@ -28,14 +28,16 @@ export default function CustomerLayout({
   useEffect(() => {
     // Wait a bit for store to initialize
     const timer = setTimeout(() => {
-      if (!isAuthenticated || !user) {
-        router.push('/auth/login')
-        return
-      }
-      
-      if (user.role !== 'customer') {
-        router.push('/auth/login')
-        return
+      // Inject mock user for frontend demonstration
+      if (!isAuthenticated || !user || user.role !== 'customer') {
+        useAuthStore.getState().setAuth({
+          _id: 'demo-customer-123',
+          name: 'Demo Customer',
+          email: 'customer@demo.com',
+          phone: '081234567890',
+          role: 'customer',
+          isActive: true
+        }, 'demo-token')
       }
       
       setIsLoading(false)
@@ -44,7 +46,7 @@ export default function CustomerLayout({
     return () => clearTimeout(timer)
   }, [isAuthenticated, user, router])
 
-  if (isLoading || !isAuthenticated || !user) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">

@@ -59,14 +59,18 @@ export default function CenterAdminLayout({
       return
     }
     
-    if (!isAuthenticated || !user) {
-      router.push('/auth/login')
-      return
-    }
-    
-    if (user.role !== 'center_admin') {
-      router.push('/auth/login')
-      return
+    // Inject mock admin for frontend demonstration
+    if (!isAuthenticated || !user || user.role !== 'center_admin') {
+      useAuthStore.getState().setAuth({
+        _id: 'demo-admin-123',
+        name: 'Demo Admin',
+        email: 'admin@demo.com',
+        phone: '081234567890',
+        role: 'center_admin',
+        isActive: true,
+        assignedBranch: 'medan-center',
+        permissions: { orders: { read: true, write: true }, staff: { read: true, write: true } }
+      }, 'demo-token')
     }
     
     setIsReady(true)
