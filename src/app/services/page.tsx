@@ -111,9 +111,9 @@ function HowWeWorkSection({ isModalOpen }: { isModalOpen?: boolean }) {
       <section className="bg-gray-50 py-12 sm:py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10">
-            <p className="text-teal-500 font-semibold mb-2">Simple & Easy</p>
-            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">How We Work</h2>
-            <p className="text-gray-600 text-sm sm:text-base">Getting your laundry done has never been easier. Just 4 simple steps!</p>
+            <p className="text-teal-500 font-semibold mb-2">Mudah & Praktis</p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-3">Cara Kami Bekerja</h2>
+            <p className="text-gray-600 text-sm sm:text-base">Layanan laundry Anda belum pernah semudah ini. Hanya 4 langkah sederhana!</p>
           </div>
           
           <div className="space-y-8">
@@ -160,9 +160,9 @@ function HowWeWorkSection({ isModalOpen }: { isModalOpen?: boolean }) {
     <section ref={sectionRef} className="bg-gray-50 py-16 relative">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <p className="text-teal-500 font-semibold mb-2">Simple & Easy</p>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">How We Work</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">Getting your laundry done has never been easier. Just 4 simple steps!</p>
+          <p className="text-teal-500 font-semibold mb-2">Mudah & Praktis</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Cara Kami Bekerja</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">Layanan laundry Anda belum pernah semudah ini. Hanya 4 langkah sederhana!</p>
         </div>
         <div className="flex flex-row gap-16">
           {/* Image Container - Fixed while scrolling */}
@@ -272,22 +272,24 @@ export default function ServicesPage() {
         onLoginRequired={handleLoginRequired}
       />
       
-      <section className="relative h-[400px] overflow-hidden">
-        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover">
-          <source src="/images/pricing.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/80 to-gray-900/40"></div>
+      <section className="relative h-[450px] overflow-hidden">
+        <img
+          src="/images/services_hero.png"
+          alt="Layanan Pembersihan Premium KitaLaundry"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900/85 via-gray-900/60 to-gray-900/20"></div>
         <div className="relative container mx-auto px-4 h-full flex items-center">
           <div className="max-w-xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Premium Cleaning<br />Services</h1>
-            <p className="text-lg text-gray-200 mb-8">Professional laundry and dry cleaning services at your doorstep. Quality care for all your garments.</p>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Layanan Pembersihan<br />Premium</h1>
+            <p className="text-lg text-gray-200 mb-8">Layanan laundry dan dry cleaning profesional ke depan pintu Anda. Perawatan berkualitas untuk semua pakaian Anda.</p>
             <div className="flex flex-wrap gap-4">
               <Button size="lg" className="bg-gray-800 hover:bg-gray-900 text-white" onClick={handleBookNow}>
-                <Truck className="w-5 h-5 mr-2" />Schedule Free Pickup
+                <Truck className="w-5 h-5 mr-2" />Jadwalkan Penjemputan Gratis
               </Button>
               <Link href="https://wa.me/919876543210" target="_blank">
                 <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white">
-                  <Phone className="w-5 h-5 mr-2" />Chat on Whatsapp
+                  <Phone className="w-5 h-5 mr-2" />Chat di WhatsApp
                 </Button>
               </Link>
             </div>
@@ -300,9 +302,9 @@ export default function ServicesPage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-teal-500 font-semibold mb-2">What We Offer</p>
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Our Services</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">From everyday laundry to premium dry cleaning, we offer comprehensive garment care solutions.</p>
+            <p className="text-teal-500 font-semibold mb-2">Apa yang Kami Tawarkan</p>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Layanan Kami</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Dari laundry sehari-hari hingga dry cleaning premium, kami menawarkan solusi perawatan pakaian yang komprehensif.</p>
           </div>
           <div className="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
             {services.map((service) => {
@@ -322,7 +324,7 @@ export default function ServicesPage() {
                       </li>
                     ))}
                   </ul>
-                  <Button size="sm" className="w-full bg-teal-500 hover:bg-teal-600 text-white text-sm" onClick={handleBookNow}>Book Now</Button>
+                  <Button size="sm" className="w-full bg-teal-500 hover:bg-teal-600 text-white text-sm" onClick={handleBookNow}>Pesan Sekarang</Button>
                 </div>
               )
             })}
@@ -333,28 +335,28 @@ export default function ServicesPage() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Why Choose KitaLaundry?</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Mengapa Memilih KitaLaundry?</h2>
           </div>
           <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4"><Truck className="w-8 h-8 text-teal-600" /></div>
-              <h3 className="font-semibold text-gray-800 mb-2">Free Pickup & Delivery</h3>
-              <p className="text-sm text-gray-600">Doorstep service at no extra cost</p>
+              <h3 className="font-semibold text-gray-800 mb-2">Penjemputan & Pengiriman Gratis</h3>
+              <p className="text-sm text-gray-600">Layanan ke depan pintu tanpa biaya tambahan</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4"><Clock className="w-8 h-8 text-teal-600" /></div>
-              <h3 className="font-semibold text-gray-800 mb-2">24-48 Hour Delivery</h3>
-              <p className="text-sm text-gray-600">Quick turnaround time</p>
+              <h3 className="font-semibold text-gray-800 mb-2">Pengiriman 24-48 Jam</h3>
+              <p className="text-sm text-gray-600">Waktu pengerjaan yang cepat</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4"><Star className="w-8 h-8 text-teal-600" /></div>
-              <h3 className="font-semibold text-gray-800 mb-2">Quality Assured</h3>
-              <p className="text-sm text-gray-600">Premium care for your clothes</p>
+              <h3 className="font-semibold text-gray-800 mb-2">Kualitas Terjamin</h3>
+              <p className="text-sm text-gray-600">Perawatan premium untuk pakaian Anda</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4"><Phone className="w-8 h-8 text-teal-600" /></div>
-              <h3 className="font-semibold text-gray-800 mb-2">24/7 Support</h3>
-              <p className="text-sm text-gray-600">Always here to help you</p>
+              <h3 className="font-semibold text-gray-800 mb-2">Dukungan 24/7</h3>
+              <p className="text-sm text-gray-600">Selalu siap membantu Anda</p>
             </div>
           </div>
         </div>
@@ -363,8 +365,8 @@ export default function ServicesPage() {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Got questions about our services? We have got answers.</p>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Pertanyaan yang Sering Diajukan</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Ada pertanyaan tentang layanan kami? Kami punya jawabannya.</p>
           </div>
           <div className="max-w-6xl mx-auto space-y-2">
             {faqData.map((faq, index) => (
@@ -376,15 +378,15 @@ export default function ServicesPage() {
 
       <section className="py-16 bg-gradient-to-r from-teal-500 to-cyan-600">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
-          <p className="text-teal-100 mb-8 max-w-xl mx-auto">Schedule your first pickup today and experience the convenience of professional laundry service.</p>
+          <h2 className="text-3xl font-bold text-white mb-4">Siap Memulai?</h2>
+          <p className="text-teal-100 mb-8 max-w-xl mx-auto">Jadwalkan penjemputan pertama Anda hari ini dan rasakan kemudahan layanan laundry profesional.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button size="lg" className="bg-white text-teal-600 hover:bg-gray-100" onClick={handleBookNow}>
-              <Truck className="w-5 h-5 mr-2" />Book Now
+              <Truck className="w-5 h-5 mr-2" />Pesan Sekarang
             </Button>
             <Link href="tel:+919876543210">
               <Button size="lg" className="bg-white/20 border-2 border-white text-white hover:bg-white hover:text-teal-600">
-                <Phone className="w-5 h-5 mr-2" />Call Us
+                <Phone className="w-5 h-5 mr-2" />Hubungi Kami
               </Button>
             </Link>
           </div>

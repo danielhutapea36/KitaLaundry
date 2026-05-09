@@ -38,7 +38,7 @@ export default function ServicesCards({ onBookNow }: { onBookNow: () => void }) 
             {service.description}
           </p>
           <Button size="sm" className="bg-teal-500 hover:bg-teal-600 text-white px-6" onClick={onBookNow}>
-            Book Now
+            Pesan Sekarang
           </Button>
         </div>
       ))}

@@ -198,11 +198,11 @@ export default function BranchDashboard() {
   const getStatusText = (status: string) => {
     const statusMap: Record<string, string> = {
       'assigned_to_branch': 'Pending',
-      'picked': 'Picked Up',
-      'in_process': 'Processing',
-      'ready': 'Ready',
-      'out_for_delivery': 'Out for Delivery',
-      'delivered': 'Delivered'
+      'picked': 'Sudah Dijemput',
+      'in_process': 'Sedang Diproses',
+      'ready': 'Siap Diambil',
+      'out_for_delivery': 'Dalam Pengiriman',
+      'delivered': 'Terkirim'
     }
     return statusMap[status] || status
   }
@@ -217,17 +217,17 @@ export default function BranchDashboard() {
         <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
           <AlertTriangle className="w-8 h-8 text-red-500" />
         </div>
-        <h3 className="text-lg font-semibold text-red-800 mb-2">{error || 'Failed to load'}</h3>
-        <Button onClick={fetchDashboard} className="mt-4 bg-red-600 hover:bg-red-700">Try Again</Button>
+        <h3 className="text-lg font-semibold text-red-800 mb-2">{error || 'Gagal memuat'}</h3>
+        <Button onClick={fetchDashboard} className="mt-4 bg-red-600 hover:bg-red-700">Coba Lagi</Button>
       </div>
     )
   }
 
   const stats = [
-    { name: 'Orders Today', value: data.metrics.todayOrders, icon: ShoppingBag, gradient: 'from-blue-500 to-indigo-600', shadow: 'shadow-blue-500/30' },
-    { name: 'In Progress', value: data.metrics.processingOrders, icon: Clock, gradient: 'from-amber-500 to-orange-600', shadow: 'shadow-amber-500/30' },
-    { name: 'Completed', value: data.metrics.completedToday, icon: CheckCircle, gradient: 'from-emerald-500 to-teal-600', shadow: 'shadow-emerald-500/30' },
-    { name: 'Staff', value: `${data.metrics.activeStaff}/${data.metrics.staffCount}`, icon: Users, gradient: 'from-purple-500 to-pink-600', shadow: 'shadow-purple-500/30' },
+    { name: 'Pesanan Hari Ini', value: data.metrics.todayOrders, icon: ShoppingBag, gradient: 'from-blue-500 to-indigo-600', shadow: 'shadow-blue-500/30' },
+    { name: 'Sedang Diproses', value: data.metrics.processingOrders, icon: Clock, gradient: 'from-amber-500 to-orange-600', shadow: 'shadow-amber-500/30' },
+    { name: 'Selesai', value: data.metrics.completedToday, icon: CheckCircle, gradient: 'from-emerald-500 to-teal-600', shadow: 'shadow-emerald-500/30' },
+    { name: 'Staf', value: `${data.metrics.activeStaff}/${data.metrics.staffCount}`, icon: Users, gradient: 'from-purple-500 to-pink-600', shadow: 'shadow-purple-500/30' },
   ]
 
   return (
@@ -243,17 +243,17 @@ export default function BranchDashboard() {
               <Sparkles className="w-7 h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-xl lg:text-2xl font-bold mb-1">Welcome, {user?.name}! 👋</h1>
+              <h1 className="text-xl lg:text-2xl font-bold mb-1">Selamat Datang, {user?.name}! 👋</h1>
               <p className="text-emerald-100">{data.branch.name} ({data.branch.code})</p>
             </div>
           </div>
           <div className="mt-4 md:mt-0 flex space-x-3">
             <Button variant="outline" onClick={fetchDashboard} className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-              <RefreshCw className="w-4 h-4 mr-2" />Refresh
+              <RefreshCw className="w-4 h-4 mr-2" />Perbarui
             </Button>
             <Link href="/center-admin/orders">
               <Button className="bg-white text-emerald-600 hover:bg-gray-100 shadow-lg">
-                <ShoppingBag className="w-5 h-5 mr-2" />View Orders
+                <ShoppingBag className="w-5 h-5 mr-2" />Lihat Pesanan
               </Button>
             </Link>
           </div>
@@ -261,7 +261,7 @@ export default function BranchDashboard() {
         <div className="relative z-10 mt-6 bg-white/10 backdrop-blur-sm rounded-xl p-4 inline-flex items-center gap-3">
           <Banknote className="w-5 h-5" />
           <div>
-            <span className="text-sm text-emerald-100">Today's Revenue</span>
+            <span className="text-sm text-emerald-100">Pendapatan Hari Ini</span>
             <p className="text-2xl font-bold">Rp{data.metrics.todayRevenue.toLocaleString()}</p>
           </div>
         </div>
@@ -288,7 +288,7 @@ export default function BranchDashboard() {
         <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-5">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-amber-600">Pending</p>
+              <p className="text-sm font-medium text-amber-600">Menunggu</p>
               <p className="text-4xl font-bold text-amber-700">{data.metrics.pendingOrders}</p>
             </div>
             <AlertTriangle className="w-10 h-10 text-amber-500" />
@@ -297,7 +297,7 @@ export default function BranchDashboard() {
         <div className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-5">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-emerald-600">Ready</p>
+              <p className="text-sm font-medium text-emerald-600">Siap Diambil</p>
               <p className="text-4xl font-bold text-emerald-700">{data.metrics.readyOrders}</p>
             </div>
             <CheckCircle className="w-10 h-10 text-emerald-500" />
@@ -310,8 +310,8 @@ export default function BranchDashboard() {
         {/* Weekly Orders Bar Chart */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <div className="mb-6">
-            <h2 className="text-lg font-bold text-gray-800">Weekly Orders</h2>
-            <p className="text-sm text-gray-500">Orders this week</p>
+            <h2 className="text-lg font-bold text-gray-800">Pesanan Mingguan</h2>
+            <p className="text-sm text-gray-500">Pesanan minggu ini</p>
           </div>
           <div className="h-56">
             {analyticsLoading ? (
@@ -342,7 +342,7 @@ export default function BranchDashboard() {
               </ResponsiveContainer>
             ) : (
               <div className="h-full flex items-center justify-center text-gray-400">
-                No data available
+                Belum ada data
               </div>
             )}
           </div>
@@ -351,8 +351,8 @@ export default function BranchDashboard() {
         {/* Order Status Distribution */}
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
           <div className="mb-6">
-            <h2 className="text-lg font-bold text-gray-800">Order Status</h2>
-            <p className="text-sm text-gray-500">Current distribution</p>
+            <h2 className="text-lg font-bold text-gray-800">Status Pesanan</h2>
+            <p className="text-sm text-gray-500">Distribusi saat ini</p>
           </div>
           <div className="h-44">
             <ResponsiveContainer width="100%" height="100%">
@@ -390,16 +390,16 @@ export default function BranchDashboard() {
         {/* Orders */}
         <div className="xl:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="flex items-center justify-between p-5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
-            <h2 className="text-lg font-bold text-gray-800">Recent Orders</h2>
+            <h2 className="text-lg font-bold text-gray-800">Pesanan Terbaru</h2>
             <Link href="/center-admin/orders" className="text-emerald-600 text-sm font-medium flex items-center group">
-              View All<ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+              Lihat Semua<ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
           <div className="p-5 space-y-4">
             {data.recentOrders.length === 0 ? (
               <div className="text-center py-12">
                 <Package className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-                <p className="text-gray-500">No orders yet</p>
+                <p className="text-gray-500">Belum ada pesanan</p>
               </div>
             ) : (
               data.recentOrders.slice(0, 5).map((order) => (
@@ -413,7 +413,7 @@ export default function BranchDashboard() {
                         <span className="font-semibold text-gray-800">{order.orderNumber}</span>
                         {order.isExpress && <Zap className="w-4 h-4 text-red-500" />}
                       </div>
-                      <div className="text-sm text-gray-500">{order.customer?.name} • {order.itemCount} items</div>
+                      <div className="text-sm text-gray-500">{order.customer?.name} • {order.itemCount} item</div>
                     </div>
                   </div>
                   <div className="text-right">
@@ -432,15 +432,15 @@ export default function BranchDashboard() {
         <div className="space-y-6">
           {/* Quick Actions */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-            <h2 className="text-lg font-bold text-gray-800 mb-4">Quick Actions</h2>
+            <h2 className="text-lg font-bold text-gray-800 mb-4">Aksi Cepat</h2>
             <div className="space-y-3">
               <Link href="/center-admin/orders" className="flex items-center p-4 bg-emerald-50 rounded-xl hover:bg-emerald-100 transition-all group">
                 <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mr-4 shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform">
                   <ShoppingBag className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-800">Process Orders</div>
-                  <div className="text-xs text-gray-500">Assign & track</div>
+                  <div className="font-semibold text-gray-800">Proses Pesanan</div>
+                  <div className="text-xs text-gray-500">Tetapkan &amp; lacak</div>
                 </div>
               </Link>
               <Link href="/center-admin/staff" className="flex items-center p-4 bg-gray-50 rounded-xl hover:bg-purple-50 transition-all group">
@@ -448,8 +448,8 @@ export default function BranchDashboard() {
                   <Users className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-800">Manage Staff</div>
-                  <div className="text-xs text-gray-500">Assign tasks</div>
+                  <div className="font-semibold text-gray-800">Kelola Staf</div>
+                  <div className="text-xs text-gray-500">Tugaskan pekerjaan</div>
                 </div>
               </Link>
               <Link href="/center-admin/performance" className="flex items-center p-4 bg-gray-50 rounded-xl hover:bg-blue-50 transition-all group">
@@ -457,8 +457,8 @@ export default function BranchDashboard() {
                   <TrendingUp className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <div className="font-semibold text-gray-800">Analytics</div>
-                  <div className="text-xs text-gray-500">Performance</div>
+                  <div className="font-semibold text-gray-800">Analitik</div>
+                  <div className="text-xs text-gray-500">Performa</div>
                 </div>
               </Link>
             </div>
@@ -467,7 +467,7 @@ export default function BranchDashboard() {
           {/* Staff */}
           {data.staffPerformance.length > 0 && (
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-              <h2 className="text-lg font-bold text-gray-800 mb-4">Top Staff</h2>
+              <h2 className="text-lg font-bold text-gray-800 mb-4">Staf Terbaik</h2>
               <div className="space-y-3">
                 {data.staffPerformance.map((staff, idx) => (
                   <div key={idx} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
@@ -477,7 +477,7 @@ export default function BranchDashboard() {
                       </div>
                       <span className="text-sm font-semibold text-gray-800">{staff.name || 'Staff'}</span>
                     </div>
-                    <span className="text-sm font-bold text-emerald-600">{staff.ordersProcessed} orders</span>
+                    <span className="text-sm font-bold text-emerald-600">{staff.ordersProcessed} pesanan</span>
                   </div>
                 ))}
               </div>
@@ -487,7 +487,7 @@ export default function BranchDashboard() {
           {/* Alerts */}
           {data.alerts.length > 0 && (
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
-              <h2 className="text-lg font-bold text-gray-800 mb-4">Alerts</h2>
+              <h2 className="text-lg font-bold text-gray-800 mb-4">Peringatan</h2>
               <div className="space-y-3">
                 {data.alerts.map((alert, idx) => (
                   <div key={idx} className={`flex items-start p-4 rounded-xl border ${alert.type === 'warning' ? 'bg-amber-50 border-amber-200' : 'bg-red-50 border-red-200'}`}>

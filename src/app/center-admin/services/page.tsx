@@ -295,10 +295,10 @@ export default function BranchServicesPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
             <Sparkles className="w-7 h-7 text-green-500" />
-            Services Management
+            Manajemen Layanan
           </h1>
           <p className="text-gray-500 mt-1">
-            Manage services for {branch?.name || 'your branch'}
+            Kelola layanan untuk {branch?.name || 'cabang Anda'}
           </p>
         </div>
         {canCreate && (
@@ -307,7 +307,7 @@ export default function BranchServicesPage() {
             className="flex items-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
           >
             <Plus className="w-5 h-5" />
-            Create Service
+            Buat Layanan
           </button>
         )}
       </div>
@@ -318,7 +318,7 @@ export default function BranchServicesPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Search services..."
+            placeholder="Cari layanan..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -331,12 +331,12 @@ export default function BranchServicesPage() {
         {filteredServices.length === 0 ? (
           <div className="p-8 text-center">
             <Sparkles className="w-12 h-12 text-gray-300 mx-auto mb-3" />
-            <p className="text-gray-500">No services found</p>
+            <p className="text-gray-500">Tidak ada layanan ditemukan</p>
             <button
               onClick={() => setShowCreateModal(true)}
               className="mt-4 text-green-600 hover:text-green-700 font-medium"
             >
-              Create your first service
+              Buat layanan pertama Anda
             </button>
           </div>
         ) : (
@@ -378,7 +378,7 @@ export default function BranchServicesPage() {
                       </div>
                       
                       <p className="text-sm text-gray-500 mt-0.5">
-                        {service.description || 'No description'}
+                        {service.description || 'Tidak ada deskripsi'}
                       </p>
                       
                       <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
@@ -401,10 +401,10 @@ export default function BranchServicesPage() {
                     <button
                       onClick={() => handleOpenItemsModal(service)}
                       className="flex items-center gap-1 px-3 py-1.5 text-sm bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
-                      title="Manage Items"
+                      title="Kelola Item"
                     >
                       <Package className="w-4 h-4" />
-                      Items
+                      Item
                     </button>
 
                     {/* Delete button for branch-created services */}
@@ -413,7 +413,7 @@ export default function BranchServicesPage() {
                         onClick={() => handleDeleteService(service._id)}
                         disabled={deletingService === service._id}
                         className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-                        title="Delete service"
+                        title="Hapus layanan"
                       >
                         {deletingService === service._id ? (
                           <Loader2 className="w-5 h-5 animate-spin" />
@@ -452,10 +452,10 @@ export default function BranchServicesPage() {
         <div className="flex gap-3">
           <AlertCircle className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
           <div className="text-sm text-blue-700">
-            <p className="font-medium">Service Types:</p>
+            <p className="font-medium">Tipe Layanan:</p>
             <ul className="mt-1 space-y-1">
-              <li><span className="font-medium text-purple-700">Admin</span> - Services assigned by Admin/Center Admin. You can enable/disable them.</li>
-              <li><span className="font-medium text-green-700">Custom</span> - Services created by you. You can edit and delete them.</li>
+              <li><span className="font-medium text-purple-700">Admin</span> - Layanan yang ditetapkan oleh Admin/Center Admin. Anda dapat mengaktifkan/menonaktifkannya.</li>
+              <li><span className="font-medium text-green-700">Kustom</span> - Layanan yang Anda buat. Anda dapat mengubah dan menghapusnya.</li>
             </ul>
           </div>
         </div>
@@ -466,7 +466,7 @@ export default function BranchServicesPage() {
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">Create New Service</h3>
+              <h3 className="text-lg font-semibold text-gray-900">Buat Layanan Baru</h3>
               <button
                 onClick={() => setShowCreateModal(false)}
                 className="p-1 hover:bg-gray-100 rounded-lg"
@@ -478,7 +478,7 @@ export default function BranchServicesPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Service Name *
+                  Nama Layanan *
                 </label>
                 <input
                   type="text"
@@ -491,7 +491,7 @@ export default function BranchServicesPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Display Name *
+                  Nama Tampilan *
                 </label>
                 <input
                   type="text"
@@ -504,12 +504,12 @@ export default function BranchServicesPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Description
+                  Deskripsi
                 </label>
                 <textarea
                   value={newService.description}
                   onChange={(e) => setNewService({ ...newService, description: e.target.value })}
-                  placeholder="Describe the service..."
+                  placeholder="Deskripsikan layanan..."
                   rows={2}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
@@ -517,7 +517,7 @@ export default function BranchServicesPage() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Category
+                  Kategori
                 </label>
                 <select
                   value={newService.category}
@@ -533,7 +533,7 @@ export default function BranchServicesPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Standard Time (hrs)
+                    Waktu Standar (jam)
                   </label>
                   <input
                     type="number"
@@ -548,7 +548,7 @@ export default function BranchServicesPage() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Express Time (hrs)
+                    Waktu Ekspres (jam)
                   </label>
                   <input
                     type="number"
@@ -572,7 +572,7 @@ export default function BranchServicesPage() {
                   className="w-4 h-4 text-green-600 rounded focus:ring-green-500"
                 />
                 <label htmlFor="expressAvailable" className="text-sm text-gray-700">
-                  Express delivery available
+                  Layanan ekspres tersedia
                 </label>
               </div>
             </div>
@@ -586,12 +586,12 @@ export default function BranchServicesPage() {
                 {creating ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Creating...
+                    Membuat...
                   </>
                 ) : (
                   <>
                     <Plus className="w-4 h-4" />
-                    Create Service
+                    Buat Layanan
                   </>
                 )}
               </button>
@@ -599,7 +599,7 @@ export default function BranchServicesPage() {
                 onClick={() => setShowCreateModal(false)}
                 className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
               >
-                Cancel
+                Batal
               </button>
             </div>
           </div>
@@ -612,7 +612,7 @@ export default function BranchServicesPage() {
           <div className="bg-white rounded-xl w-full max-w-lg max-h-[80vh] flex flex-col">
             <div className="flex items-center justify-between p-4 border-b">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Manage Items</h3>
+                <h3 className="text-lg font-semibold text-gray-900">Kelola Item</h3>
                 <p className="text-sm text-gray-500">{selectedService.displayName}</p>
               </div>
               <button
@@ -638,11 +638,11 @@ export default function BranchServicesPage() {
                   {/* Add Item Form */}
                   {showAddItemForm ? (
                     <div className="bg-gray-50 rounded-lg p-4 mb-4">
-                      <h4 className="font-medium text-gray-800 mb-3">Add New Item</h4>
+                      <h4 className="font-medium text-gray-800 mb-3">Tambah Item Baru</h4>
                       <div className="space-y-3">
                         <input
                           type="text"
-                          placeholder="Item name (e.g., Shirt, Saree)"
+                          placeholder="Nama item (contoh: Kemeja, Kain)"
                           value={newItem.name}
                           onChange={(e) => setNewItem({ ...newItem, name: e.target.value })}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -659,7 +659,7 @@ export default function BranchServicesPage() {
                           </select>
                           <input
                             type="number"
-                            placeholder="Price (Rp)"
+                            placeholder="Harga (Rp)"
                             value={newItem.basePrice || ''}
                             onChange={(e) => setNewItem({ ...newItem, basePrice: parseFloat(e.target.value) || 0 })}
                             min="0"
@@ -673,7 +673,7 @@ export default function BranchServicesPage() {
                             className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 disabled:opacity-50"
                           >
                             {addingItem ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
-                            Add Item
+                            Tambah Item
                           </button>
                           <button
                             onClick={() => {
@@ -682,7 +682,7 @@ export default function BranchServicesPage() {
                             }}
                             className="px-3 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
                           >
-                            Cancel
+                            Batal
                           </button>
                         </div>
                       </div>
@@ -693,7 +693,7 @@ export default function BranchServicesPage() {
                       className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-green-500 hover:text-green-600 mb-4"
                     >
                       <Plus className="w-5 h-5" />
-                      Add New Item
+                      Tambah Item Baru
                     </button>
                   )}
 
@@ -701,8 +701,8 @@ export default function BranchServicesPage() {
                   {serviceItems.length === 0 ? (
                     <div className="text-center py-8 text-gray-500">
                       <Package className="w-12 h-12 text-gray-300 mx-auto mb-2" />
-                      <p>No items added yet</p>
-                      <p className="text-sm">Add items that customers can select for this service</p>
+                      <p>Belum ada item yang ditambahkan</p>
+                      <p className="text-sm">Tambahkan item yang dapat dipilih pelanggan untuk layanan ini</p>
                     </div>
                   ) : (
                     <div className="space-y-2">
@@ -743,7 +743,7 @@ export default function BranchServicesPage() {
 
             <div className="p-4 border-t bg-gray-50 rounded-b-xl">
               <p className="text-xs text-gray-500">
-                💡 Items you add here will be available for customers when they select this service.
+                💡 Item yang Anda tambahkan di sini akan tersedia bagi pelanggan saat memilih layanan ini.
               </p>
             </div>
           </div>
@@ -770,7 +770,7 @@ export default function BranchServicesPage() {
                 onClick={() => setConfirmModal(prev => ({ ...prev, show: false }))}
                 className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
               >
-                Cancel
+                Batal
               </button>
               <button
                 onClick={confirmModal.onConfirm}
@@ -780,7 +780,7 @@ export default function BranchServicesPage() {
                     : 'bg-yellow-500 hover:bg-yellow-600'
                 }`}
               >
-                Delete
+                Hapus
               </button>
             </div>
           </div>

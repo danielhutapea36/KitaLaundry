@@ -194,16 +194,16 @@ export default function CustomerDashboard() {
     <div className="space-y-6 pb-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{greeting}, {user?.name?.split(' ')[0] || 'there'}! 👋</h1>
-          <p className="text-gray-500 mt-1">Here's what's happening with your laundry</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{greeting}, {user?.name?.split(' ')[0] || 'Kamu'}! 👋</h1>
+          <p className="text-gray-500 mt-1">Ini yang sedang terjadi dengan laundry Anda</p>
         </div>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'Total Orders', value: stats.total, icon: ShoppingBag, gradient: 'from-blue-500 to-indigo-600', shadow: 'shadow-blue-500/25' },
-          { label: 'Active', value: stats.active, icon: Clock, gradient: 'from-amber-500 to-orange-600', shadow: 'shadow-amber-500/25' },
-          { label: 'Completed', value: stats.completed, icon: CheckCircle, gradient: 'from-emerald-500 to-teal-600', shadow: 'shadow-emerald-500/25' },
+          { label: 'Total Pesanan', value: stats.total, icon: ShoppingBag, gradient: 'from-blue-500 to-indigo-600', shadow: 'shadow-blue-500/25' },
+          { label: 'Aktif', value: stats.active, icon: Clock, gradient: 'from-amber-500 to-orange-600', shadow: 'shadow-amber-500/25' },
+          { label: 'Selesai', value: stats.completed, icon: CheckCircle, gradient: 'from-emerald-500 to-teal-600', shadow: 'shadow-emerald-500/25' },
           { label: 'Pending', value: stats.pending, icon: Truck, gradient: 'from-purple-500 to-pink-600', shadow: 'shadow-purple-500/25' },
         ].map((stat, i) => (
           <div key={i} className={`group relative overflow-hidden bg-gradient-to-br ${stat.gradient} rounded-2xl p-5 text-white shadow-xl ${stat.shadow} hover:scale-[1.02] transition-all`}>
@@ -221,14 +221,14 @@ export default function CustomerDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-white rounded-2xl p-6 shadow-xl border border-gray-100">
             <div className="flex items-center justify-between mb-4">
-              <div><h3 className="font-bold text-gray-800">Order Distribution</h3><p className="text-sm text-gray-500">By status</p></div>
+              <div><h3 className="font-bold text-gray-800">Distribusi Pesanan</h3><p className="text-sm text-gray-500">Berdasarkan status</p></div>
               <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg"><BarChart3 className="w-5 h-5 text-white" /></div>
             </div>
             <DonutChart data={chartData} size={200} />
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-xl border border-gray-100">
             <div className="flex items-center justify-between mb-4">
-              <div><h3 className="font-bold text-gray-800">Monthly Spending</h3><p className="text-sm text-gray-500">Last 6 months</p></div>
+              <div><h3 className="font-bold text-gray-800">Pengeluaran Bulanan</h3><p className="text-sm text-gray-500">6 bulan terakhir</p></div>
               <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg"><TrendingUp className="w-5 h-5 text-white" /></div>
             </div>
             <SpendingChart orders={orders} />
@@ -240,16 +240,16 @@ export default function CustomerDashboard() {
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-gradient-to-br from-teal-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg"><Package className="w-5 h-5 text-white" /></div>
-            <div><h2 className="font-bold text-gray-800">Recent Orders</h2><p className="text-sm text-gray-500">Your latest orders</p></div>
+            <div><h2 className="font-bold text-gray-800">Pesanan Terbaru</h2><p className="text-sm text-gray-500">Pesanan terkini Anda</p></div>
           </div>
-          <Link href="/customer/orders" className="flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium text-sm bg-teal-50 hover:bg-teal-100 px-4 py-2 rounded-xl transition-colors">View All <ArrowRight className="w-4 h-4" /></Link>
+          <Link href="/customer/orders" className="flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium text-sm bg-teal-50 hover:bg-teal-100 px-4 py-2 rounded-xl transition-colors">Lihat Semua <ArrowRight className="w-4 h-4" /></Link>
         </div>
         {recentOrders.length === 0 ? (
           <div className="text-center py-16 px-6">
             <div className="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-teal-100 to-cyan-100 rounded-full flex items-center justify-center"><ShoppingBag className="w-10 h-10 text-teal-500" /></div>
-            <h3 className="text-xl font-bold text-gray-800 mb-2">No orders yet</h3>
-            <p className="text-gray-500 mb-6">Start your laundry journey with us!</p>
-            <Link href="/customer/orders/new"><Button className="bg-gradient-to-r from-teal-500 to-cyan-500"><Sparkles className="w-4 h-4 mr-2" />Book First Order</Button></Link>
+            <h3 className="text-xl font-bold text-gray-800 mb-2">Belum ada pesanan</h3>
+            <p className="text-gray-500 mb-6">Mulai perjalanan laundry Anda bersama kami!</p>
+            <Link href="/customer/orders/new"><Button className="bg-gradient-to-r from-teal-500 to-cyan-500"><Sparkles className="w-4 h-4 mr-2" />Buat Pesanan Pertama</Button></Link>
           </div>
         ) : (
           <div className="divide-y divide-gray-100">
@@ -280,10 +280,10 @@ export default function CustomerDashboard() {
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { href: '/customer/addresses', icon: MapPin, label: 'Addresses', desc: 'Manage locations', gradient: 'from-teal-500 to-cyan-500' },
-          { href: '/customer/profile', icon: User, label: 'Profile', desc: 'Account settings', gradient: 'from-purple-500 to-violet-500' },
-          { href: '/pricing', icon: Star, label: 'Pricing', desc: 'View rates', gradient: 'from-amber-500 to-orange-500' },
-          { href: '/customer/support', icon: HelpCircle, label: 'Support', desc: 'Get help', gradient: 'from-blue-500 to-indigo-500' },
+          { href: '/customer/addresses', icon: MapPin, label: 'Alamat', desc: 'Kelola lokasi', gradient: 'from-teal-500 to-cyan-500' },
+          { href: '/customer/profile', icon: User, label: 'Profil', desc: 'Pengaturan akun', gradient: 'from-purple-500 to-violet-500' },
+          { href: '/pricing', icon: Star, label: 'Harga', desc: 'Lihat tarif', gradient: 'from-amber-500 to-orange-500' },
+          { href: '/customer/support', icon: HelpCircle, label: 'Bantuan', desc: 'Dapatkan bantuan', gradient: 'from-blue-500 to-indigo-500' },
         ].map((item, i) => (
           <Link key={i} href={item.href}>
             <div className="group bg-white rounded-2xl p-5 border border-gray-100 shadow-lg hover:shadow-xl transition-all hover:-translate-y-1">

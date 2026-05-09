@@ -38,25 +38,25 @@ export default function PublicHeader() {
               href="/" 
               className={`${isActive('/') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 transition-colors`}
             >
-              Home
+              Beranda
             </Link>
             <Link 
               href="/services" 
               className={`${isActive('/services') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 transition-colors`}
             >
-              Services
+              Layanan
             </Link>
             <Link 
               href="/pricing" 
               className={`${isActive('/pricing') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 transition-colors`}
             >
-              Pricing
+              Harga
             </Link>
             <Link 
               href="/help" 
               className={`${isActive('/help') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 transition-colors`}
             >
-              Help
+              Bantuan
             </Link>
             <Link 
               href="/portal" 
@@ -88,19 +88,19 @@ export default function PublicHeader() {
                     <div className="py-2">
                       <Link href="/customer/dashboard" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50">
                         <User className="w-4 h-4 mr-3" />
-                        Dashboard
+                        Dasbor
                       </Link>
                       <Link href="/customer/orders" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50">
                         <ShoppingBag className="w-4 h-4 mr-3" />
-                        My Orders
+                        Pesanan Saya
                       </Link>
                       <Link href="/customer/addresses" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50">
                         <MapPin className="w-4 h-4 mr-3" />
-                        Addresses
+                        Alamat
                       </Link>
                       <Link href="/customer/profile" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50">
                         <User className="w-4 h-4 mr-3" />
-                        Profile
+                        Profil
                       </Link>
                       <hr className="my-2" />
                       <button 
@@ -111,7 +111,7 @@ export default function PublicHeader() {
                         className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-red-50"
                       >
                         <LogOut className="w-4 h-4 mr-3" />
-                        Logout
+                        Keluar
                       </button>
                     </div>
                   </div>
@@ -121,12 +121,12 @@ export default function PublicHeader() {
               <div className="flex items-center space-x-3">
                 <Link href="/auth/login">
                   <Button variant="outline" className="border-teal-500 text-teal-500 hover:bg-teal-50">
-                    Login
+                    Masuk
                   </Button>
                 </Link>
                 <Link href="/auth/register">
                   <Button className="bg-teal-500 hover:bg-teal-600 text-white">
-                    Sign Up
+                    Daftar
                   </Button>
                 </Link>
               </div>
@@ -143,28 +143,28 @@ export default function PublicHeader() {
                 className={`${isActive('/') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 py-2`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Home
+                Beranda
               </Link>
               <Link 
                 href="/services" 
                 className={`${isActive('/services') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 py-2`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Services
+                Layanan
               </Link>
               <Link 
                 href="/pricing" 
                 className={`${isActive('/pricing') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 py-2`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Pricing
+                Harga
               </Link>
               <Link 
                 href="/help" 
                 className={`${isActive('/help') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 py-2`}
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Help
+                Bantuan
               </Link>
               <Link 
                 href="/portal" 
@@ -182,28 +182,28 @@ export default function PublicHeader() {
                     className="text-gray-600 hover:text-teal-500 py-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Dashboard
+                    Dasbor
                   </Link>
                   <Link 
                     href="/customer/orders" 
                     className="text-gray-600 hover:text-teal-500 py-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    My Orders
+                    Pesanan Saya
                   </Link>
                   <Link 
                     href="/customer/addresses" 
                     className="text-gray-600 hover:text-teal-500 py-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Addresses
+                    Alamat
                   </Link>
                   <Link 
                     href="/customer/profile" 
                     className="text-gray-600 hover:text-teal-500 py-2"
                     onClick={() => setMobileMenuOpen(false)}
                   >
-                    Profile
+                    Profil
                   </Link>
                   <button 
                     onClick={() => {
@@ -213,19 +213,19 @@ export default function PublicHeader() {
                     }}
                     className="text-left text-red-600 hover:text-red-700 py-2"
                   >
-                    Logout
+                    Keluar
                   </button>
                 </>
               ) : (
                 <div className="flex flex-col space-y-2 pt-2">
                   <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
                     <Button variant="outline" className="w-full border-teal-500 text-teal-500 hover:bg-teal-50">
-                      Login
+                      Masuk
                     </Button>
                   </Link>
                   <Link href="/auth/register" onClick={() => setMobileMenuOpen(false)}>
                     <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white">
-                      Sign Up
+                      Daftar
                     </Button>
                   </Link>
                 </div>

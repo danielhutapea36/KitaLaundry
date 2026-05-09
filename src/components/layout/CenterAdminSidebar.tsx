@@ -21,14 +21,14 @@ import { cn } from '@/lib/utils'
 import { useAuthStore } from '@/store/authStore'
 
 const navigation = [
-  { name: 'Dashboard', href: '/center-admin/dashboard', icon: Home, module: null },
-  { name: 'Orders', href: '/center-admin/orders', icon: ShoppingBag, module: 'orders' },
-  { name: 'Barcode Scanner', href: '/center-admin/scanner', icon: QrCode, module: 'orders' },
-  { name: 'Services', href: '/center-admin/services', icon: Sparkles, module: 'services' },
-  { name: 'Staff Management', href: '/center-admin/staff', icon: Users, module: 'staff' },
-  { name: 'Inventory', href: '/center-admin/inventory', icon: Package2, module: 'inventory' },
-  { name: 'Performance', href: '/center-admin/performance', icon: BarChart3, module: 'performance' },
-  { name: 'Settings', href: '/center-admin/settings', icon: Settings, module: 'settings' },
+  { name: 'Dasbor', href: '/center-admin/dashboard', icon: Home, module: null },
+  { name: 'Pesanan', href: '/center-admin/orders', icon: ShoppingBag, module: 'orders' },
+  { name: 'Pemindai Barcode', href: '/center-admin/scanner', icon: QrCode, module: 'orders' },
+  { name: 'Layanan', href: '/center-admin/services', icon: Sparkles, module: 'services' },
+  { name: 'Manajemen Staf', href: '/center-admin/staff', icon: Users, module: 'staff' },
+  { name: 'Inventaris', href: '/center-admin/inventory', icon: Package2, module: 'inventory' },
+  { name: 'Performa', href: '/center-admin/performance', icon: BarChart3, module: 'performance' },
+  { name: 'Pengaturan', href: '/center-admin/settings', icon: Settings, module: 'settings' },
 ]
 
 interface CenterAdminSidebarProps {
@@ -96,7 +96,7 @@ export function CenterAdminSidebar({
               <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
                 <Building2 className="w-5 h-5 text-white" />
               </div>
-              <span className="font-semibold text-gray-800">Center Admin</span>
+              <span className="font-semibold text-gray-800">Admin Pusat</span>
             </Link>
           )}
           
@@ -147,18 +147,18 @@ export function CenterAdminSidebar({
         {!collapsed && (
           <div className="px-4 py-4 border-t border-gray-200">
             <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-4">
-              <h3 className="text-sm font-medium text-gray-800 mb-2">Today&apos;s Status</h3>
+              <h3 className="text-sm font-medium text-gray-800 mb-2">Status Hari Ini</h3>
               <div className="space-y-2 text-xs text-gray-600">
                 <div className="flex justify-between">
-                  <span>Pending Orders</span>
+                  <span>Pesanan Pending</span>
                   <span className="font-medium text-orange-600">--</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>In Progress</span>
+                  <span>Sedang Diproses</span>
                   <span className="font-medium text-blue-600">--</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Completed</span>
+                  <span>Selesai</span>
                   <span className="font-medium text-green-600">--</span>
                 </div>
               </div>

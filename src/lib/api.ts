@@ -81,94 +81,13 @@ api.interceptors.response.use(
   }
 )
 
-// API endpoints
-export const authAPI = {
-  login: (credentials: { email: string; password: string }) =>
-    api.post('/auth/login', credentials),
-  
-  register: (userData: {
-    name: string
-    email: string
-    phone: string
-    password: string
-    confirmPassword: string
-    role?: string
-  }) => api.post('/auth/register', userData),
-  
-  verifyEmail: (token: string) => api.post('/auth/verify-email', { token }),
-  
-  resendVerification: (email: string) => api.post('/auth/resend-verification', { email }),
-  
-  getProfile: () => api.get('/auth/profile'),
-}
+import { mockAuthAPI, mockCustomerAPI, mockServicesAPI, mockAdminAPI, mockBarcodeAPI } from './mockApi'
 
-export const customerAPI = {
-  // Orders
-  getOrders: (params?: { page?: number; limit?: number; status?: string }) => 
-    api.get('/customer/orders', { params }),
-  createOrder: (orderData: any) => api.post('/customer/orders', orderData),
-  getOrder: (orderId: string) => api.get(`/customer/orders/${orderId}`),
-  getOrderTracking: (orderId: string) => api.get(`/customer/orders/${orderId}/tracking`),
-  cancelOrder: (orderId: string, reason?: string) => 
-    api.put(`/customer/orders/${orderId}/cancel`, { reason }),
-  rateOrder: (orderId: string, score: number, feedback?: string) =>
-    api.put(`/customer/orders/${orderId}/rate`, { score, feedback }),
-  reorder: (orderId: string) => api.post(`/customer/orders/${orderId}/reorder`),
-  
-  // Addresses
-  getAddresses: () => api.get('/customer/addresses'),
-  addAddress: (addressData: any) => api.post('/customer/addresses', addressData),
-  updateAddress: (addressId: string, addressData: any) =>
-    api.put(`/customer/addresses/${addressId}`, addressData),
-  deleteAddress: (addressId: string) => api.delete(`/customer/addresses/${addressId}`),
-  setDefaultAddress: (addressId: string) => 
-    api.put(`/customer/addresses/${addressId}/set-default`),
-  
-  // Notifications
-  getNotifications: () => api.get('/customer/notifications'),
-  markNotificationRead: (notificationId: string) =>
-    api.patch(`/customer/notifications/${notificationId}/read`),
-}
-
-// Services API
-export const servicesAPI = {
-  calculatePricing: (items: any[], isExpress?: boolean) =>
-    api.post('/services/calculate', { items, isExpress }),
-  getTimeSlots: () => api.get('/services/time-slots'),
-  checkServiceAvailability: (pincode: string) =>
-    api.get(`/services/availability/${pincode}`),
-}
-
-export const adminAPI = {
-  getOrders: () => api.get('/admin/orders'),
-  assignOrderToBranch: (orderId: string, branchId: string) =>
-    api.patch(`/admin/orders/${orderId}/assign-branch`, { branchId }),
-  assignOrderToLogistics: (orderId: string, logisticsPartnerId: string) =>
-    api.patch(`/admin/orders/${orderId}/assign-logistics`, { logisticsPartnerId }),
-  processRefund: (orderId: string, amount: number, reason: string) =>
-    api.post(`/admin/orders/${orderId}/refund`, { amount, reason }),
-  
-  getCustomers: () => api.get('/admin/customers'),
-  updateCustomerStatus: (customerId: string, isActive: boolean) =>
-    api.patch(`/admin/customers/${customerId}/status`, { isActive }),
-  toggleVIPStatus: (customerId: string) =>
-    api.patch(`/admin/customers/${customerId}/vip`),
-}
-
-// Barcode API
-export const barcodeAPI = {
-  // Scan barcode and get order details
-  scanBarcode: (barcode: string) => api.get(`/barcode/scan/${barcode}`),
-  
-  // Get barcode for a specific order
-  getOrderBarcode: (orderId: string) => api.get(`/barcode/order/${orderId}`),
-  
-  // Update order status via barcode scan
-  updateStatusViaScan: (barcode: string, status: string, notes?: string) =>
-    api.put(`/barcode/scan/${barcode}/status`, { status, notes }),
-  
-  // Bulk scan multiple barcodes
-  bulkScan: (barcodes: string[]) => api.post('/barcode/bulk-scan', { barcodes }),
-}
+// Export mock APIs instead of real ones for frontend demonstration
+export const authAPI = mockAuthAPI
+export const customerAPI = mockCustomerAPI
+export const servicesAPI = mockServicesAPI
+export const adminAPI = mockAdminAPI
+export const barcodeAPI = mockBarcodeAPI
 
 export default api

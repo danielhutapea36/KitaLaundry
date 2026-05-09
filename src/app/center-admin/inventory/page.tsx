@@ -220,13 +220,13 @@ export default function InventoryPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Inventory Management</h1>
-          <p className="text-gray-600">Track and manage branch supplies</p>
+          <h1 className="text-2xl font-bold text-gray-900">Manajemen Inventaris</h1>
+          <p className="text-gray-600">Lacak dan kelola perlengkapan cabang</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={fetchInventory}>
             <RefreshCw className="w-4 h-4 mr-2" />
-            Refresh
+            Perbarui
           </Button>
           {canCreate && (
             <Button 
@@ -234,7 +234,7 @@ export default function InventoryPage() {
               className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Add Item
+              Tambah Item
             </Button>
           )}
         </div>
@@ -250,7 +250,7 @@ export default function InventoryPage() {
               </div>
               <div>
                 <div className="text-2xl font-bold text-white">{stats.totalItems}</div>
-                <div className="text-sm text-blue-100">Total Items</div>
+                <div className="text-sm text-blue-100">Total Item</div>
               </div>
             </div>
           </div>
@@ -261,7 +261,7 @@ export default function InventoryPage() {
               </div>
               <div>
                 <div className="text-2xl font-bold text-white">{stats.lowStockItems}</div>
-                <div className="text-sm text-orange-100">Low Stock</div>
+                <div className="text-sm text-orange-100">Stok Rendah</div>
               </div>
             </div>
           </div>
@@ -272,7 +272,7 @@ export default function InventoryPage() {
               </div>
               <div>
                 <div className="text-2xl font-bold text-white">{stats.expiredItems}</div>
-                <div className="text-sm text-red-100">Expired</div>
+                <div className="text-sm text-red-100">Kedaluwarsa</div>
               </div>
             </div>
           </div>
@@ -283,7 +283,7 @@ export default function InventoryPage() {
               </div>
               <div>
                 <div className="text-2xl font-bold text-white">Rp{stats.totalValue.toLocaleString()}</div>
-                <div className="text-sm text-green-100">Total Value</div>
+                <div className="text-sm text-green-100">Total Nilai</div>
               </div>
             </div>
           </div>
@@ -297,7 +297,7 @@ export default function InventoryPage() {
             <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search items..."
+              placeholder="Cari item..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -308,9 +308,9 @@ export default function InventoryPage() {
             onChange={(e) => setFilter(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            <option value="all">All Items</option>
-            <option value="low">Low Stock</option>
-            <option value="expired">Expired</option>
+            <option value="all">Semua Item</option>
+            <option value="low">Stok Rendah</option>
+            <option value="expired">Kedaluwarsa</option>
           </select>
         </div>
       </div>
@@ -319,14 +319,14 @@ export default function InventoryPage() {
       {filteredInventory.length === 0 ? (
         <div className="bg-white rounded-xl shadow-sm border p-12 text-center">
           <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-gray-800 mb-2">No inventory items</h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-2">Belum ada item inventaris</h3>
           <p className="text-gray-600 mb-4">
-            {searchTerm || filter !== 'all' ? 'Try adjusting your filters' : 'Add your first inventory item'}
+            {searchTerm || filter !== 'all' ? 'Coba sesuaikan filter Anda' : 'Tambahkan item inventaris pertama Anda'}
           </p>
           {canCreate && (
             <Button onClick={() => setShowAddModal(true)}>
               <Plus className="w-4 h-4 mr-2" />
-              Add Item
+              Tambah Item
             </Button>
           )}
         </div>
@@ -348,19 +348,15 @@ export default function InventoryPage() {
                   <p className="text-sm text-gray-500">{item.unit}</p>
                 </div>
                 <div className="flex gap-1">
-                  {item.isExpired && (
-                    <span className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full">Expired</span>
-                  )}
-                  {item.isLowStock && !item.isExpired && (
-                    <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full">Low</span>
-                  )}
+                  {item.isExpired && (<span className="px-2 py-1 bg-red-100 text-red-700 text-xs rounded-full">Kedaluwarsa</span>)}
+                  {item.isLowStock && !item.isExpired && (<span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full">Rendah</span>)}
                 </div>
               </div>
 
               {/* Stock Bar */}
               <div className="mb-3">
                 <div className="flex justify-between text-sm mb-1">
-                  <span className="text-gray-600">Stock Level</span>
+                  <span className="text-gray-600">Level Stok</span>
                   <span className="font-medium">{item.currentStock} / {item.maxCapacity}</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
@@ -374,18 +370,18 @@ export default function InventoryPage() {
               {/* Details */}
               <div className="space-y-1 text-sm text-gray-600 mb-4">
                 <div className="flex justify-between">
-                  <span>Min Threshold:</span>
+                  <span>Batas Min:</span>
                   <span>{item.minThreshold} {item.unit}</span>
                 </div>
                 {(item.unitCost || item.costPerUnit) && (item.unitCost || item.costPerUnit || 0) > 0 && (
                   <div className="flex justify-between">
-                    <span>Unit Cost:</span>
+                    <span>Biaya/Unit:</span>
                     <span>Rp{item.unitCost || item.costPerUnit}</span>
                   </div>
                 )}
                 {item.supplier && (
                   <div className="flex justify-between">
-                    <span>Supplier:</span>
+                    <span>Pemasok:</span>
                     <span>{typeof item.supplier === 'string' ? item.supplier : item.supplier?.name || '-'}</span>
                   </div>
                 )}
@@ -412,7 +408,7 @@ export default function InventoryPage() {
                     onClick={() => openStockModal(item, 'consume')}
                   >
                     <TrendingDown className="w-3 h-3 mr-1" />
-                    Use
+                    Pakai
                   </Button>
                 )}
                 {canDelete && (
@@ -436,7 +432,7 @@ export default function InventoryPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">Add Inventory Item</h3>
+              <h3 className="text-lg font-semibold text-gray-800">Tambah Item Inventaris</h3>
               <button onClick={() => setShowAddModal(false)} className="text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
               </button>
@@ -444,13 +440,13 @@ export default function InventoryPage() {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Item Name *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Item *</label>
                 <select
                   value={newItem.itemName}
                   onChange={(e) => setNewItem({ ...newItem, itemName: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
-                  <option value="">Select item</option>
+                  <option value="">Pilih item</option>
                   {INVENTORY_ITEMS.map(item => (
                     <option key={item} value={item}>{item.replace('_', ' ')}</option>
                   ))}
@@ -459,7 +455,7 @@ export default function InventoryPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Current Stock *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Stok Saat Ini *</label>
                   <input
                     type="number"
                     min="0"
@@ -486,7 +482,7 @@ export default function InventoryPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Min Threshold</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Batas Minimum</label>
                   <input
                     type="number"
                     min="0"
@@ -496,7 +492,7 @@ export default function InventoryPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Max Capacity</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Kapasitas Maksimum</label>
                   <input
                     type="number"
                     min="0"
@@ -509,7 +505,7 @@ export default function InventoryPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Unit Cost (Rp)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Biaya/Unit (Rp)</label>
                   <input
                     type="number"
                     min="0"
@@ -519,7 +515,7 @@ export default function InventoryPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Supplier</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Pemasok</label>
                   <input
                     type="text"
                     value={newItem.supplier}
@@ -537,10 +533,10 @@ export default function InventoryPage() {
                 className="flex-1 bg-green-500 hover:bg-green-600"
               >
                 {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                Add Item
+                Tambah Item
               </Button>
               <Button variant="outline" onClick={() => setShowAddModal(false)} className="flex-1">
-                Cancel
+                Batal
               </Button>
             </div>
           </div>
@@ -553,7 +549,7 @@ export default function InventoryPage() {
           <div className="bg-white rounded-xl w-full max-w-sm p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-800">
-                {stockUpdate.action === 'add' ? 'Restock Item' : 'Use Stock'}
+                {stockUpdate.action === 'add' ? 'Restock Item' : 'Pakai Stok'}
               </h3>
               <button onClick={() => setShowStockModal(false)} className="text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
@@ -562,12 +558,12 @@ export default function InventoryPage() {
 
             <div className="mb-4 p-3 bg-gray-50 rounded-lg">
               <div className="font-medium text-gray-800 capitalize">{selectedItem.itemName.replace('_', ' ')}</div>
-              <div className="text-sm text-gray-500">Current: {selectedItem.currentStock} {selectedItem.unit}</div>
+              <div className="text-sm text-gray-500">Saat ini: {selectedItem.currentStock} {selectedItem.unit}</div>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Quantity *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Jumlah *</label>
                 <input
                   type="number"
                   min="1"
@@ -577,12 +573,12 @@ export default function InventoryPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Reason (optional)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Alasan (opsional)</label>
                 <input
                   type="text"
                   value={stockUpdate.reason}
                   onChange={(e) => setStockUpdate({ ...stockUpdate, reason: e.target.value })}
-                  placeholder={stockUpdate.action === 'add' ? 'e.g., Monthly restock' : 'e.g., Order processing'}
+                  placeholder={stockUpdate.action === 'add' ? 'contoh: Restock bulanan' : 'contoh: Pemrosesan pesanan'}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
               </div>
@@ -595,10 +591,10 @@ export default function InventoryPage() {
                 className={`flex-1 ${stockUpdate.action === 'add' ? 'bg-green-500 hover:bg-green-600' : 'bg-orange-500 hover:bg-orange-600'}`}
               >
                 {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
-                {stockUpdate.action === 'add' ? 'Add Stock' : 'Use Stock'}
+                {stockUpdate.action === 'add' ? 'Tambah Stok' : 'Pakai Stok'}
               </Button>
               <Button variant="outline" onClick={() => setShowStockModal(false)} className="flex-1">
-                Cancel
+                Batal
               </Button>
             </div>
           </div>
@@ -614,8 +610,8 @@ export default function InventoryPage() {
                 <Trash2 className="w-6 h-6 text-red-600" />
               </div>
             </div>
-            <h3 className="text-lg font-semibold text-gray-800 text-center mb-2">Delete Item</h3>
-            <p className="text-gray-600 text-center mb-6">Are you sure you want to delete this inventory item? This action cannot be undone.</p>
+            <h3 className="text-lg font-semibold text-gray-800 text-center mb-2">Hapus Item</h3>
+            <p className="text-gray-600 text-center mb-6">Apakah Anda yakin ingin menghapus item inventaris ini? Tindakan ini tidak dapat dibatalkan.</p>
             <div className="flex gap-3">
               <Button
                 onClick={() => handleDeleteItem(deleteItemId)}
@@ -623,7 +619,7 @@ export default function InventoryPage() {
                 className="flex-1 bg-red-500 hover:bg-red-600"
               >
                 {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
-                Delete
+                Hapus
               </Button>
               <Button 
                 variant="outline" 
@@ -631,7 +627,7 @@ export default function InventoryPage() {
                 className="flex-1"
                 disabled={saving}
               >
-                Cancel
+                Batal
               </Button>
             </div>
           </div>

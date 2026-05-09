@@ -73,12 +73,12 @@ function PricingTable({ isAuthenticated }: { isAuthenticated: boolean }) {
   const [loading, setLoading] = useState(true)
 
   const categories = [
-    { id: 'men', label: 'Men' },
-    { id: 'women', label: 'Women' },
-    { id: 'kids', label: 'Kids' },
-    { id: 'household', label: 'Household' },
-    { id: 'institutional', label: 'Institutional' },
-    { id: 'others', label: 'Others' },
+    { id: 'men', label: 'Pria' },
+    { id: 'women', label: 'Wanita' },
+    { id: 'kids', label: 'Anak-anak' },
+    { id: 'household', label: 'Rumah Tangga' },
+    { id: 'institutional', label: 'Institusi' },
+    { id: 'others', label: 'Lainnya' },
   ]
 
   useEffect(() => {
@@ -156,9 +156,9 @@ function PricingTable({ isAuthenticated }: { isAuthenticated: boolean }) {
   return (
     <div className="mb-16">
       <div className="text-center mb-10">
-        <h2 className="text-3xl font-bold text-gray-800 mb-4">Our Pricing</h2>
+        <h2 className="text-3xl font-bold text-gray-800 mb-4">Daftar Harga Kami</h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
-          Transparent pricing for all our services. Select a category to view detailed pricing.
+          Harga transparan untuk semua layanan kami. Pilih kategori untuk melihat detail harga.
         </p>
       </div>
 
@@ -187,11 +187,11 @@ function PricingTable({ isAuthenticated }: { isAuthenticated: boolean }) {
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-50">
-                <th className="text-left py-4 px-6 font-semibold text-gray-700 border-b">Garment</th>
-                <th className="text-center py-4 px-4 font-semibold text-gray-700 border-b">Wash & Fold</th>
-                <th className="text-center py-4 px-4 font-semibold text-gray-700 border-b">Wash & Iron</th>
+                <th className="text-left py-4 px-6 font-semibold text-gray-700 border-b">Pakaian</th>
+                <th className="text-center py-4 px-4 font-semibold text-gray-700 border-b">Cuci &amp; Lipat</th>
+                <th className="text-center py-4 px-4 font-semibold text-gray-700 border-b">Cuci &amp; Setrika</th>
                 <th className="text-center py-4 px-4 font-semibold text-gray-700 border-b">Dry Clean</th>
-                <th className="text-center py-4 px-4 font-semibold text-gray-700 border-b">Steam Press</th>
+                <th className="text-center py-4 px-4 font-semibold text-gray-700 border-b">Setrika Uap</th>
               </tr>
             </thead>
             <tbody>
@@ -211,7 +211,7 @@ function PricingTable({ isAuthenticated }: { isAuthenticated: boolean }) {
               ) : (
                 <tr>
                   <td colSpan={5} className="py-8 text-center text-gray-500">
-                    No items available for this category
+                    Tidak ada item untuk kategori ini
                   </td>
                 </tr>
               )}
@@ -225,7 +225,7 @@ function PricingTable({ isAuthenticated }: { isAuthenticated: boolean }) {
         <Link href={isAuthenticated ? "/customer/orders/new" : "/auth/register"}>
           <Button size="lg" className="bg-teal-500 hover:bg-teal-600 text-white px-8">
             <Truck className="w-5 h-5 mr-2" />
-            Book Service Now
+            Pesan Layanan Sekarang
           </Button>
         </Link>
       </div>
@@ -243,33 +243,29 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pt-16">
       <PublicHeader />
 
       {/* Hero Section */}
-      <section className="relative py-16 overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/images/pricing.mp4" type="video/mp4" />
-        </video>
+      <section className="relative py-24 overflow-hidden">
+        <img
+          src="/images/pricing_hero.png"
+          alt="Harga Laundry Premium KitaLaundry"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
         
-        <div className="absolute inset-0 bg-teal-900/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-teal-900/85 via-teal-800/75 to-cyan-900/70"></div>
         
         <div className="relative container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Simple & Transparent Pricing
+            Harga Sederhana &amp; Transparan
           </h1>
           <p className="text-xl text-teal-100 mb-8 max-w-2xl mx-auto">
-            Quality laundry services at affordable prices. No hidden charges.
+            Layanan laundry berkualitas dengan harga terjangkau. Tidak ada biaya tersembunyi.
           </p>
           <Link href="https://wa.me/919876543210" target="_blank">
             <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white">
-              Chat on WhatsApp
+              Chat di WhatsApp
             </Button>
           </Link>
         </div>
@@ -281,7 +277,7 @@ export default function PricingPage() {
         
         {/* Disclaimer */}
         <p className="text-center text-lg text-gray-700 font-medium mt-8">
-          * Prices may vary based on fabric type and condition. Final price confirmed after inspection.
+          * Harga dapat bervariasi tergantung jenis kain dan kondisi pakaian. Harga final dikonfirmasi setelah pemeriksaan.
         </p>
       </section>
 
@@ -289,9 +285,9 @@ export default function PricingPage() {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">Frequently Asked Questions</h2>
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">Pertanyaan yang Sering Diajukan</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Got questions? We've got answers.
+              Ada pertanyaan? Kami punya jawabannya.
             </p>
           </div>
 

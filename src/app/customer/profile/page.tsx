@@ -33,10 +33,10 @@ export default function ProfilePage() {
       setSaving(true)
       const response = await api.put('/auth/profile', formData)
       updateUser(response.data.data.user)
-      toast.success('Profile updated successfully')
+      toast.success('Profil berhasil diperbarui')
       setEditing(false)
     } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Failed to update profile')
+      toast.error(error.response?.data?.message || 'Gagal memperbarui profil')
     } finally {
       setSaving(false)
     }
@@ -45,19 +45,19 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-2xl mx-auto px-4 py-8">
-        {/* Back Button */}
+        {/* Tombol Kembali */}
         <Link href="/" className="inline-flex items-center text-gray-600 hover:text-gray-800 mb-6">
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
+          Kembali ke Beranda
         </Link>
 
         {/* Header */}
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">My Profile</h1>
-          <p className="text-gray-600">Manage your account settings</p>
+          <h1 className="text-2xl font-bold text-gray-800">Profil Saya</h1>
+          <p className="text-gray-600">Kelola pengaturan akun Anda</p>
         </div>
 
-        {/* Profile Card */}
+        {/* Kartu Profil */}
         <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-4">
@@ -74,7 +74,7 @@ export default function ProfilePage() {
             {!editing && (
               <Button variant="outline" onClick={() => setEditing(true)}>
                 <Edit2 className="w-4 h-4 mr-2" />
-                Edit
+                Ubah
               </Button>
             )}
           </div>
@@ -82,7 +82,7 @@ export default function ProfilePage() {
           {editing ? (
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label>
                 <input
                   type="text"
                   value={formData.name}
@@ -98,10 +98,10 @@ export default function ProfilePage() {
                   disabled
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg bg-gray-50 text-gray-500"
                 />
-                <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
+                <p className="text-xs text-gray-500 mt-1">Email tidak dapat diubah</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label>
                 <input
                   type="tel"
                   value={formData.phone}
@@ -114,17 +114,17 @@ export default function ProfilePage() {
                   {saving ? (
                     <>
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Saving...
+                      Menyimpan...
                     </>
                   ) : (
                     <>
                       <Save className="w-4 h-4 mr-2" />
-                      Save Changes
+                      Simpan Perubahan
                     </>
                   )}
                 </Button>
                 <Button variant="outline" onClick={() => setEditing(false)}>
-                  Cancel
+                  Batal
                 </Button>
               </div>
             </div>
@@ -133,7 +133,7 @@ export default function ProfilePage() {
               <div className="flex items-center p-3 bg-gray-50 rounded-lg">
                 <User className="w-5 h-5 text-gray-400 mr-3" />
                 <div>
-                  <p className="text-xs text-gray-500">Full Name</p>
+                  <p className="text-xs text-gray-500">Nama Lengkap</p>
                   <p className="font-medium text-gray-800">{user?.name}</p>
                 </div>
               </div>
@@ -147,25 +147,25 @@ export default function ProfilePage() {
               <div className="flex items-center p-3 bg-gray-50 rounded-lg">
                 <Phone className="w-5 h-5 text-gray-400 mr-3" />
                 <div>
-                  <p className="text-xs text-gray-500">Phone</p>
-                  <p className="font-medium text-gray-800">{user?.phone || 'Not provided'}</p>
+                  <p className="text-xs text-gray-500">Nomor Telepon</p>
+                  <p className="font-medium text-gray-800">{user?.phone || 'Belum diisi'}</p>
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Quick Links */}
+        {/* Tautan Cepat */}
         <div className="bg-white rounded-xl shadow-sm border p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Quick Links</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Tautan Cepat</h3>
           <div className="space-y-3">
             <Link href="/customer/addresses" className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center mr-3">
                 <User className="w-5 h-5 text-teal-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-800">Manage Addresses</p>
-                <p className="text-sm text-gray-500">Add or edit your saved addresses</p>
+                <p className="font-medium text-gray-800">Kelola Alamat</p>
+                <p className="text-sm text-gray-500">Tambah atau ubah alamat tersimpan</p>
               </div>
             </Link>
             <Link href="/customer/orders" className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -173,8 +173,8 @@ export default function ProfilePage() {
                 <CreditCard className="w-5 h-5 text-blue-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-800">Order History</p>
-                <p className="text-sm text-gray-500">View all your past orders</p>
+                <p className="font-medium text-gray-800">Riwayat Pesanan</p>
+                <p className="text-sm text-gray-500">Lihat semua pesanan Anda</p>
               </div>
             </Link>
             <Link href="/help" className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
@@ -182,8 +182,8 @@ export default function ProfilePage() {
                 <Shield className="w-5 h-5 text-purple-600" />
               </div>
               <div>
-                <p className="font-medium text-gray-800">Help & Support</p>
-                <p className="text-sm text-gray-500">Get help with your orders</p>
+                <p className="font-medium text-gray-800">Bantuan &amp; Dukungan</p>
+                <p className="text-sm text-gray-500">Dapatkan bantuan untuk pesanan Anda</p>
               </div>
             </Link>
           </div>

@@ -149,12 +149,12 @@ export default function BranchOrdersPage() {
 
   const getStatusText = (status: string) => {
     const statusMap: Record<string, string> = {
-      'assigned_to_branch': 'Pending',
-      'picked': 'Picked Up',
-      'in_process': 'Processing',
-      'ready': 'Ready',
-      'out_for_delivery': 'Out for Delivery',
-      'delivered': 'Delivered'
+      'assigned_to_branch': 'Menunggu',
+      'picked': 'Sudah Dijemput',
+      'in_process': 'Sedang Diproses',
+      'ready': 'Siap Diambil',
+      'out_for_delivery': 'Dalam Pengiriman',
+      'delivered': 'Terkirim'
     }
     return statusMap[status] || status
   }
@@ -173,7 +173,7 @@ export default function BranchOrdersPage() {
 
   const confirmAssignStaff = async () => {
     if (!selectedOrder || !selectedStaffId) {
-      toast.error('Please select a staff member')
+      toast.error('Pilih anggota staf terlebih dahulu')
       return
     }
     
@@ -181,12 +181,12 @@ export default function BranchOrdersPage() {
       setActionLoading('assign')
       const response = await branchApi.assignStaffToOrder(selectedOrder._id, selectedStaffId, `${estimatedTime} hours`)
       if (response.success) {
-        toast.success('Staff assigned successfully')
+        toast.success('Staf berhasil ditugaskan')
         setShowAssignModal(false)
         fetchOrders()
       }
     } catch (err: any) {
-      toast.error(err.message || 'Failed to assign staff')
+      toast.error(err.message || 'Gagal menugaskan staf')
     } finally {
       setActionLoading(null)
     }
@@ -197,11 +197,11 @@ export default function BranchOrdersPage() {
       setActionLoading(orderId)
       const response = await branchApi.updateOrderStatus(orderId, newStatus)
       if (response.success) {
-        toast.success(`Order marked as ${getStatusText(newStatus)}`)
+        toast.success(`Pesanan ditandai sebagai ${getStatusText(newStatus)}`)
         fetchOrders()
       }
     } catch (err: any) {
-      toast.error(err.message || 'Failed to update status')
+      toast.error(err.message || 'Gagal memperbarui status')
     } finally {
       setActionLoading(null)
     }
@@ -209,7 +209,7 @@ export default function BranchOrdersPage() {
 
   const handleExport = () => {
     const csvContent = [
-      ['Order ID', 'Customer', 'Items', 'Amount', 'Status', 'Assigned To', 'Date'].join(','),
+      ['ID Pesanan', 'Pelanggan', 'Item', 'Jumlah', 'Status', 'Ditugaskan ke', 'Tanggal'].join(','),
       ...orders.map(order => [
         order.orderNumber,
         order.customer?.name || 'N/A',
@@ -243,8 +243,8 @@ export default function BranchOrdersPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Order Processing</h1>
-          <p className="text-gray-600">Manage and process orders at your branch</p>
+          <h1 className="text-3xl font-bold text-gray-800">Pemrosesan Pesanan</h1>
+          <p className="text-gray-600">Kelola dan proses pesanan di cabang Anda</p>
         </div>
         <div className="flex gap-2">
           {canExport && (
@@ -255,7 +255,7 @@ export default function BranchOrdersPage() {
           )}
           <Button variant="outline" onClick={fetchOrders}>
             <RefreshCw className="w-4 h-4 mr-2" />
-            Refresh
+            Perbarui
           </Button>
         </div>
       </div>
@@ -265,7 +265,7 @@ export default function BranchOrdersPage() {
         <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-orange-100">Pending</p>
+              <p className="text-sm text-orange-100">Menunggu</p>
               <p className="text-2xl font-bold text-white">{stats.pending}</p>
             </div>
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -277,7 +277,7 @@ export default function BranchOrdersPage() {
         <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-blue-100">Processing</p>
+              <p className="text-sm text-blue-100">Diproses</p>
               <p className="text-2xl font-bold text-white">{stats.processing}</p>
             </div>
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -289,7 +289,7 @@ export default function BranchOrdersPage() {
         <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-green-100">Ready</p>
+              <p className="text-sm text-green-100">Siap Diambil</p>
               <p className="text-2xl font-bold text-white">{stats.ready}</p>
             </div>
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -301,7 +301,7 @@ export default function BranchOrdersPage() {
         <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-purple-100">Completed</p>
+              <p className="text-sm text-purple-100">Selesai</p>
               <p className="text-2xl font-bold text-white">{stats.completed}</p>
             </div>
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -318,7 +318,7 @@ export default function BranchOrdersPage() {
             <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search by order ID..."
+              placeholder="Cari berdasarkan ID pesanan..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -331,12 +331,12 @@ export default function BranchOrdersPage() {
               onChange={(e) => setStatusFilter(e.target.value)}
               className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             >
-              <option value="all">All Status</option>
-              <option value="assigned_to_branch">Pending</option>
-              <option value="in_process">Processing</option>
-              <option value="ready">Ready</option>
-              <option value="out_for_delivery">Out for Delivery</option>
-              <option value="delivered">Delivered</option>
+              <option value="all">Semua Status</option>
+              <option value="assigned_to_branch">Menunggu</option>
+              <option value="in_process">Sedang Diproses</option>
+              <option value="ready">Siap Diambil</option>
+              <option value="out_for_delivery">Dalam Pengiriman</option>
+              <option value="delivered">Terkirim</option>
             </select>
             <Button onClick={handleSearch} className="bg-green-500 hover:bg-green-600">
               <Filter className="w-4 h-4 mr-2" />
@@ -350,14 +350,14 @@ export default function BranchOrdersPage() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-800">
-            Orders ({totalOrders})
+            Pesanan ({totalOrders})
           </h2>
         </div>
         
         {orders.length === 0 ? (
           <div className="p-12 text-center text-gray-500">
             <Package className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <p>No orders found</p>
+            <p>Tidak ada pesanan ditemukan</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-200">
@@ -403,7 +403,7 @@ export default function BranchOrdersPage() {
                         </div>
                         <div className="flex items-center">
                           <Package className="w-4 h-4 mr-1" />
-                          {order.items?.length || 0} items
+                          {order.items?.length || 0} item
                         </div>
                         <div className="flex items-center">
                           <Banknote className="w-4 h-4 mr-1" />
@@ -417,7 +417,7 @@ export default function BranchOrdersPage() {
                       
                       {order.processedBy && (
                         <div className="text-sm text-gray-500 mb-1">
-                          👤 Assigned to: {order.processedBy.name}
+                          👤 Ditugaskan ke: {order.processedBy.name}
                           {order.estimatedCompletionTime && ` • Est: ${order.estimatedCompletionTime}`}
                         </div>
                       )}
@@ -433,7 +433,7 @@ export default function BranchOrdersPage() {
                   <div className="flex flex-wrap gap-2">
                     <Button variant="outline" size="sm" onClick={() => handleViewOrder(order)}>
                       <Eye className="w-4 h-4 mr-1" />
-                      Details
+                      Detail
                     </Button>
                     
                     {/* Status Change Dropdown - like admin */}
@@ -448,24 +448,24 @@ export default function BranchOrdersPage() {
                         disabled={actionLoading === order._id}
                         className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                       >
-                        <option value="">Change Status</option>
+                        <option value="">Ubah Status</option>
                         {order.status === 'placed' && (
-                          <option value="in_process">Start Processing</option>
+                          <option value="in_process">Mulai Proses</option>
                         )}
                         {['assigned_to_branch', 'picked'].includes(order.status) && (
-                          <option value="in_process">Start Processing</option>
+                          <option value="in_process">Mulai Proses</option>
                         )}
                         {order.status === 'in_process' && (
-                          <option value="ready">Mark Ready</option>
+                          <option value="ready">Tandai Siap</option>
                         )}
                         {order.status === 'ready' && order.deliveryType !== 'self' && (
-                          <option value="out_for_delivery">Out for Delivery</option>
+                          <option value="out_for_delivery">Kirimkan</option>
                         )}
                         {order.status === 'ready' && order.deliveryType === 'self' && (
-                          <option value="delivered">Mark Delivered (Self Pickup)</option>
+                          <option value="delivered">Tandai Terkirim (Ambil Sendiri)</option>
                         )}
                         {order.status === 'out_for_delivery' && (
-                          <option value="delivered">Mark Delivered</option>
+                          <option value="delivered">Tandai Terkirim</option>
                         )}
                       </select>
                     )}
@@ -478,7 +478,7 @@ export default function BranchOrdersPage() {
                         disabled={actionLoading === order._id}
                       >
                         {actionLoading === order._id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 mr-1" />}
-                        Assign Staff
+                        Tugaskan Staf
                       </Button>
                     )}
                   </div>
@@ -496,7 +496,7 @@ export default function BranchOrdersPage() {
             total={totalOrders}
             limit={ITEMS_PER_PAGE}
             onPageChange={handlePageChange}
-            itemName="orders"
+            itemName="pesanan"
           />
         )}
       </div>
@@ -506,23 +506,23 @@ export default function BranchOrdersPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Assign Staff Member</h3>
+              <h3 className="text-lg font-semibold">Tugaskan Anggota Staf</h3>
               <button onClick={() => setShowAssignModal(false)} className="text-gray-500 hover:text-gray-700">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <p className="text-sm text-gray-600 mb-4">Order: {selectedOrder.orderNumber}</p>
+            <p className="text-sm text-gray-600 mb-4">Pesanan: {selectedOrder.orderNumber}</p>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Select Staff Member
+                  Pilih Anggota Staf
                 </label>
                 <select 
                   value={selectedStaffId}
                   onChange={(e) => setSelectedStaffId(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
-                  <option value="">Choose staff member...</option>
+                  <option value="">Pilih anggota staf...</option>
                   {staff.filter(s => s.isActive).map((member) => (
                     <option key={member._id} value={member._id}>
                       {member.name} - {member.role}
@@ -532,19 +532,19 @@ export default function BranchOrdersPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Estimated Completion Time
+                  Estimasi Waktu Selesai
                 </label>
                 <select 
                   value={estimatedTime}
                   onChange={(e) => setEstimatedTime(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 >
-                  <option value="1">1 hour</option>
-                  <option value="2">2 hours</option>
-                  <option value="3">3 hours</option>
-                  <option value="4">4 hours</option>
-                  <option value="6">6 hours</option>
-                  <option value="24">24 hours</option>
+                  <option value="1">1 jam</option>
+                  <option value="2">2 jam</option>
+                  <option value="3">3 jam</option>
+                  <option value="4">4 jam</option>
+                  <option value="6">6 jam</option>
+                  <option value="24">24 jam</option>
                 </select>
               </div>
               <div className="flex gap-3">
@@ -554,14 +554,14 @@ export default function BranchOrdersPage() {
                   disabled={actionLoading === 'assign'}
                 >
                   {actionLoading === 'assign' ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                  Assign & Start
+                  Tugaskan & Mulai
                 </Button>
                 <Button 
                   variant="outline" 
                   className="flex-1"
                   onClick={() => setShowAssignModal(false)}
                 >
-                  Cancel
+                  Batal
                 </Button>
               </div>
             </div>
@@ -574,7 +574,7 @@ export default function BranchOrdersPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Order Details</h3>
+              <h3 className="text-lg font-semibold">Detail Pesanan</h3>
               <button onClick={() => setShowViewModal(false)} className="text-gray-500 hover:text-gray-700">
                 <X className="w-5 h-5" />
               </button>
@@ -593,20 +593,20 @@ export default function BranchOrdersPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-medium text-gray-700 mb-2">Customer</h4>
+                  <h4 className="font-medium text-gray-700 mb-2">Pelanggan</h4>
                   <p className="text-gray-800">{selectedOrder.customer?.name || 'N/A'}</p>
                   <p className="text-sm text-gray-600">{selectedOrder.customer?.phone || 'N/A'}</p>
                   <p className="text-sm text-gray-600">{selectedOrder.customer?.email || 'N/A'}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-medium text-gray-700 mb-2">Pricing</h4>
+                  <h4 className="font-medium text-gray-700 mb-2">Harga</h4>
                   <p className="text-gray-800">Subtotal: Rp{selectedOrder.pricing?.subtotal?.toLocaleString() || 0}</p>
                   <p className="text-lg font-bold text-green-600">Total: Rp{selectedOrder.pricing?.total?.toLocaleString() || 0}</p>
                 </div>
               </div>
 
               <div className="bg-gray-50 p-4 rounded-lg">
-                <h4 className="font-medium text-gray-700 mb-2">Items ({selectedOrder.items?.length || 0})</h4>
+                <h4 className="font-medium text-gray-700 mb-2">Item ({selectedOrder.items?.length || 0})</h4>
                 <div className="space-y-2">
                   {selectedOrder.items && selectedOrder.items.length > 0 ? (
                     selectedOrder.items.map((item, idx) => (
@@ -620,28 +620,28 @@ export default function BranchOrdersPage() {
                       </div>
                     ))
                   ) : (
-                    <p className="text-gray-500">No item details available</p>
+                    <p className="text-gray-500">Tidak ada detail item</p>
                   )}
                 </div>
               </div>
 
               {selectedOrder.processedBy && (
                 <div className="bg-blue-50 p-4 rounded-lg">
-                  <h4 className="font-medium text-gray-700 mb-2">Assignment</h4>
-                  <p className="text-gray-800">Assigned to: {selectedOrder.processedBy.name}</p>
+                  <h4 className="font-medium text-gray-700 mb-2">Penugasan</h4>
+                  <p className="text-gray-800">Ditugaskan ke: {selectedOrder.processedBy?.name}</p>
                   {selectedOrder.estimatedCompletionTime && (
-                    <p className="text-sm text-gray-600">Est. completion: {selectedOrder.estimatedCompletionTime}</p>
+                    <p className="text-sm text-gray-600">Estimasi selesai: {selectedOrder.estimatedCompletionTime}</p>
                   )}
                 </div>
               )}
 
               <div className="text-sm text-gray-500">
-                Created: {new Date(selectedOrder.createdAt).toLocaleString()}
+                Dibuat: {new Date(selectedOrder.createdAt).toLocaleString('id-ID')}
               </div>
             </div>
 
             <div className="mt-6 flex justify-end">
-              <Button variant="outline" onClick={() => setShowViewModal(false)}>Close</Button>
+              <Button variant="outline" onClick={() => setShowViewModal(false)}>Tutup</Button>
             </div>
           </div>
         </div>

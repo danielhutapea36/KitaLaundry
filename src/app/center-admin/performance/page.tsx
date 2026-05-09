@@ -89,14 +89,14 @@ export default function BranchPerformancePage() {
 
   const getStatusText = (status: string) => {
     const statusMap: Record<string, string> = {
-      'placed': 'Placed',
-      'assigned_to_branch': 'Pending',
-      'picked': 'Picked Up',
-      'in_process': 'Processing',
-      'ready': 'Ready',
-      'out_for_delivery': 'Out for Delivery',
-      'delivered': 'Delivered',
-      'cancelled': 'Cancelled'
+      'placed': 'Ditempatkan',
+      'assigned_to_branch': 'Menunggu',
+      'picked': 'Sudah Dijemput',
+      'in_process': 'Sedang Diproses',
+      'ready': 'Siap Diambil',
+      'out_for_delivery': 'Dalam Pengiriman',
+      'delivered': 'Terkirim',
+      'cancelled': 'Dibatalkan'
     }
     return statusMap[status] || status
   }
@@ -152,7 +152,7 @@ export default function BranchPerformancePage() {
     a.href = url
     a.download = `branch-analytics-${timeframe}-${new Date().toISOString().split('T')[0]}.csv`
     a.click()
-    toast.success('Analytics exported successfully')
+    toast.success('Analitik berhasil diekspor')
   }
 
   // Transform data for charts
@@ -184,8 +184,8 @@ export default function BranchPerformancePage() {
   if (!data) {
     return (
       <div className="p-6 bg-red-50 rounded-xl text-center">
-        <p className="text-red-600">Failed to load analytics</p>
-        <Button onClick={fetchAnalytics} className="mt-4">Try Again</Button>
+        <p className="text-red-600">Gagal memuat analitik</p>
+        <Button onClick={fetchAnalytics} className="mt-4">Coba Lagi</Button>
       </div>
     )
   }
@@ -196,7 +196,7 @@ export default function BranchPerformancePage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Performance Analytics</h1>
+          <h1 className="text-3xl font-bold text-gray-800">Analitik Performa</h1>
           <p className="text-gray-600">{data.branch.name} ({data.branch.code})</p>
         </div>
         <div className="flex gap-2">
@@ -205,9 +205,9 @@ export default function BranchPerformancePage() {
             onChange={(e) => setTimeframe(e.target.value)}
             className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            <option value="24h">Last 24 Hours</option>
-            <option value="7d">Last 7 Days</option>
-            <option value="30d">Last 30 Days</option>
+            <option value="24h">24 Jam Terakhir</option>
+            <option value="7d">7 Hari Terakhir</option>
+            <option value="30d">30 Hari Terakhir</option>
           </select>
           <Button variant="outline" onClick={handleExport}>
             <Download className="w-4 h-4 mr-2" />
@@ -215,7 +215,7 @@ export default function BranchPerformancePage() {
           </Button>
           <Button variant="outline" onClick={fetchAnalytics}>
             <RefreshCw className="w-4 h-4 mr-2" />
-            Refresh
+            Perbarui
           </Button>
         </div>
       </div>
@@ -225,7 +225,7 @@ export default function BranchPerformancePage() {
         <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-blue-100 text-sm">Total Orders</p>
+              <p className="text-blue-100 text-sm">Total Pesanan</p>
               <p className="text-3xl font-bold">{data.totals.totalOrders}</p>
             </div>
             <Package className="w-12 h-12 text-blue-200" />
@@ -235,7 +235,7 @@ export default function BranchPerformancePage() {
         <div className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-xl p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-100 text-sm">Total Revenue</p>
+              <p className="text-green-100 text-sm">Total Pendapatan</p>
               <p className="text-3xl font-bold">Rp{data.totals.totalRevenue.toLocaleString()}</p>
             </div>
             <Banknote className="w-12 h-12 text-green-200" />
@@ -245,7 +245,7 @@ export default function BranchPerformancePage() {
         <div className="bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl p-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-purple-100 text-sm">Avg Order Value</p>
+              <p className="text-purple-100 text-sm">Rata-rata Nilai Pesanan</p>
               <p className="text-3xl font-bold">Rp{Math.round(data.totals.avgOrderValue).toLocaleString()}</p>
             </div>
             <TrendingUp className="w-12 h-12 text-purple-200" />
@@ -260,11 +260,11 @@ export default function BranchPerformancePage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
             <Calendar className="w-5 h-5 mr-2 text-blue-500" />
-            Daily Orders
+            Pesanan Harian
           </h2>
           {dailyChartData.length === 0 ? (
             <div className="h-64 flex items-center justify-center text-gray-500">
-              No data available
+              Belum ada data
             </div>
           ) : (
             <div className="h-64">
@@ -287,7 +287,7 @@ export default function BranchPerformancePage() {
                       borderRadius: '8px',
                       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                     }}
-                    formatter={(value) => [Number(value), 'Orders']}
+                    formatter={(value) => [Number(value), 'Pesanan']}
                   />
                   <Bar 
                     dataKey="orders" 
@@ -304,11 +304,11 @@ export default function BranchPerformancePage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
             <BarChart3 className="w-5 h-5 mr-2 text-green-500" />
-            Service Breakdown
+            Perincian Layanan
           </h2>
           {serviceChartData.length === 0 ? (
             <div className="h-64 flex items-center justify-center text-gray-500">
-              No data available
+              Belum ada data
             </div>
           ) : (
             <div className="h-64">
@@ -336,7 +336,7 @@ export default function BranchPerformancePage() {
                       borderRadius: '8px'
                     }}
                     formatter={(value, name, props: any) => [
-                      `${value} orders (Rp${props.payload.revenue.toLocaleString()})`,
+                      `${value} pesanan (Rp${props.payload.revenue.toLocaleString()})`,
                       props.payload.name
                     ]}
                   />
@@ -354,11 +354,11 @@ export default function BranchPerformancePage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
             <Clock className="w-5 h-5 mr-2 text-orange-500" />
-            Order Status Distribution
+            Distribusi Status Pesanan
           </h2>
           {statusChartData.length === 0 ? (
             <div className="h-64 flex items-center justify-center text-gray-500">
-              No data available
+              Belum ada data
             </div>
           ) : (
             <div className="h-64">
@@ -399,11 +399,11 @@ export default function BranchPerformancePage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
             <Users className="w-5 h-5 mr-2 text-purple-500" />
-            Staff Performance
+            Performa Staf
           </h2>
           {data.staffPerformance.length === 0 ? (
             <div className="h-64 flex items-center justify-center text-gray-500">
-              No staff data available
+              Belum ada data staf
             </div>
           ) : (
             <div className="h-64">
@@ -429,7 +429,7 @@ export default function BranchPerformancePage() {
                     }}
                     formatter={(value, name) => [
                       name === 'ordersProcessed' ? Number(value) : `Rp${Number(value).toLocaleString()}`,
-                      name === 'ordersProcessed' ? 'Orders' : 'Revenue'
+                      name === 'ordersProcessed' ? 'Pesanan' : 'Pendapatan'
                     ]}
                   />
                   <Bar dataKey="ordersProcessed" fill="#8B5CF6" radius={[0, 4, 4, 0]} name="Orders" />
@@ -446,7 +446,7 @@ export default function BranchPerformancePage() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-800 flex items-center">
             <TrendingUp className="w-5 h-5 mr-2 text-green-500" />
-            Revenue Trend
+            Tren Pendapatan
           </h2>
           <div className="flex bg-gray-100 rounded-lg p-1">
             <button
@@ -473,7 +473,7 @@ export default function BranchPerformancePage() {
         </div>
         {dailyChartData.length === 0 ? (
           <div className="h-64 flex items-center justify-center text-gray-500">
-            No data available
+            Belum ada data
           </div>
         ) : (
           <div className="h-64">
@@ -498,7 +498,7 @@ export default function BranchPerformancePage() {
                       borderRadius: '8px',
                       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                     }}
-                    formatter={(value) => [`Rp${Number(value).toLocaleString()}`, 'Revenue']}
+                    formatter={(value) => [`Rp${Number(value).toLocaleString()}`, 'Pendapatan']}
                   />
                   <Bar 
                     dataKey="revenue" 
@@ -526,7 +526,7 @@ export default function BranchPerformancePage() {
                       borderRadius: '8px',
                       boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                     }}
-                    formatter={(value) => [`Rp${Number(value).toLocaleString()}`, 'Revenue']}
+                    formatter={(value) => [`Rp${Number(value).toLocaleString()}`, 'Pendapatan']}
                   />
                   <Line 
                     type="monotone" 
@@ -545,22 +545,22 @@ export default function BranchPerformancePage() {
 
       {/* Quick Insights */}
       <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-6">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">Quick Insights</h2>
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">Wawasan Cepat</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="bg-white p-4 rounded-lg shadow-sm">
-            <p className="text-sm text-gray-600">Most Popular Service</p>
+            <p className="text-sm text-gray-600">Layanan Terpopuler</p>
             <p className="text-lg font-bold text-gray-800 capitalize">
               {data.serviceStats[0]?._id?.replace(/_/g, ' ') || 'N/A'}
             </p>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm">
-            <p className="text-sm text-gray-600">Top Performer</p>
+            <p className="text-sm text-gray-600">Performa Terbaik</p>
             <p className="text-lg font-bold text-gray-800">
               {data.staffPerformance[0]?.name || 'N/A'}
             </p>
           </div>
           <div className="bg-white p-4 rounded-lg shadow-sm">
-            <p className="text-sm text-gray-600">Completion Rate</p>
+            <p className="text-sm text-gray-600">Tingkat Penyelesaian</p>
             <p className="text-lg font-bold text-green-600">
               {data.totals.totalOrders > 0 
                 ? Math.round((data.statusDistribution.find(s => s._id === 'delivered')?.count || 0) / data.totals.totalOrders * 100)

@@ -25,18 +25,18 @@ export default function RegisterPage() {
     e.preventDefault()
     
     if (formData.password !== formData.confirmPassword) {
-      toast.error('Passwords do not match')
+      toast.error('Kata sandi tidak cocok')
       return
     }
 
     if (formData.password.length < 8) {
-      toast.error('Password must be at least 8 characters')
+      toast.error('Kata sandi harus minimal 8 karakter')
       return
     }
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>])/
     if (!passwordRegex.test(formData.password)) {
-      toast.error('Password must contain uppercase, lowercase, number, and special character')
+      toast.error('Kata sandi harus mengandung huruf besar, huruf kecil, angka, dan karakter khusus')
       return
     }
 
@@ -51,10 +51,10 @@ export default function RegisterPage() {
         confirmPassword: formData.confirmPassword,
       })
 
-      toast.success('Registration successful! Please check your email to verify your account.')
+      toast.success('Pendaftaran berhasil! Silakan cek email Anda untuk memverifikasi akun.')
       router.push(`/auth/verify-email?email=${encodeURIComponent(formData.email)}`)
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 'Registration failed'
+      const errorMessage = error.response?.data?.message || 'Pendaftaran gagal'
       toast.error(errorMessage)
       
       if (error.response?.data?.errors) {
@@ -76,10 +76,10 @@ export default function RegisterPage() {
 
   const passwordStrength = (password: string) => {
     if (password.length === 0) return { strength: 0, text: '', color: '' }
-    if (password.length < 6) return { strength: 25, text: 'Weak', color: 'bg-red-500' }
-    if (password.length < 8) return { strength: 50, text: 'Fair', color: 'bg-yellow-500' }
-    if (password.length < 12) return { strength: 75, text: 'Good', color: 'bg-blue-500' }
-    return { strength: 100, text: 'Strong', color: 'bg-green-500' }
+    if (password.length < 6) return { strength: 25, text: 'Lemah', color: 'bg-red-500' }
+    if (password.length < 8) return { strength: 50, text: 'Cukup', color: 'bg-yellow-500' }
+    if (password.length < 12) return { strength: 75, text: 'Baik', color: 'bg-blue-500' }
+    return { strength: 100, text: 'Kuat', color: 'bg-green-500' }
   }
 
   const strength = passwordStrength(formData.password)
@@ -93,7 +93,7 @@ export default function RegisterPage() {
           className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm text-teal-600 hover:text-teal-700 hover:bg-white transition-all duration-200"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
+          Kembali ke Beranda
         </Link>
       </div>
 
@@ -110,10 +110,10 @@ export default function RegisterPage() {
               <span className="text-4xl font-bold text-gray-800" style={{ fontFamily: 'Poppins, sans-serif' }}>KitaLaundry</span>
             </div>
             <h1 className="text-4xl xl:text-5xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Join KitaLaundry
+              Bergabung dengan KitaLaundry
             </h1>
             <p className="text-xl text-gray-600" style={{ fontSize: '15px' }}>
-              Create your account and experience premium laundry service. Thousands of happy customers trust us with their clothes.
+              Buat akun Anda dan rasakan layanan laundry premium. Ribuan pelanggan puas mempercayai kami untuk pakaian mereka.
             </p>
           </div>
 
@@ -124,8 +124,8 @@ export default function RegisterPage() {
                 <Truck className="w-6 h-6 text-teal-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Free Pickup & Delivery</h3>
-                <p className="text-gray-600 text-sm">We pick up and deliver your clothes right at your doorstep</p>
+                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Penjemputan & Pengiriman Gratis</h3>
+                <p className="text-gray-600 text-sm">Kami menjemput dan mengantarkan pakaian Anda langsung ke depan pintu</p>
               </div>
             </div>
 
@@ -134,8 +134,8 @@ export default function RegisterPage() {
                 <Clock className="w-6 h-6 text-cyan-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>24-48 Hour Turnaround</h3>
-                <p className="text-gray-600 text-sm">Quick service with express options available</p>
+                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Selesai 24-48 Jam</h3>
+                <p className="text-gray-600 text-sm">Layanan cepat dengan opsi ekspres tersedia</p>
               </div>
             </div>
 
@@ -144,8 +144,8 @@ export default function RegisterPage() {
                 <Shield className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Quality Guaranteed</h3>
-                <p className="text-gray-600 text-sm">Professional care for all types of fabrics</p>
+                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Kualitas Terjamin</h3>
+                <p className="text-gray-600 text-sm">Perawatan profesional untuk semua jenis kain</p>
               </div>
             </div>
 
@@ -154,8 +154,8 @@ export default function RegisterPage() {
                 <Star className="w-6 h-6 text-amber-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>10,000+ Happy Customers</h3>
-                <p className="text-gray-600 text-sm">Trusted by thousands across the city</p>
+                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>10.000+ Pelanggan Puas</h3>
+                <p className="text-gray-600 text-sm">Dipercaya oleh ribuan orang di seluruh kota</p>
               </div>
             </div>
           </div>
@@ -172,20 +172,20 @@ export default function RegisterPage() {
                 </div>
                 <span className="text-3xl font-bold text-gray-800">KitaLaundry</span>
               </div>
-              <h2 className="text-2xl font-bold text-gray-800">Create Account</h2>
+              <h2 className="text-2xl font-bold text-gray-800">Buat Akun</h2>
             </div>
 
             {/* Register Form Card */}
             <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
               <div className="hidden lg:block mb-6">
-                <h2 className="text-2xl font-bold text-gray-800" style={{ fontFamily: 'Poppins, sans-serif' }}>Create Account</h2>
-                <p className="text-gray-600 mt-1" style={{ fontSize: '15px' }}>Join thousands of satisfied customers</p>
+                <h2 className="text-2xl font-bold text-gray-800" style={{ fontFamily: 'Poppins, sans-serif' }}>Buat Akun</h2>
+                <p className="text-gray-600 mt-1" style={{ fontSize: '15px' }}>Bergabung bersama ribuan pelanggan puas</p>
               </div>
 
               <form className="space-y-4" onSubmit={handleSubmit} autoComplete="off">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Full Name
+                    Nama Lengkap
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -198,7 +198,7 @@ export default function RegisterPage() {
                       required
                       autoComplete="off"
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 bg-gray-50"
-                      placeholder="Enter your full name"
+                      placeholder="Masukkan nama lengkap Anda"
                       value={formData.name}
                       onChange={handleChange}
                     />
@@ -207,7 +207,7 @@ export default function RegisterPage() {
                 
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Email Address
+                    Alamat Email
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -220,7 +220,7 @@ export default function RegisterPage() {
                       autoComplete="new-email"
                       required
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 bg-gray-50"
-                      placeholder="Enter your email"
+                      placeholder="Masukkan email Anda"
                       value={formData.email}
                       onChange={handleChange}
                     />
@@ -229,7 +229,7 @@ export default function RegisterPage() {
                 
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Phone Number
+                    Nomor Telepon
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -242,7 +242,7 @@ export default function RegisterPage() {
                       required
                       autoComplete="off"
                       className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 bg-gray-50"
-                      placeholder="Enter 10-digit phone number"
+                      placeholder="Masukkan nomor telepon 10 digit"
                       value={formData.phone}
                       onChange={handleChange}
                     />
@@ -264,7 +264,7 @@ export default function RegisterPage() {
                       required
                       autoComplete="new-password"
                       className="block w-full pl-10 pr-12 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 bg-gray-50"
-                      placeholder="Min 8 characters"
+                      placeholder="Min 8 karakter"
                       value={formData.password}
                       onChange={handleChange}
                     />
@@ -283,7 +283,7 @@ export default function RegisterPage() {
                   {formData.password && (
                     <div className="mt-1.5">
                       <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
-                        <span>Password strength</span>
+                        <span>Kekuatan kata sandi</span>
                         <span className={`font-medium ${strength.strength >= 75 ? 'text-green-600' : strength.strength >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
                           {strength.text}
                         </span>
@@ -300,7 +300,7 @@ export default function RegisterPage() {
                 
                 <div>
                   <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1.5">
-                    Confirm Password
+                    Konfirmasi Kata Sandi
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -313,7 +313,7 @@ export default function RegisterPage() {
                       required
                       autoComplete="new-password"
                       className="block w-full pl-10 pr-12 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 bg-gray-50"
-                      placeholder="Confirm your password"
+                      placeholder="Konfirmasi kata sandi Anda"
                       value={formData.confirmPassword}
                       onChange={handleChange}
                     />
@@ -334,11 +334,11 @@ export default function RegisterPage() {
                       {formData.password === formData.confirmPassword ? (
                         <div className="flex items-center text-green-600 text-xs">
                           <CheckCircle className="w-3.5 h-3.5 mr-1" />
-                          Passwords match
+                          Kata sandi cocok
                         </div>
                       ) : (
                         <div className="text-red-600 text-xs">
-                          Passwords do not match
+                          Kata sandi tidak cocok
                         </div>
                       )}
                     </div>
@@ -354,13 +354,13 @@ export default function RegisterPage() {
                     className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded mt-0.5"
                   />
                   <label htmlFor="terms" className="ml-2 block text-sm text-gray-600">
-                    I agree to the{' '}
+                    Saya setuju dengan{' '}
                     <Link href="#" className="text-teal-600 hover:text-teal-500">
-                      Terms of Service
+                      Syarat Layanan
                     </Link>{' '}
-                    and{' '}
+                    dan{' '}
                     <Link href="#" className="text-teal-600 hover:text-teal-500">
-                      Privacy Policy
+                      Kebijakan Privasi
                     </Link>
                   </label>
                 </div>
@@ -373,19 +373,19 @@ export default function RegisterPage() {
                   {isLoading ? (
                     <div className="flex items-center justify-center">
                       <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                      Creating account...
+                      Membuat akun...
                     </div>
                   ) : (
-                    'Create Account'
+                    'Buat Akun'
                   )}
                 </Button>
               </form>
 
               <div className="mt-5 text-center">
                 <p className="text-gray-600" style={{ fontSize: '15px' }}>
-                  Already have an account?{' '}
+                  Sudah punya akun?{' '}
                   <Link href="/auth/login" className="font-medium text-teal-600 hover:text-teal-500 transition-colors">
-                    Sign in here
+                    Masuk di sini
                   </Link>
                 </p>
               </div>

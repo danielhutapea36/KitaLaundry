@@ -43,24 +43,24 @@ interface TicketItem {
 
 const faqs = [
   {
-    question: 'How long does laundry service take?',
-    answer: 'Standard service takes 24-48 hours. Express service is available for same-day delivery with an additional charge.',
+    question: 'Berapa lama layanan laundry memakan waktu?',
+    answer: 'Layanan standar membutuhkan 24-48 jam. Layanan ekspres tersedia untuk pengiriman di hari yang sama dengan biaya tambahan.',
   },
   {
-    question: 'What if my clothes are damaged?',
-    answer: 'We take utmost care of your garments. In rare cases of damage, please raise a ticket immediately and we will compensate appropriately.',
+    question: 'Bagaimana jika pakaian saya rusak?',
+    answer: 'Kami sangat menjaga pakaian Anda. Dalam kasus langka kerusakan, segera buat tiket dan kami akan memberikan kompensasi yang sesuai.',
   },
   {
-    question: 'How can I track my order?',
-    answer: 'You can track your order in real-time from the Orders section. You will also receive notifications at each stage.',
+    question: 'Bagaimana cara melacak pesanan saya?',
+    answer: 'Anda dapat melacak pesanan secara real-time dari bagian Pesanan. Anda juga akan menerima notifikasi di setiap tahap.',
   },
   {
-    question: 'What payment methods do you accept?',
-    answer: 'We accept all major credit/debit cards, UPI, net banking, and cash on delivery.',
+    question: 'Metode pembayaran apa yang diterima?',
+    answer: 'Kami menerima semua kartu kredit/debit utama, transfer bank, dan bayar di tempat.',
   },
   {
-    question: 'Can I cancel my order?',
-    answer: 'Yes, you can cancel your order before pickup. Once picked up, cancellation may not be possible.',
+    question: 'Bisakah saya membatalkan pesanan?',
+    answer: 'Ya, Anda bisa membatalkan pesanan sebelum dijemput. Setelah dijemput, pembatalan mungkin tidak bisa dilakukan.',
   },
 ]
 
@@ -144,14 +144,14 @@ export default function CustomerSupportPage() {
               <Headphones className="w-7 h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold mb-1">How can we help you?</h1>
-              <p className="text-teal-100">We're here to assist you with any questions or issues</p>
+              <h1 className="text-2xl md:text-3xl font-bold mb-1">Bagaimana kami bisa membantu Anda?</h1>
+              <p className="text-teal-100">Kami siap membantu Anda dengan pertanyaan atau masalah apapun</p>
             </div>
           </div>
           <Link href="/customer/support/new">
             <Button className="bg-white text-teal-600 hover:bg-white/90 shadow-lg">
               <Plus className="w-4 h-4 mr-2" />
-              New Ticket
+              Tiket Baru
             </Button>
           </Link>
         </div>
@@ -166,7 +166,7 @@ export default function CustomerSupportPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-800">{tickets.length}</p>
-              <p className="text-xs text-gray-500">Total Tickets</p>
+              <p className="text-xs text-gray-500">Total Tiket</p>
             </div>
           </div>
         </div>
@@ -177,7 +177,7 @@ export default function CustomerSupportPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-800">{openTickets}</p>
-              <p className="text-xs text-gray-500">Open</p>
+              <p className="text-xs text-gray-500">Terbuka</p>
             </div>
           </div>
         </div>
@@ -188,7 +188,7 @@ export default function CustomerSupportPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-800">{resolvedTickets}</p>
-              <p className="text-xs text-gray-500">Resolved</p>
+              <p className="text-xs text-gray-500">Terselesaikan</p>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@ export default function CustomerSupportPage() {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-800">24h</p>
-              <p className="text-xs text-gray-500">Avg Response</p>
+              <p className="text-xs text-gray-500">Rata-rata Respons</p>
             </div>
           </div>
         </div>
@@ -207,15 +207,15 @@ export default function CustomerSupportPage() {
 
       {/* Quick Help Categories */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Quick Help</h2>
+        <h2 className="text-lg font-bold text-gray-800 mb-4">Bantuan Cepat</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Link href="/customer/support/new?category=quality" className="group">
             <div className="p-4 bg-gradient-to-br from-red-50 to-rose-50 rounded-xl border border-red-100 hover:shadow-md transition-all">
               <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <ShieldCheck className="w-5 h-5 text-red-600" />
               </div>
-              <h3 className="font-medium text-gray-800 text-sm">Quality Issue</h3>
-              <p className="text-xs text-gray-500 mt-1">Report quality problems</p>
+              <h3 className="font-medium text-gray-800 text-sm">Masalah Kualitas</h3>
+              <p className="text-xs text-gray-500 mt-1">Laporkan masalah kualitas</p>
             </div>
           </Link>
           <Link href="/customer/support/new?category=delay" className="group">
@@ -223,8 +223,8 @@ export default function CustomerSupportPage() {
               <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <Truck className="w-5 h-5 text-amber-600" />
               </div>
-              <h3 className="font-medium text-gray-800 text-sm">Delivery Delay</h3>
-              <p className="text-xs text-gray-500 mt-1">Track delayed orders</p>
+              <h3 className="font-medium text-gray-800 text-sm">Keterlambatan Pengiriman</h3>
+              <p className="text-xs text-gray-500 mt-1">Lacak pesanan yang terlambat</p>
             </div>
           </Link>
           <Link href="/customer/support/new?category=missing_item" className="group">
@@ -232,8 +232,8 @@ export default function CustomerSupportPage() {
               <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <Package className="w-5 h-5 text-blue-600" />
               </div>
-              <h3 className="font-medium text-gray-800 text-sm">Missing Item</h3>
-              <p className="text-xs text-gray-500 mt-1">Report missing clothes</p>
+              <h3 className="font-medium text-gray-800 text-sm">Barang Hilang</h3>
+              <p className="text-xs text-gray-500 mt-1">Laporkan pakaian hilang</p>
             </div>
           </Link>
           <Link href="/customer/support/new?category=payment" className="group">
@@ -241,8 +241,8 @@ export default function CustomerSupportPage() {
               <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                 <CreditCard className="w-5 h-5 text-green-600" />
               </div>
-              <h3 className="font-medium text-gray-800 text-sm">Payment Issue</h3>
-              <p className="text-xs text-gray-500 mt-1">Billing & refunds</p>
+              <h3 className="font-medium text-gray-800 text-sm">Masalah Pembayaran</h3>
+              <p className="text-xs text-gray-500 mt-1">Tagihan & pengembalian dana</p>
             </div>
           </Link>
         </div>
@@ -251,7 +251,7 @@ export default function CustomerSupportPage() {
       {/* Your Tickets Section */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="p-4 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <h2 className="font-semibold text-gray-800">Your Tickets</h2>
+          <h2 className="font-semibold text-gray-800">Tiket Anda</h2>
           <div className="flex items-center gap-2 flex-wrap">
             <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
               {['', 'open', 'in_progress', 'resolved'].map((status) => (
@@ -264,7 +264,7 @@ export default function CustomerSupportPage() {
                       : 'text-gray-600 hover:text-gray-800'
                   }`}
                 >
-                  {status === '' ? 'All' : status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                  {status === '' ? 'Semua' : status === 'open' ? 'Terbuka' : status === 'in_progress' ? 'Diproses' : 'Terselesaikan'}
                 </button>
               ))}
             </div>
@@ -277,25 +277,25 @@ export default function CustomerSupportPage() {
         {loading ? (
           <div className="p-8 text-center">
             <div className="w-8 h-8 border-2 border-teal-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-            <p className="text-gray-500">Loading tickets...</p>
+            <p className="text-gray-500">Memuat tiket...</p>
           </div>
         ) : error ? (
           <div className="p-8 text-center">
             <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
             <p className="text-red-600 mb-4">{error}</p>
-            <Button onClick={fetchTickets} variant="outline">Retry</Button>
+            <Button onClick={fetchTickets} variant="outline">Coba Lagi</Button>
           </div>
         ) : tickets.length === 0 ? (
           <div className="p-8 text-center">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Ticket className="w-8 h-8 text-gray-400" />
             </div>
-            <h3 className="font-medium text-gray-800 mb-2">No tickets yet</h3>
-            <p className="text-gray-500 text-sm mb-4">Create a ticket if you need help with anything</p>
+            <h3 className="font-medium text-gray-800 mb-2">Belum ada tiket</h3>
+            <p className="text-gray-500 text-sm mb-4">Buat tiket jika Anda membutuhkan bantuan</p>
             <Link href="/customer/support/new">
               <Button className="bg-gradient-to-r from-teal-500 to-cyan-500 text-white">
                 <Plus className="w-4 h-4 mr-2" />
-                Create Ticket
+                Buat Tiket
               </Button>
             </Link>
           </div>
@@ -348,8 +348,8 @@ export default function CustomerSupportPage() {
             <HelpCircle className="w-5 h-5 text-purple-600" />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-gray-800">Frequently Asked Questions</h2>
-            <p className="text-sm text-gray-500">Quick answers to common questions</p>
+            <h2 className="text-lg font-bold text-gray-800">Pertanyaan yang Sering Diajukan</h2>
+            <p className="text-sm text-gray-500">Jawaban cepat untuk pertanyaan umum</p>
           </div>
         </div>
         <div className="space-y-3">
@@ -380,9 +380,9 @@ export default function CustomerSupportPage() {
               <Phone className="w-6 h-6 text-teal-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-800">Call Us</h3>
-              <p className="text-teal-600 font-medium">+91 1800-123-4567</p>
-              <p className="text-xs text-gray-500 mt-1">Mon-Sat, 9 AM - 8 PM</p>
+              <h3 className="font-semibold text-gray-800">Hubungi Kami</h3>
+              <p className="text-teal-600 font-medium">+62 1800-123-4567</p>
+              <p className="text-xs text-gray-500 mt-1">Senin-Sabtu, 09.00 - 20.00</p>
             </div>
           </div>
         </div>
@@ -392,9 +392,9 @@ export default function CustomerSupportPage() {
               <Mail className="w-6 h-6 text-blue-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-gray-800">Email Us</h3>
+              <h3 className="font-semibold text-gray-800">Email Kami</h3>
               <p className="text-blue-600 font-medium">support@kitalaundry.com</p>
-              <p className="text-xs text-gray-500 mt-1">We reply within 24 hours</p>
+              <p className="text-xs text-gray-500 mt-1">Kami membalas dalam 24 jam</p>
             </div>
           </div>
         </div>

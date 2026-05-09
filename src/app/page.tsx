@@ -75,39 +75,39 @@ function HeroCarousel({
     {
       id: 1,
       title: isAuthenticated
-        ? `Welcome back, ${user?.name}!`
-        : 'Welcome to KitaLaundry',
-      subtitle: "Medan's #1 Laundry Service",
+        ? `Selamat datang kembali, ${user?.name}!`
+        : 'Selamat Datang di KitaLaundry',
+      subtitle: "Layanan Laundry #1 di Medan",
       description: isAuthenticated
-        ? "Ready to schedule your next laundry pickup? We're here to make your life easier!"
-        : 'Serving across 20+ Cities with over 20+ Outlets across the nation.',
+        ? "Siap menjadwalkan jemput laundry Anda berikutnya? Kami hadir untuk mempermudah hidup Anda!"
+        : 'Melayani lebih dari 20+ Kota dengan 20+ Gerai di seluruh Indonesia.',
       features: [
-        { icon: Clock, text: 'Schedule Collection Days' },
-        { icon: Truck, text: '24-48 hours Delivery' },
-        { icon: CreditCard, text: 'Easy Payment Options' },
-        { icon: Headphones, text: 'Dedicated Customer Support' },
+        { icon: Clock, text: 'Jadwalkan Hari Pengambilan' },
+        { icon: Truck, text: 'Pengiriman 24-48 Jam' },
+        { icon: CreditCard, text: 'Opsi Pembayaran Mudah' },
+        { icon: Headphones, text: 'Dukungan Pelanggan Terdedikasi' },
       ],
       image: '/images/hero-laundry.jpg',
       discount: '20%',
-      primaryButton: { text: 'Book New Order', icon: Truck, action: 'book' },
-      secondaryButton: { text: 'Chat on WhatsApp', icon: Phone, href: '#' },
+      primaryButton: { text: 'Pesan Sekarang', icon: Truck, action: 'book' },
+      secondaryButton: { text: 'Chat di WhatsApp', icon: Phone, href: '#' },
     },
     {
       id: 2,
-      title: 'Premium Dry Cleaning',
-      subtitle: 'Professional Care for Your Clothes',
+      title: 'Dry Cleaning Premium',
+      subtitle: 'Perawatan Profesional untuk Pakaian Anda',
       description:
-        'Expert dry cleaning services with advanced technology and eco-friendly solutions.',
+        'Layanan dry cleaning ahli dengan teknologi canggih dan solusi ramah lingkungan.',
       features: [
-        { icon: Shield, text: '100% Safe & Secure' },
-        { icon: Sparkles, text: 'Premium Quality Care' },
-        { icon: Award, text: 'Certified Professionals' },
-        { icon: Star, text: '5-Star Rated Service' },
+        { icon: Shield, text: '100% Aman & Terjamin' },
+        { icon: Sparkles, text: 'Perawatan Kualitas Premium' },
+        { icon: Award, text: 'Profesional Bersertifikat' },
+        { icon: Star, text: 'Layanan Bintang 5' },
       ],
       image: '/images/hero-slide-2.jpg',
       discount: '15%',
-      primaryButton: { text: 'Book Dry Cleaning', icon: Sparkles, action: 'book' },
-      secondaryButton: { text: 'View Services', icon: ArrowRight, href: '#services' },
+      primaryButton: { text: 'Pesan Dry Cleaning', icon: Sparkles, action: 'book' },
+      secondaryButton: { text: 'Lihat Layanan', icon: ArrowRight, href: '#services' },
     },
   ]
 
@@ -189,7 +189,7 @@ function HeroCarousel({
                   </Button>
                   <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white px-6">
                     <Phone className="w-5 h-5 mr-2" />
-                    Chat on Whatsapp
+                    Chat di WhatsApp
                   </Button>
                 </div>
               </div>
@@ -258,7 +258,7 @@ function HeroCarousel({
                 <Link href="https://wa.me/919876543210" target="_blank">
                   <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white px-6">
                     <Phone className="w-5 h-5 mr-2" />
-                    Chat on Whatsapp
+                    Chat di WhatsApp
                   </Button>
                 </Link>
               </div>
@@ -494,10 +494,10 @@ export default function HomePage() {
             </button>
             
             <div className="hidden md:flex items-center space-x-8">
-              <Link href="/" className={`transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`}>Home</Link>
-              <Link href="/services" className={`transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`}>Services</Link>
-              <Link href="/pricing" className={`transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`}>Pricing</Link>
-              <Link href="/help" className={`transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`}>Help</Link>
+              <Link href="/" className={`transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`}>Beranda</Link>
+              <Link href="/services" className={`transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`}>Layanan</Link>
+              <Link href="/pricing" className={`transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`}>Harga</Link>
+              <Link href="/help" className={`transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`}>Bantuan</Link>
               
               {isAuthenticated ? (
                 <div className="flex items-center space-x-4">
@@ -505,7 +505,7 @@ export default function HomePage() {
                   <Link href="/customer/dashboard">
                     <Button className="bg-teal-500 hover:bg-teal-600 text-white">
                       <User className="w-4 h-4 mr-2" />
-                      Dashboard
+                      Dasbor
                     </Button>
                   </Link>
                   <div className="relative group">
@@ -522,19 +522,19 @@ export default function HomePage() {
                       <div className="py-2">
                         <Link href="/customer/dashboard" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50">
                           <User className="w-4 h-4 mr-3" />
-                          Dashboard
+                          Dasbor
                         </Link>
                         <Link href="/customer/orders" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50">
                           <ShoppingBag className="w-4 h-4 mr-3" />
-                          My Orders
+                          Pesanan Saya
                         </Link>
                         <Link href="/customer/addresses" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50">
                           <MapPin className="w-4 h-4 mr-3" />
-                          Addresses
+                          Alamat
                         </Link>
                         <Link href="/customer/profile" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50">
                           <User className="w-4 h-4 mr-3" />
-                          Profile
+                          Profil
                         </Link>
                         <hr className="my-2" />
                         <button 
@@ -545,7 +545,7 @@ export default function HomePage() {
                           className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-red-50"
                         >
                           <LogOut className="w-4 h-4 mr-3" />
-                          Logout
+                          Keluar
                         </button>
                       </div>
                     </div>
@@ -555,12 +555,12 @@ export default function HomePage() {
                 <div className="flex items-center space-x-3">
                   <Link href="/auth/login">
                     <Button variant="outline" className={`transition-colors duration-500 ${isDarkTheme ? 'border-teal-400 text-teal-400 hover:bg-teal-400/10' : 'border-teal-500 text-teal-600 hover:bg-teal-50'}`}>
-                      Login
+                      Masuk
                     </Button>
                   </Link>
                   <Link href="/auth/register">
                     <Button className="bg-teal-500 hover:bg-teal-600 text-white">
-                      Sign Up
+                      Daftar
                     </Button>
                   </Link>
                 </div>
@@ -572,17 +572,17 @@ export default function HomePage() {
           {mobileMenuOpen && (
             <div className={`md:hidden border-t mt-4 pt-4 pb-2 transition-colors duration-500 ${isDarkTheme ? 'border-gray-700' : 'border-gray-200'}`}>
               <div className="flex flex-col space-y-3">
-                <Link href="/" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Home</Link>
-                <Link href="/services" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Services</Link>
-                <Link href="/pricing" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Pricing</Link>
-                <Link href="/help" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Help</Link>
+                <Link href="/" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Beranda</Link>
+                <Link href="/services" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Layanan</Link>
+                <Link href="/pricing" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Harga</Link>
+                <Link href="/help" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Bantuan</Link>
                 
                 {isAuthenticated ? (
                   <>
                     <hr className={`my-2 transition-colors duration-500 ${isDarkTheme ? 'border-gray-700' : 'border-gray-200'}`} />
-                    <Link href="/customer/dashboard" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Dashboard</Link>
-                    <Link href="/customer/orders" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>My Orders</Link>
-                    <Link href="/customer/profile" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Profile</Link>
+                    <Link href="/customer/dashboard" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Dasbor</Link>
+                    <Link href="/customer/orders" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Pesanan Saya</Link>
+                    <Link href="/customer/profile" className={`py-2 transition-colors duration-500 ${isDarkTheme ? 'text-gray-300 hover:text-teal-400' : 'text-gray-600 hover:text-teal-500'}`} onClick={() => setMobileMenuOpen(false)}>Profil</Link>
                     <button 
                       onClick={() => {
                         useAuthStore.getState().logout()
@@ -591,19 +591,19 @@ export default function HomePage() {
                       }}
                       className="text-left text-red-600 hover:text-red-700 py-2"
                     >
-                      Logout
+                      Keluar
                     </button>
                   </>
                 ) : (
                   <div className="flex flex-col space-y-2 pt-2">
                     <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
                       <Button variant="outline" className={`w-full transition-colors duration-500 ${isDarkTheme ? 'border-teal-400 text-teal-400 hover:bg-teal-400/10' : 'border-teal-500 text-teal-600 hover:bg-teal-50'}`}>
-                        Login
+                        Masuk
                       </Button>
                     </Link>
                     <Link href="/auth/register" onClick={() => setMobileMenuOpen(false)}>
                       <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white">
-                        Sign Up
+                        Daftar
                       </Button>
                     </Link>
                   </div>
@@ -625,15 +625,15 @@ export default function HomePage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-teal-500 font-semibold mb-2">Right to Your Doorstep</p>
+            <p className="text-teal-500 font-semibold mb-2">Langsung ke Pintu Rumah Anda</p>
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              We Collect, Clean, and Deliver Your<br />
-              Laundry & Dry Cleaning
+              Kami Jemput, Cuci, dan Antarkan<br />
+              Laundry &amp; Dry Cleaning Anda
             </h2>
             <p className="text-gray-800 font-semibold max-w-3xl mx-auto">
-              At KitaLaundry, we offer a seamless laundry and dry cleaning experience tailored 
-              to your busy lifestyle. From pickup to delivery, every step is handled with 
-              professionalism and care.
+              Di KitaLaundry, kami menawarkan pengalaman laundry dan dry cleaning yang mulus sesuai 
+              gaya hidup Anda yang sibuk. Dari penjemputan hingga pengiriman, setiap langkah ditangani 
+              dengan profesionalisme dan penuh perhatian.
             </p>
           </div>
 
@@ -642,37 +642,37 @@ export default function HomePage() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* Left - Features with Icons */}
             <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Why Choose Us?</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">Mengapa Memilih Kami?</h3>
               <div className="space-y-4">
                 <div className="flex items-center space-x-4 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Truck className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-gray-800 font-medium">Quick Pickup & Delivery</span>
+                  <span className="text-gray-800 font-medium">Penjemputan & Pengiriman Cepat</span>
                 </div>
                 <div className="flex items-center space-x-4 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <CreditCard className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-gray-800 font-medium">Affordable Pricing</span>
+                  <span className="text-gray-800 font-medium">Harga Terjangkau</span>
                 </div>
                 <div className="flex items-center space-x-4 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Sparkles className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-gray-800 font-medium">Eco-Friendly Cleaning Solutions</span>
+                  <span className="text-gray-800 font-medium">Solusi Cuci Ramah Lingkungan</span>
                 </div>
                 <div className="flex items-center space-x-4 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <MapPin className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-gray-800 font-medium">Real-Time Order Tracking</span>
+                  <span className="text-gray-800 font-medium">Lacak Pesanan Real-Time</span>
                 </div>
                 <div className="flex items-center space-x-4 bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
                   <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Headphones className="w-5 h-5 text-white" />
                   </div>
-                  <span className="text-gray-800 font-medium">Dedicated Customer Support</span>
+                  <span className="text-gray-800 font-medium">Dukungan Pelanggan Terdedikasi</span>
                 </div>
               </div>
             </div>
@@ -695,24 +695,24 @@ export default function HomePage() {
                   <Sparkles className="w-8 h-8 text-white" />
                 </div>
                 
-                <h3 className="text-3xl font-bold text-white mb-4">Ready to Experience Premium Laundry Service?</h3>
+                <h3 className="text-3xl font-bold text-white mb-4">Siap Merasakan Layanan Laundry Premium?</h3>
                 
                 <p className="text-gray-200 text-lg mb-4">
-                  Join over 50,000+ satisfied customers who trust KitaLaundry with their laundry needs every day.
+                  Bergabung bersama 50.000+ pelanggan puas yang mempercayakan kebutuhan laundry mereka kepada KitaLaundry setiap hari.
                 </p>
                 
                 <ul className="space-y-2 mb-6">
                   <li className="flex items-center text-gray-200">
                     <CheckCircle className="w-5 h-5 text-teal-400 mr-2 flex-shrink-0" />
-                    Free pickup & delivery at your doorstep
+                    Penjemputan & pengiriman gratis ke depan pintu
                   </li>
                   <li className="flex items-center text-gray-200">
                     <CheckCircle className="w-5 h-5 text-teal-400 mr-2 flex-shrink-0" />
-                    24-48 hours turnaround time
+                    Waktu pengerjaan 24-48 jam
                   </li>
                   <li className="flex items-center text-gray-200">
                     <CheckCircle className="w-5 h-5 text-teal-400 mr-2 flex-shrink-0" />
-                    100% satisfaction guaranteed
+                    Garansi kepuasan 100%
                   </li>
                 </ul>
                 
@@ -724,7 +724,7 @@ export default function HomePage() {
                       onClick={handleBookNow}
                     >
                       <Truck className="w-5 h-5 mr-2" />
-                      Book New Order
+                      Pesan Sekarang
                     </Button>
                   ) : (
                     <Button 
@@ -733,13 +733,13 @@ export default function HomePage() {
                       onClick={handleBookNow}
                     >
                       <Truck className="w-5 h-5 mr-2" />
-                      Schedule Free Pickup
+                      Jadwalkan Penjemputan Gratis
                     </Button>
                   )}
                   <Link href="https://wa.me/919876543210" target="_blank">
                     <Button size="lg" className="bg-green-500 hover:bg-green-600 text-white w-full sm:w-auto shadow-lg">
                       <Phone className="w-5 h-5 mr-2" />
-                      Chat on WhatsApp
+                      Chat di WhatsApp
                     </Button>
                   </Link>
                 </div>
@@ -753,12 +753,12 @@ export default function HomePage() {
       <section id="services" className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <p className="text-teal-500 font-semibold mb-2">Premium Laundry And Dry Clean Service in Medan</p>
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Quality Cleaning with Great Savings!</h2>
+            <p className="text-teal-500 font-semibold mb-2">Layanan Laundry dan Dry Clean Premium di Medan</p>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Kualitas Bersih dengan Harga Hemat!</h2>
             <p className="text-gray-800 font-semibold max-w-4xl mx-auto">
-              At KitaLaundry, we take care of all your clothing needs — from everyday home wear to formal office attire — ensuring 
-              each piece is cleaned with expert care. Our services go beyond garments, offering shoe cleaning, curtain cleaning, 
-              carpet cleaning, and more to provide complete home care solutions.
+              Di KitaLaundry, kami merawat semua kebutuhan pakaian Anda — dari pakaian sehari-hari hingga setelan formal kantor — memastikan 
+              setiap helai dicuci dengan perawatan ahli. Layanan kami melampaui pakaian, menawarkan cuci sepatu, cuci gorden, 
+              cuci karpet, dan lainnya untuk solusi perawatan rumah yang lengkap.
             </p>
           </div>
 
@@ -785,7 +785,7 @@ export default function HomePage() {
               )}
               <Link href="https://wa.me/919876543210" target="_blank">
                 <Button variant="outline" className="border-teal-500 text-teal-500 hover:bg-teal-50">
-                  Chat on WhatsApp
+                  Chat di WhatsApp
                 </Button>
               </Link>
             </div>
@@ -797,8 +797,8 @@ export default function HomePage() {
       <section className="py-16 bg-gradient-to-b from-cyan-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-teal-500 font-semibold mb-2">Best Dry Clean And Laundry Service in Medan</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-800">What our Customer have to say...</h2>
+            <p className="text-teal-500 font-semibold mb-2">Layanan Dry Clean dan Laundry Terbaik di Medan</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Apa yang Pelanggan Kami Katakan...</h2>
           </div>
 
           <Suspense fallback={<Preloader />}>
@@ -825,19 +825,19 @@ export default function HomePage() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div className="group">
                   <div className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">50K+</div>
-                  <div className="text-teal-100">Happy Customers</div>
+                  <div className="text-teal-100">Pelanggan Puas</div>
                 </div>
                 <div className="group">
                   <div className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">20+</div>
-                  <div className="text-teal-100">Cities Covered</div>
+                  <div className="text-teal-100">Kota Terlayani</div>
                 </div>
                 <div className="group">
                   <div className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">1M+</div>
-                  <div className="text-teal-100">Orders Completed</div>
+                  <div className="text-teal-100">Pesanan Selesai</div>
                 </div>
                 <div className="group">
                   <div className="text-4xl md:text-5xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">4.9</div>
-                  <div className="text-teal-100">Average Rating</div>
+                  <div className="text-teal-100">Rating Rata-rata</div>
                 </div>
               </div>
             </div>
@@ -875,9 +875,9 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Ready to Experience Premium Care?</h2>
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">Siap Merasakan Perawatan Premium?</h2>
           <p className="text-xl text-gray-800 font-semibold mb-8 max-w-2xl mx-auto">
-            Join thousands of satisfied customers who trust KitaLaundry for their laundry and dry cleaning needs.
+            Bergabunglah bersama ribuan pelanggan puas yang mempercayakan laundry dan dry cleaning mereka kepada KitaLaundry.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             {isAuthenticated ? (
@@ -898,7 +898,7 @@ export default function HomePage() {
             <Link href="tel:+919876543210">
               <Button size="lg" variant="outline" className="border-2 border-teal-500 text-teal-600 hover:bg-teal-50">
                 <Phone className="w-5 h-5 mr-2" />
-                Call Us Now
+                Hubungi Kami
               </Button>
             </Link>
           </div>
@@ -918,7 +918,7 @@ export default function HomePage() {
                 </div>
                 <span className="text-2xl font-bold">KitaLaundry</span>
               </div>
-              <p className="text-gray-400 mb-4">Premium laundry and dry cleaning services at your doorstep across Medan.</p>
+              <p className="text-gray-400 mb-4">Layanan laundry dan dry cleaning premium ke depan pintu Anda di seluruh Medan.</p>
               <div className="flex space-x-4">
                 <div className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-teal-500 transition-colors cursor-pointer">
                   <Facebook className="w-5 h-5" />
@@ -943,17 +943,17 @@ export default function HomePage() {
             </div>
             
             <div>
-              <h3 className="text-lg font-semibold mb-4">Company</h3>
+              <h3 className="text-lg font-semibold mb-4">Perusahaan</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="#" className="hover:text-white transition-colors">About Us</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Careers</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Contact</Link></li>
-                <li><Link href="#" className="hover:text-white transition-colors">Help Center</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Tentang Kami</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Karir</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Kontak</Link></li>
+                <li><Link href="#" className="hover:text-white transition-colors">Pusat Bantuan</Link></li>
               </ul>
             </div>
             
             <div>
-              <h3 className="text-lg font-semibold mb-4">Contact Info</h3>
+              <h3 className="text-lg font-semibold mb-4">Info Kontak</h3>
               <div className="space-y-3 text-gray-400">
                 <div className="flex items-center space-x-2">
                   <Phone className="w-4 h-4" />
@@ -965,14 +965,14 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center space-x-2">
                   <MapPin className="w-4 h-4" />
-                  <span>Available in {stats ? `${stats.overview.totalCities}+` : '20+'} Cities</span>
+                  <span>Tersedia di {stats ? `${stats.overview.totalCities}+` : '20+'} Kota</span>
                 </div>
               </div>
             </div>
           </div>
           
           <div className="border-t border-gray-800 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 KitaLaundry. All rights reserved. | Privacy Policy | Terms of Service</p>
+            <p>&copy; 2024 KitaLaundry. Hak cipta dilindungi. | Kebijakan Privasi | Syarat Layanan</p>
           </div>
         </div>
       </footer>

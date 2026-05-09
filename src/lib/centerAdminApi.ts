@@ -329,5 +329,6 @@ class CenterAdminAPI {
 }
 
 // Export both names for backward compatibility
-export const centerAdminApi = new CenterAdminAPI()
+import { MockCenterAdminAPI } from './mockCenterAdminApi'
+export const centerAdminApi = new MockCenterAdminAPI() as unknown as CenterAdminAPI
 export const branchApi = centerAdminApi

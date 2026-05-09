@@ -22,12 +22,12 @@ import {
 } from 'lucide-react'
 
 const navigation = [
-  { name: 'Dashboard', href: '/customer/dashboard', icon: LayoutDashboard },
-  { name: 'My Orders', href: '/customer/orders', icon: ShoppingBag },
-  { name: 'New Order', href: '/customer/orders/new', icon: Plus },
-  { name: 'Addresses', href: '/customer/addresses', icon: MapPin },
-  { name: 'Support', href: '/customer/support', icon: Headphones },
-  { name: 'Profile', href: '/customer/profile', icon: User },
+  { name: 'Beranda', href: '/customer/dashboard', icon: LayoutDashboard },
+  { name: 'Pesanan Saya', href: '/customer/orders', icon: ShoppingBag },
+  { name: 'Pesanan Baru', href: '/customer/orders/new', icon: Plus },
+  { name: 'Alamat', href: '/customer/addresses', icon: MapPin },
+  { name: 'Bantuan', href: '/customer/support', icon: Headphones },
+  { name: 'Profil', href: '/customer/profile', icon: User },
 ]
 
 interface CustomerSidebarProps {
@@ -175,7 +175,7 @@ export default function CustomerSidebar({
           }`}
         >
           <Home className={`flex-shrink-0 w-5 h-5 ${collapsed ? '' : 'mr-3'} text-gray-400 group-hover:text-teal-500`} />
-          {!collapsed && 'Back to Home'}
+          {!collapsed && 'Kembali ke Beranda'}
         </Link>
         <button
           onClick={handleLogout}
@@ -184,7 +184,7 @@ export default function CustomerSidebar({
           }`}
         >
           <LogOut className={`flex-shrink-0 w-5 h-5 ${collapsed ? '' : 'mr-3'} text-gray-400 group-hover:text-red-500`} />
-          {!collapsed && 'Sign Out'}
+          {!collapsed && 'Keluar'}
         </button>
       </div>
     </div>

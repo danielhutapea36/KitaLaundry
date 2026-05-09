@@ -270,8 +270,8 @@ export default function BranchStaffPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Worker Management</h1>
-          <p className="text-gray-600">{branchInfo?.name || 'Your Branch'} - Manage your team</p>
+          <h1 className="text-3xl font-bold text-gray-800">Manajemen Pekerja</h1>
+          <p className="text-gray-600">{branchInfo?.name || 'Cabang Anda'} - Kelola tim Anda</p>
         </div>
         <div className="flex gap-2">
           {canExport && (
@@ -282,7 +282,7 @@ export default function BranchStaffPage() {
           )}
           <Button variant="outline" onClick={fetchStaff}>
             <RefreshCw className="w-4 h-4 mr-2" />
-            Refresh
+            Perbarui
           </Button>
           {canCreate && (
             <Button 
@@ -293,7 +293,7 @@ export default function BranchStaffPage() {
               className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
             >
               <Plus className="w-4 h-4 mr-2" />
-              Add Worker
+              Tambah Pekerja
             </Button>
           )}
         </div>
@@ -304,7 +304,7 @@ export default function BranchStaffPage() {
         <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-blue-100">Total Workers</p>
+              <p className="text-sm text-blue-100">Total Pekerja</p>
               <p className="text-2xl font-bold text-white">{staff.length}</p>
             </div>
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -316,7 +316,7 @@ export default function BranchStaffPage() {
         <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-green-100">Active</p>
+              <p className="text-sm text-green-100">Aktif</p>
               <p className="text-2xl font-bold text-white">{activeCount}</p>
             </div>
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -328,7 +328,7 @@ export default function BranchStaffPage() {
         <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-orange-100">Orders Today</p>
+              <p className="text-sm text-orange-100">Pesanan Hari Ini</p>
               <p className="text-2xl font-bold text-white">{totalOrdersToday}</p>
             </div>
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -340,7 +340,7 @@ export default function BranchStaffPage() {
         <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl shadow-lg p-6 hover:shadow-xl transition-all hover:-translate-y-1">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-purple-100">Avg Efficiency</p>
+              <p className="text-sm text-purple-100">Rata-rata Efisiensi</p>
               <p className="text-2xl font-bold text-white">{avgEfficiency}%</p>
             </div>
             <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
@@ -357,7 +357,7 @@ export default function BranchStaffPage() {
             <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             <input
               type="text"
-              placeholder="Search by name or email..."
+              placeholder="Cari berdasarkan nama atau email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -368,7 +368,7 @@ export default function BranchStaffPage() {
             onChange={(e) => setTypeFilter(e.target.value)}
             className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            <option value="all">All Types</option>
+            <option value="all">Semua Jenis</option>
             {workerTypes.map(type => (
               <option key={type.value} value={type.value}>{type.label}</option>
             ))}
@@ -378,9 +378,9 @@ export default function BranchStaffPage() {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
           >
-            <option value="all">All Status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
+            <option value="all">Semua Status</option>
+            <option value="active">Aktif</option>
+            <option value="inactive">Tidak Aktif</option>
           </select>
         </div>
       </div>
@@ -389,17 +389,17 @@ export default function BranchStaffPage() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-800">
-            Workers ({filteredStaff.length})
+            Pekerja ({filteredStaff.length})
           </h2>
         </div>
         
         {filteredStaff.length === 0 ? (
           <div className="p-12 text-center text-gray-500">
             <Users className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <p>No workers found</p>
+            <p>Tidak ada pekerja ditemukan</p>
             <Button onClick={() => setShowAddModal(true)} className="mt-4">
               <Plus className="w-4 h-4 mr-2" />
-              Add First Worker
+              Tambah Pekerja Pertama
             </Button>
           </div>
         ) : (
@@ -417,7 +417,7 @@ export default function BranchStaffPage() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-lg font-semibold text-gray-800">{member.name}</h3>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${member.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                          {member.isActive ? 'Active' : 'Inactive'}
+                          {member.isActive ? 'Aktif' : 'Tidak Aktif'}
                         </span>
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${WORKER_TYPE_COLORS[member.workerType || 'general']}`}>
                           {getWorkerTypeLabel(member.workerType || 'general')}
@@ -433,7 +433,7 @@ export default function BranchStaffPage() {
                     <div className="flex gap-3 text-center">
                       <div className="bg-blue-50 px-3 py-2 rounded-lg">
                         <p className="text-lg font-bold text-blue-600">{member.stats.ordersToday}</p>
-                        <p className="text-xs text-gray-600">Today</p>
+                        <p className="text-xs text-gray-600">Hari Ini</p>
                       </div>
                       <div className="bg-gray-50 px-3 py-2 rounded-lg">
                         <p className="text-lg font-bold text-gray-700">{member.stats.totalOrders}</p>
@@ -441,7 +441,7 @@ export default function BranchStaffPage() {
                       </div>
                       <div className="bg-purple-50 px-3 py-2 rounded-lg">
                         <p className="text-lg font-bold text-purple-600">{member.stats.efficiency}%</p>
-                        <p className="text-xs text-gray-600">Efficiency</p>
+                        <p className="text-xs text-gray-600">Efisiensi</p>
                       </div>
                     </div>
 
@@ -488,7 +488,7 @@ export default function BranchStaffPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">Add New Worker</h3>
+              <h3 className="text-lg font-semibold text-gray-800">Tambah Pekerja Baru</h3>
               <button onClick={() => setShowAddModal(false)} className="text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
               </button>
@@ -496,13 +496,13 @@ export default function BranchStaffPage() {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nama *</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                  placeholder="Worker name"
+                  placeholder="Nama pekerja"
                 />
               </div>
               <div>
@@ -516,7 +516,7 @@ export default function BranchStaffPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Telepon *</label>
                 <input
                   type="tel"
                   value={formData.phone}
@@ -526,7 +526,7 @@ export default function BranchStaffPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Worker Type *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Pekerja *</label>
                 <select
                   value={formData.workerType}
                   onChange={(e) => setFormData({ ...formData, workerType: e.target.value })}
@@ -538,7 +538,7 @@ export default function BranchStaffPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Password (optional)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Kata Sandi (opsional)</label>
                 <input
                   type="password"
                   value={formData.password}
@@ -552,9 +552,9 @@ export default function BranchStaffPage() {
             <div className="flex gap-3 mt-6">
               <Button onClick={handleAddWorker} disabled={saving} className="flex-1 bg-green-500 hover:bg-green-600">
                 {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                Add Worker
+                Tambah Pekerja
               </Button>
-              <Button variant="outline" onClick={() => setShowAddModal(false)} className="flex-1">Cancel</Button>
+              <Button variant="outline" onClick={() => setShowAddModal(false)} className="flex-1">Batal</Button>
             </div>
           </div>
         </div>
@@ -565,7 +565,7 @@ export default function BranchStaffPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-800">Edit Worker</h3>
+              <h3 className="text-lg font-semibold text-gray-800">Ubah Data Pekerja</h3>
               <button onClick={() => setShowEditModal(false)} className="text-gray-400 hover:text-gray-600">
                 <X className="w-5 h-5" />
               </button>
@@ -573,7 +573,7 @@ export default function BranchStaffPage() {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Nama</label>
                 <input
                   type="text"
                   value={formData.name}
@@ -582,7 +582,7 @@ export default function BranchStaffPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email (cannot change)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Email (tidak dapat diubah)</label>
                 <input
                   type="email"
                   value={formData.email}
@@ -591,7 +591,7 @@ export default function BranchStaffPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Telepon</label>
                 <input
                   type="tel"
                   value={formData.phone}
@@ -600,7 +600,7 @@ export default function BranchStaffPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Worker Type</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Jenis Pekerja</label>
                 <select
                   value={formData.workerType}
                   onChange={(e) => setFormData({ ...formData, workerType: e.target.value })}
@@ -616,9 +616,9 @@ export default function BranchStaffPage() {
             <div className="flex gap-3 mt-6">
               <Button onClick={handleEditWorker} disabled={saving} className="flex-1 bg-green-500 hover:bg-green-600">
                 {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-                Save Changes
+                Simpan Perubahan
               </Button>
-              <Button variant="outline" onClick={() => setShowEditModal(false)} className="flex-1">Cancel</Button>
+              <Button variant="outline" onClick={() => setShowEditModal(false)} className="flex-1">Batal</Button>
             </div>
           </div>
         </div>
@@ -633,16 +633,16 @@ export default function BranchStaffPage() {
                 <Trash2 className="w-6 h-6 text-red-600" />
               </div>
             </div>
-            <h3 className="text-lg font-semibold text-gray-800 text-center mb-2">Delete Worker</h3>
+            <h3 className="text-lg font-semibold text-gray-800 text-center mb-2">Hapus Pekerja</h3>
             <p className="text-gray-600 text-center mb-6">
-              Are you sure you want to delete <span className="font-semibold">{selectedWorker.name}</span>? This action cannot be undone.
+              Apakah Anda yakin ingin menghapus <span className="font-semibold">{selectedWorker.name}</span>? Tindakan ini tidak dapat dibatalkan.
             </p>
             <div className="flex gap-3">
               <Button onClick={handleDeleteWorker} disabled={saving} className="flex-1 bg-red-500 hover:bg-red-600">
                 {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Trash2 className="w-4 h-4 mr-2" />}
-                Delete
+                Hapus
               </Button>
-              <Button variant="outline" onClick={() => setShowDeleteModal(false)} className="flex-1" disabled={saving}>Cancel</Button>
+              <Button variant="outline" onClick={() => setShowDeleteModal(false)} className="flex-1" disabled={saving}>Batal</Button>
             </div>
           </div>
         </div>

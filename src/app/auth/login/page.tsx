@@ -31,7 +31,7 @@ export default function LoginPage() {
       const { token, user } = response.data.data
 
       setAuth(user, token)
-      toast.success('Login successful!')
+      toast.success('Login berhasil!')
 
       if (redirectUrl && user.role === 'customer') {
         setTimeout(() => {
@@ -53,10 +53,10 @@ export default function LoginPage() {
         router.push(redirectPath)
       }, 100)
     } catch (error: any) {
-      const errorMessage = error.response?.data?.message || 'Login failed'
+      const errorMessage = error.response?.data?.message || 'Login gagal'
       
       if (error.response?.data?.requiresEmailVerification) {
-        toast.error('Please verify your email address before logging in')
+        toast.error('Silakan verifikasi alamat email Anda sebelum masuk')
         router.push(`/auth/verify-email?email=${encodeURIComponent(formData.email)}`)
         return
       }
@@ -83,7 +83,7 @@ export default function LoginPage() {
           className="inline-flex items-center px-4 py-2 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm text-teal-600 hover:text-teal-700 hover:bg-white transition-all duration-200"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Home
+          Kembali ke Beranda
         </Link>
       </div>
 
@@ -100,10 +100,10 @@ export default function LoginPage() {
               <span className="text-4xl font-bold text-gray-800" style={{ fontFamily: 'Poppins, sans-serif' }}>KitaLaundry</span>
             </div>
             <h1 className="text-4xl xl:text-5xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              Welcome Back!
+              Selamat Datang Kembali!
             </h1>
             <p className="text-xl text-gray-600" style={{ fontSize: '15px' }}>
-              Premium laundry service at your doorstep. Sign in to manage your orders and enjoy hassle-free laundry.
+              Layanan laundry premium ke depan pintu Anda. Masuk untuk mengelola pesanan dan nikmati laundry tanpa repot.
             </p>
           </div>
 
@@ -114,8 +114,8 @@ export default function LoginPage() {
                 <Truck className="w-6 h-6 text-teal-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Free Pickup & Delivery</h3>
-                <p className="text-gray-600 text-sm">We pick up and deliver your clothes right at your doorstep</p>
+                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Penjemputan & Pengiriman Gratis</h3>
+                <p className="text-gray-600 text-sm">Kami menjemput dan mengantarkan pakaian Anda langsung ke depan pintu</p>
               </div>
             </div>
 
@@ -124,8 +124,8 @@ export default function LoginPage() {
                 <Clock className="w-6 h-6 text-cyan-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>24-48 Hour Turnaround</h3>
-                <p className="text-gray-600 text-sm">Quick service with express options available</p>
+                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Selesai 24-48 Jam</h3>
+                <p className="text-gray-600 text-sm">Layanan cepat dengan opsi ekspres tersedia</p>
               </div>
             </div>
 
@@ -134,8 +134,8 @@ export default function LoginPage() {
                 <Shield className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Quality Guaranteed</h3>
-                <p className="text-gray-600 text-sm">Professional care for all types of fabrics</p>
+                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Kualitas Terjamin</h3>
+                <p className="text-gray-600 text-sm">Perawatan profesional untuk semua jenis kain</p>
               </div>
             </div>
 
@@ -144,8 +144,8 @@ export default function LoginPage() {
                 <CheckCircle className="w-6 h-6 text-green-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Real-time Tracking</h3>
-                <p className="text-gray-600 text-sm">Track your order status from pickup to delivery</p>
+                <h3 className="font-semibold text-gray-800 mb-1" style={{ fontFamily: 'Poppins, sans-serif' }}>Lacak Pesanan Real-time</h3>
+                <p className="text-gray-600 text-sm">Pantau status pesanan dari penjemputan hingga pengiriman</p>
               </div>
             </div>
           </div>
@@ -162,20 +162,20 @@ export default function LoginPage() {
                 </div>
                 <span className="text-3xl font-bold text-gray-800">KitaLaundry</span>
               </div>
-              <h2 className="text-2xl font-bold text-gray-800">Welcome Back!</h2>
+              <h2 className="text-2xl font-bold text-gray-800">Selamat Datang Kembali!</h2>
             </div>
 
             {/* Login Form Card */}
             <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
               <div className="hidden lg:block mb-6">
-                <h2 className="text-2xl font-bold text-gray-800" style={{ fontFamily: 'Poppins, sans-serif' }}>Sign In</h2>
-                <p className="text-gray-600 mt-1" style={{ fontSize: '15px' }}>Access your dashboard</p>
+                <h2 className="text-2xl font-bold text-gray-800" style={{ fontFamily: 'Poppins, sans-serif' }}>Masuk</h2>
+                <p className="text-gray-600 mt-1" style={{ fontSize: '15px' }}>Akses dasbor Anda</p>
               </div>
 
               <form className="space-y-5" onSubmit={handleSubmit}>
                 <div>
                   <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address
+                    Alamat Email
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -188,7 +188,7 @@ export default function LoginPage() {
                       autoComplete="email"
                       required
                       className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 bg-gray-50"
-                      placeholder="Enter your email"
+                      placeholder="Masukkan email Anda"
                       value={formData.email}
                       onChange={handleChange}
                     />
@@ -210,7 +210,7 @@ export default function LoginPage() {
                       autoComplete="current-password"
                       required
                       className="block w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 bg-gray-50"
-                      placeholder="Enter your password"
+                      placeholder="Masukkan kata sandi Anda"
                       value={formData.password}
                       onChange={handleChange}
                     />
@@ -237,11 +237,11 @@ export default function LoginPage() {
                       className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-300 rounded"
                     />
                     <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
-                      Remember me
+                      Ingat saya
                     </label>
                   </div>
                   <Link href="/auth/forgot-password" className="text-sm text-teal-600 hover:text-teal-500 font-medium">
-                    Forgot password?
+                    Lupa kata sandi?
                   </Link>
                 </div>
 
@@ -253,19 +253,19 @@ export default function LoginPage() {
                   {isLoading ? (
                     <div className="flex items-center justify-center">
                       <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                      Signing in...
+                      Sedang masuk...
                     </div>
                   ) : (
-                    'Sign In'
+                    'Masuk'
                   )}
                 </Button>
               </form>
 
               <div className="mt-6 text-center">
                 <p className="text-gray-600" style={{ fontSize: '15px' }}>
-                  Don't have an account?{' '}
+                  Belum punya akun?{' '}
                   <Link href="/auth/register" className="font-medium text-teal-600 hover:text-teal-500 transition-colors">
-                    Create one now
+                    Daftar sekarang
                   </Link>
                 </p>
               </div>

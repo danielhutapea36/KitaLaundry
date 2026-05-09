@@ -24,10 +24,10 @@ import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
 
 const settingsTabs = [
-  { id: 'general', label: 'General', icon: Settings },
-  { id: 'operating', label: 'Operating Hours', icon: Clock },
-  { id: 'notifications', label: 'Notifications', icon: Bell },
-  { id: 'profile', label: 'Profile', icon: User }
+  { id: 'general', label: 'Umum', icon: Settings },
+  { id: 'operating', label: 'Jam Operasional', icon: Clock },
+  { id: 'notifications', label: 'Notifikasi', icon: Bell },
+  { id: 'profile', label: 'Profil', icon: User }
 ]
 
 interface BranchSettings {
@@ -143,13 +143,13 @@ export default function BranchSettingsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Branch Settings</h1>
-          <p className="text-gray-600">Manage your branch configuration and preferences</p>
+          <h1 className="text-2xl font-bold text-gray-900">Pengaturan Cabang</h1>
+          <p className="text-gray-600">Kelola konfigurasi dan preferensi cabang Anda</p>
         </div>
         <div className="flex items-center space-x-3">
           <Button variant="outline" onClick={fetchSettings} disabled={loading}>
             <RefreshCw className={`w-4 h-4 mr-2 ${loading ? 'animate-spin' : ''}`} />
-            Refresh
+            Perbarui
           </Button>
           <Button 
             onClick={handleSaveSettings} 
@@ -157,7 +157,7 @@ export default function BranchSettingsPage() {
             className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700"
           >
             {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
-            Save Changes
+            Simpan Perubahan
           </Button>
         </div>
       </div>
@@ -189,7 +189,7 @@ export default function BranchSettingsPage() {
           {/* Branch Status Card */}
           {data?.branch && (
             <div className="mt-4 bg-white rounded-xl shadow-sm border border-gray-200 p-4">
-              <h3 className="text-sm font-medium text-gray-800 mb-3">Branch Status</h3>
+              <h3 className="text-sm font-medium text-gray-800 mb-3">Status Cabang</h3>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-gray-500">Status</span>
@@ -199,9 +199,9 @@ export default function BranchSettingsPage() {
                       : 'bg-gray-100 text-gray-700'
                   }`}>
                     {data.branch.status === 'active' ? (
-                      <><CheckCircle className="w-3 h-3 mr-1" /> Active</>
+                      <><CheckCircle className="w-3 h-3 mr-1" />Aktif</>
                     ) : (
-                      <><AlertTriangle className="w-3 h-3 mr-1" /> Inactive</>
+                      <><AlertTriangle className="w-3 h-3 mr-1" />Tidak Aktif</>
                     )}
                   </span>
                 </div>
@@ -241,8 +241,8 @@ function GeneralSettings({ branch, settings, setSettings }: any) {
   return (
     <div className="p-6">
       <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">General Settings</h2>
-        <p className="text-gray-600 text-sm">Configure branch operations and order handling</p>
+        <h2 className="text-lg font-semibold text-gray-900">Pengaturan Umum</h2>
+        <p className="text-gray-600 text-sm">Konfigurasi operasional cabang dan penanganan pesanan</p>
       </div>
 
       {/* Branch Info */}
@@ -250,15 +250,15 @@ function GeneralSettings({ branch, settings, setSettings }: any) {
         <div className="mb-8 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
           <h3 className="text-sm font-medium text-gray-800 mb-3 flex items-center">
             <Building className="w-4 h-4 mr-2 text-green-600" />
-            Branch Information
+            Informasi Cabang
           </h3>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-gray-500">Name:</span>
+              <span className="text-gray-500">Nama:</span>
               <span className="ml-2 font-medium text-gray-800">{branch.name}</span>
             </div>
             <div>
-              <span className="text-gray-500">Code:</span>
+              <span className="text-gray-500">Kode:</span>
               <span className="ml-2 font-medium text-gray-800">{branch.code}</span>
             </div>
             {branch.address && (
@@ -277,13 +277,13 @@ function GeneralSettings({ branch, settings, setSettings }: any) {
 
       {/* Order Settings */}
       <div className="space-y-6">
-        <h3 className="text-sm font-medium text-gray-800">Order Management</h3>
+        <h3 className="text-sm font-medium text-gray-800">Manajemen Pesanan</h3>
         
         <div className="space-y-4">
           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
             <div>
-              <h4 className="text-sm font-medium text-gray-900">Auto-Assign Orders</h4>
-              <p className="text-xs text-gray-500">Automatically assign new orders to available staff</p>
+              <h4 className="text-sm font-medium text-gray-900">Tugaskan Pesanan Otomatis</h4>
+              <p className="text-xs text-gray-500">Otomatis tugaskan pesanan baru ke staf yang tersedia</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -298,8 +298,8 @@ function GeneralSettings({ branch, settings, setSettings }: any) {
 
           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
             <div>
-              <h4 className="text-sm font-medium text-gray-900">Express Order Priority</h4>
-              <p className="text-xs text-gray-500">Prioritize express orders in the queue</p>
+              <h4 className="text-sm font-medium text-gray-900">Prioritas Pesanan Ekspres</h4>
+              <p className="text-xs text-gray-500">Prioritaskan pesanan ekspres dalam antrean</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input
@@ -315,8 +315,8 @@ function GeneralSettings({ branch, settings, setSettings }: any) {
           <div className="p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center justify-between mb-2">
               <div>
-                <h4 className="text-sm font-medium text-gray-900">Max Orders Per Staff</h4>
-                <p className="text-xs text-gray-500">Maximum concurrent orders per staff member</p>
+                <h4 className="text-sm font-medium text-gray-900">Maks. Pesanan per Staf</h4>
+                <p className="text-xs text-gray-500">Jumlah pesanan bersamaan maksimum per anggota staf</p>
               </div>
             </div>
             <input
@@ -339,13 +339,13 @@ function GeneralSettings({ branch, settings, setSettings }: any) {
 function OperatingHoursSettings({ operatingHours, setOperatingHours }: any) {
   const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
   const dayLabels: Record<string, string> = {
-    monday: 'Monday',
-    tuesday: 'Tuesday',
-    wednesday: 'Wednesday',
-    thursday: 'Thursday',
-    friday: 'Friday',
-    saturday: 'Saturday',
-    sunday: 'Sunday'
+    monday: 'Senin',
+    tuesday: 'Selasa',
+    wednesday: 'Rabu',
+    thursday: 'Kamis',
+    friday: 'Jumat',
+    saturday: 'Sabtu',
+    sunday: 'Minggu'
   }
 
   const updateDay = (day: string, field: string, value: any) => {
@@ -358,8 +358,8 @@ function OperatingHoursSettings({ operatingHours, setOperatingHours }: any) {
   return (
     <div className="p-6">
       <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">Operating Hours</h2>
-        <p className="text-gray-600 text-sm">Set your branch's working hours for each day</p>
+        <h2 className="text-lg font-semibold text-gray-900">Jam Operasional</h2>
+        <p className="text-gray-600 text-sm">Atur jam kerja cabang Anda untuk setiap hari</p>
       </div>
 
       <div className="space-y-3">
@@ -392,7 +392,7 @@ function OperatingHoursSettings({ operatingHours, setOperatingHours }: any) {
             {operatingHours[day]?.isOpen ? (
               <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-2">
-                  <label className="text-xs text-gray-500">Open</label>
+                  <label className="text-xs text-gray-500">Buka</label>
                   <input
                     type="time"
                     value={operatingHours[day]?.open || '08:00'}
@@ -402,7 +402,7 @@ function OperatingHoursSettings({ operatingHours, setOperatingHours }: any) {
                 </div>
                 <span className="text-gray-400">-</span>
                 <div className="flex items-center space-x-2">
-                  <label className="text-xs text-gray-500">Close</label>
+                  <label className="text-xs text-gray-500">Tutup</label>
                   <input
                     type="time"
                     value={operatingHours[day]?.close || '20:00'}
@@ -412,7 +412,7 @@ function OperatingHoursSettings({ operatingHours, setOperatingHours }: any) {
                 </div>
               </div>
             ) : (
-              <span className="text-sm text-gray-400 italic">Closed</span>
+              <span className="text-sm text-gray-400 italic">Tutup</span>
             )}
           </div>
         ))}
@@ -431,7 +431,7 @@ function OperatingHoursSettings({ operatingHours, setOperatingHours }: any) {
             setOperatingHours(allOpen)
           }}
         >
-          Open All Days
+          Buka Semua Hari
         </Button>
         <Button
           variant="outline"
@@ -447,7 +447,7 @@ function OperatingHoursSettings({ operatingHours, setOperatingHours }: any) {
             setOperatingHours(weekdays)
           }}
         >
-          Weekdays Only
+          Hari Kerja Saja
         </Button>
       </div>
     </div>
@@ -459,20 +459,20 @@ function NotificationSettings({ settings, setSettings }: any) {
   const notifications = [
     { 
       key: 'notifyOnNewOrder', 
-      label: 'New Order Alerts', 
-      desc: 'Get notified when a new order is assigned to your branch',
+      label: 'Notifikasi Pesanan Baru', 
+      desc: 'Dapatkan notifikasi saat ada pesanan baru ditugaskan ke cabang Anda',
       icon: Bell
     },
     { 
       key: 'notifyOnStatusChange', 
-      label: 'Status Change Alerts', 
-      desc: 'Get notified when order status changes',
+      label: 'Notifikasi Perubahan Status', 
+      desc: 'Dapatkan notifikasi saat status pesanan berubah',
       icon: RefreshCw
     },
     { 
       key: 'notifyOnLowStaff', 
-      label: 'Low Staff Alerts', 
-      desc: 'Get notified when staff availability is low',
+      label: 'Notifikasi Staf Kurang', 
+      desc: 'Dapatkan notifikasi saat ketersediaan staf rendah',
       icon: AlertTriangle
     }
   ]
@@ -480,8 +480,8 @@ function NotificationSettings({ settings, setSettings }: any) {
   return (
     <div className="p-6">
       <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">Notification Settings</h2>
-        <p className="text-gray-600 text-sm">Configure how you receive alerts and notifications</p>
+        <h2 className="text-lg font-semibold text-gray-900">Pengaturan Notifikasi</h2>
+        <p className="text-gray-600 text-sm">Atur cara Anda menerima peringatan dan notifikasi</p>
       </div>
 
       <div className="space-y-4">
@@ -514,14 +514,14 @@ function NotificationSettings({ settings, setSettings }: any) {
 
       {/* Email Preferences */}
       <div className="mt-8">
-        <h3 className="text-sm font-medium text-gray-800 mb-4">Email Preferences</h3>
+        <h3 className="text-sm font-medium text-gray-800 mb-4">Preferensi Email</h3>
         <div className="space-y-3">
           <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
             <div className="flex items-center space-x-3">
               <Mail className="w-5 h-5 text-gray-400" />
               <div>
-                <h4 className="text-sm font-medium text-gray-900">Daily Summary</h4>
-                <p className="text-xs text-gray-500">Receive a daily summary of branch operations</p>
+                <h4 className="text-sm font-medium text-gray-900">Ringkasan Harian</h4>
+                <p className="text-xs text-gray-500">Terima ringkasan harian operasional cabang</p>
               </div>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -533,8 +533,8 @@ function NotificationSettings({ settings, setSettings }: any) {
             <div className="flex items-center space-x-3">
               <Calendar className="w-5 h-5 text-gray-400" />
               <div>
-                <h4 className="text-sm font-medium text-gray-900">Weekly Report</h4>
-                <p className="text-xs text-gray-500">Receive weekly performance reports</p>
+                <h4 className="text-sm font-medium text-gray-900">Laporan Mingguan</h4>
+                <p className="text-xs text-gray-500">Terima laporan performa mingguan</p>
               </div>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
@@ -559,8 +559,8 @@ function ProfileSettings({ user, branch }: any) {
   return (
     <div className="p-6">
       <div className="mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">Profile Settings</h2>
-        <p className="text-gray-600 text-sm">View and update your profile information</p>
+        <h2 className="text-lg font-semibold text-gray-900">Pengaturan Profil</h2>
+        <p className="text-gray-600 text-sm">Lihat dan perbarui informasi profil Anda</p>
       </div>
 
       {/* Profile Card */}
@@ -574,7 +574,7 @@ function ProfileSettings({ user, branch }: any) {
             <p className="text-green-100">{branch?.name || 'Branch'}</p>
             <div className="flex items-center mt-1">
               <Shield className="w-4 h-4 mr-1" />
-              <span className="text-sm text-green-100">Center Admin</span>
+              <span className="text-sm text-green-100">Admin Pusat</span>
             </div>
           </div>
         </div>
@@ -584,7 +584,7 @@ function ProfileSettings({ user, branch }: any) {
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Nama Lengkap</label>
             <input
               type="text"
               value={profileData.name}
@@ -593,7 +593,7 @@ function ProfileSettings({ user, branch }: any) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Alamat Email</label>
             <input
               type="email"
               value={profileData.email}
@@ -602,7 +602,7 @@ function ProfileSettings({ user, branch }: any) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Nomor Telepon</label>
             <input
               type="tel"
               value={profileData.phone}
@@ -611,10 +611,10 @@ function ProfileSettings({ user, branch }: any) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Role</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Peran</label>
             <input
               type="text"
-              value="Center Admin"
+              value="Admin Pusat"
               disabled
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-50 text-gray-500"
             />
@@ -624,14 +624,14 @@ function ProfileSettings({ user, branch }: any) {
         {/* Branch Assignment */}
         {branch && (
           <div className="p-4 bg-gray-50 rounded-lg">
-            <h4 className="text-sm font-medium text-gray-800 mb-3">Assigned Branch</h4>
+            <h4 className="text-sm font-medium text-gray-800 mb-3">Cabang yang Ditugaskan</h4>
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
                 <Building className="w-5 h-5 text-white" />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900">{branch.name}</p>
-                <p className="text-xs text-gray-500">Code: {branch.code}</p>
+                <p className="text-xs text-gray-500">Kode: {branch.code}</p>
               </div>
             </div>
           </div>
@@ -639,14 +639,14 @@ function ProfileSettings({ user, branch }: any) {
 
         {/* Security Section */}
         <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-sm font-medium text-gray-800 mb-4">Security</h3>
+          <h3 className="text-sm font-medium text-gray-800 mb-4">Keamanan</h3>
           <div className="space-y-3">
             <button className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left">
               <div className="flex items-center space-x-3">
                 <Shield className="w-5 h-5 text-gray-400" />
                 <div>
-                  <h4 className="text-sm font-medium text-gray-900">Change Password</h4>
-                  <p className="text-xs text-gray-500">Update your account password</p>
+                  <h4 className="text-sm font-medium text-gray-900">Ubah Kata Sandi</h4>
+                  <p className="text-xs text-gray-500">Perbarui kata sandi akun Anda</p>
                 </div>
               </div>
               <span className="text-gray-400">→</span>
@@ -655,11 +655,11 @@ function ProfileSettings({ user, branch }: any) {
               <div className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-gray-400" />
                 <div>
-                  <h4 className="text-sm font-medium text-gray-900">Two-Factor Authentication</h4>
-                  <p className="text-xs text-gray-500">Add an extra layer of security</p>
+                  <h4 className="text-sm font-medium text-gray-900">Autentikasi Dua Faktor</h4>
+                  <p className="text-xs text-gray-500">Tambahkan lapisan keamanan ekstra</p>
                 </div>
               </div>
-              <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded">Not Enabled</span>
+              <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-700 rounded">Belum Aktif</span>
             </button>
           </div>
         </div>
