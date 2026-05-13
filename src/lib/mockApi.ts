@@ -36,7 +36,23 @@ export const mockAdminAPI = {
 };
 
 export const mockAuthAPI = {
-  login: () => Promise.resolve({ data: { success: true, data: { token: 'demo-token', user: { role: 'customer' } } } }),
+  login: (credentials: { email: string; password: string }) =>
+    Promise.resolve({
+      data: {
+        success: true,
+        data: {
+          token: 'demo-token',
+          user: {
+            _id: 'demo-user-001',
+            name: 'Demo Customer',
+            email: credentials.email,
+            phone: '08123456789',
+            role: 'customer' as const,
+            isActive: true,
+          },
+        },
+      },
+    }),
   register: () => Promise.resolve({ data: { success: true } }),
   verifyEmail: () => Promise.resolve({ data: { success: true } }),
   resendVerification: () => Promise.resolve({ data: { success: true } }),
