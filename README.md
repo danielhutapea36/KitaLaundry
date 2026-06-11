@@ -1,290 +1,120 @@
-# Laundry Management System - Frontend
+# KitaLaundry 🧺
 
-A modern, responsive Next.js frontend for the comprehensive laundry management system with role-based dashboards and real-time features.
+KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yang dibangun menggunakan arsitektur modern (Next.js untuk Frontend dan Ruby on Rails 8 API untuk Backend).
 
-## 🚀 Tech Stack
+## ✨ Fitur Utama & Tech Stack
+- **Frontend**: Next.js 14, React, Tailwind CSS, TypeScript.
+- **Backend**: Ruby on Rails 8 (API mode), PostgreSQL.
+- **Autentikasi & Keamanan**: JWT (JSON Web Tokens), `bcrypt`, **Google reCAPTCHA v3**.
+- **Payment Gateway**: Integrasi **Xendit** (Pembuatan Invoice Otomatis & Webhook Callback).
+- **Penyimpanan Berkas**: **Cloudinary** (via ActiveStorage) untuk Avatar, Struk Pembayaran, dan Bukti Kondisi Pakaian.
+- **Notifikasi**: **Meta WhatsApp Cloud API** (Notifikasi pesanan dan konfirmasi pembayaran).
+- **Real-Time**: ActionCable (WebSockets) untuk pembaruan status pesanan secara langsung.
 
-- **Framework**: Next.js 14 (App Router)
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **Data Fetching**: TanStack Query (React Query)
-- **Forms**: React Hook Form + Zod validation
-- **UI Components**: Custom components with Tailwind
-- **Icons**: Lucide React
-- **Notifications**: React Hot Toast
-- **Real-time**: Socket.io Client
+---
 
-## 📁 Project Structure
+## 🚀 Panduan Instalasi & Menjalankan Aplikasi
 
-```
-frontend/
-├── src/
-│   ├── app/                    # Next.js App Router
-│   │   ├── auth/              # Authentication pages
-│   │   ├── customer/          # Customer dashboard & features
-│   │   ├── admin/             # Admin dashboard & features
-│   │   ├── branch/            # Branch manager dashboard
-│   │   ├── support/           # Support agent dashboard
-│   │   ├── center-admin/      # Center admin dashboard
-│   │   ├── globals.css        # Global styles
-│   │   ├── layout.tsx         # Root layout
-│   │   └── page.tsx           # Home page
-│   ├── components/
-│   │   ├── ui/                # Reusable UI components
-│   │   ├── forms/             # Form components
-│   │   ├── layout/            # Layout components
-│   │   └── providers.tsx      # App providers
-│   ├── lib/
-│   │   ├── api.ts             # API configuration & endpoints
-│   │   └── utils.ts           # Utility functions
-│   ├── store/
-│   │   ├── authStore.ts       # Authentication state
-│   │   └── appStore.ts        # Global app state
-│   ├── hooks/                 # Custom React hooks
-│   ├── types/                 # TypeScript type definitions
-│   └── constants/             # App constants
-├── public/                    # Static assets
-├── .env.local                 # Environment variables
-├── next.config.js            # Next.js configuration
-├── tailwind.config.ts        # Tailwind configuration
-└── package.json
-```
+### 1. Prasyarat
+- **Node.js** (v18+)
+- **Ruby** (v3.2+)
+- **PostgreSQL** (Sedang berjalan di sistem Anda)
+- Kredensial Pihak Ketiga (Xendit, Cloudinary, Meta Developer, reCAPTCHA v3)
 
-## 🛠️ Installation & Setup
+### 2. Setup Backend (Rails API)
+1. Buka terminal/WSL dan navigasikan ke folder backend:
+   ```bash
+   cd backend
+   ```
+2. Instal *gem* dan dependensi:
+   ```bash
+   bundle install
+   ```
+3. Konfigurasi Environment Variables:
+   - Salin file `.env.example` menjadi `.env`.
+   - Isikan *API Keys* untuk Xendit, Cloudinary, Meta WhatsApp, dan reCAPTCHA Secret Key di dalamnya.
+4. Setup Database & Migrasi:
+   ```bash
+   rails db:create db:migrate db:seed
+   ```
+5. Jalankan Server Backend (berjalan di `http://localhost:3000`):
+   ```bash
+   rails s
+   ```
 
-### Prerequisites
-- Node.js (v18 or higher)
-- npm or yarn
-- Backend server running on port 5000
-
-### Installation Steps
-
-1. **Navigate to frontend directory**
+### 3. Setup Frontend (Next.js)
+1. Buka terminal baru dan navigasikan ke folder frontend:
    ```bash
    cd frontend
    ```
-
-2. **Install dependencies**
+2. Instal dependensi NPM:
    ```bash
    npm install
    ```
-
-3. **Environment Setup**
-   ```bash
-   cp .env.local.example .env.local
-   ```
-   
-   Update `.env.local`:
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:5000/api
-   NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
-   ```
-
-4. **Start development server**
+3. Konfigurasi Environment Variables:
+   - Salin `.env.local.example` (jika ada) atau buat file `.env.local`.
+   - Isikan `NEXT_PUBLIC_API_URL=http://localhost:3000`
+   - Isikan `NEXT_PUBLIC_RECAPTCHA_SITE_KEY=<kunci-site-anda>`
+4. Jalankan Server Frontend (berjalan di `http://localhost:3001` atau *port* lainnya):
    ```bash
    npm run dev
    ```
 
-5. **Open in browser**
-   ```
-   http://localhost:3000
-   ```
-
-## 🎯 Features by Role
-
-### Customer Portal
-- ✅ Order placement with item selection
-- ✅ Real-time order tracking
-- ✅ Address management
-- ✅ Order history and reordering
-- ✅ Rating and reviews
-- ✅ Notifications
-- ✅ Profile management
-
-### Admin Dashboard
-- ✅ Order management and assignment
-- ✅ Customer management
-- ✅ Branch and logistics assignment
-- ✅ Refund processing
-- ✅ Analytics and reports
-- ✅ Support ticket overview
-
-### Branch Manager Interface
-- ✅ Branch-specific order processing
-- ✅ Staff management and assignment
-- ✅ Inventory tracking
-- ✅ Performance analytics
-- ✅ Local operations management
-
-### Support Agent Panel
-- ✅ Ticket management system
-- ✅ Customer communication
-- ✅ Issue resolution tracking
-- ✅ Escalation management
-- ✅ Knowledge base access
-
-### Center Admin Console
-- ✅ System-wide control
-- ✅ Branch management
-- ✅ User role management
-- ✅ Pricing configuration
-- ✅ Advanced analytics
-- ✅ System settings
-
-## 🎨 UI/UX Features
-
-### Responsive Design
-- Mobile-first approach
-- Tablet and desktop optimized
-- Touch-friendly interfaces
-- Adaptive layouts
-
-### Accessibility
-- WCAG 2.1 compliant
-- Keyboard navigation
-- Screen reader support
-- High contrast support
-
-### Performance
-- Code splitting and lazy loading
-- Image optimization
-- Caching strategies
-- Bundle optimization
-
-## 🔐 Authentication & Security
-
-### Authentication Flow
-- JWT-based authentication
-- Role-based access control
-- Automatic token refresh
-- Secure route protection
-
-### Security Features
-- XSS protection
-- CSRF protection
-- Input validation
-- Secure API communication
-
-## 📱 Responsive Breakpoints
-
-```css
-/* Mobile */
-@media (max-width: 640px) { ... }
-
-/* Tablet */
-@media (min-width: 641px) and (max-width: 1024px) { ... }
-
-/* Desktop */
-@media (min-width: 1025px) { ... }
-
-/* Large Desktop */
-@media (min-width: 1440px) { ... }
-```
-
-## 🔄 State Management
-
-### Zustand Stores
-- **authStore**: User authentication and profile
-- **orderStore**: Order management state
-- **notificationStore**: Real-time notifications
-- **uiStore**: UI state and preferences
-
-### React Query
-- Server state management
-- Automatic caching and synchronization
-- Background updates
-- Optimistic updates
-
-## 🎯 Development Guidelines
-
-### Code Style
-- TypeScript for type safety
-- ESLint and Prettier configuration
-- Consistent naming conventions
-- Component composition patterns
-
-### Component Structure
-```tsx
-// Component template
-interface ComponentProps {
-  // Props definition
-}
-
-export function Component({ ...props }: ComponentProps) {
-  // Hooks
-  // State
-  // Effects
-  // Handlers
-  // Render
-}
-```
-
-### API Integration
-```tsx
-// Custom hook example
-export function useOrders() {
-  return useQuery({
-    queryKey: ['orders'],
-    queryFn: () => customerAPI.getOrders(),
-  })
-}
-```
-
-## 🚀 Build & Deployment
-
-### Development
-```bash
-npm run dev          # Start development server
-npm run lint         # Run ESLint
-npm run type-check   # TypeScript checking
-```
-
-### Production
-```bash
-npm run build        # Build for production
-npm run start        # Start production server
-```
-
-### Environment Variables
-```env
-# Required
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
-NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
-
-# Optional
-NEXT_PUBLIC_APP_NAME=Laundry Management System
-NEXT_PUBLIC_SUPPORT_EMAIL=support@laundry.com
-```
-
-## 🧪 Testing (Future Implementation)
-
-```bash
-npm run test         # Run unit tests
-npm run test:e2e     # Run end-to-end tests
-npm run test:coverage # Generate coverage report
-```
-
-## 📊 Performance Monitoring
-
-- Core Web Vitals tracking
-- Bundle size monitoring
-- API response time tracking
-- User interaction analytics
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Follow coding standards
-4. Write tests for new features
-5. Commit changes (`git commit -m 'Add amazing feature'`)
-6. Push to branch (`git push origin feature/amazing-feature`)
-7. Open Pull Request
-
-## 📝 License
-
-This project is licensed under the ISC License.
-
 ---
 
-**Note**: This frontend is designed to work seamlessly with the backend API. Ensure the backend server is running before starting the frontend development server. 
+## 🧪 Panduan Testing / Uji Coba
+
+Setelah menjalankan proses `rails db:seed` pada backend, sistem telah menyediakan beberapa data awal dan akun *dummy* untuk keperluan *testing*:
+
+### Kredensial Akun Dummy:
+| Peran (Role) | Email | Password | Hak Akses Utama |
+|---|---|---|---|
+| **Center Admin** | `admin@kitalaundry.com` | `password123` | Manajemen semua cabang, laporan, layanan, admin sistem. |
+| **Customer** | `customer@gmail.com` | `password123` | Pembuatan pesanan, tiket keluhan, riwayat transaksi diri sendiri. |
+
+### Skenario Testing 1: Lewat Postman (Backend Saja)
+1. Buka aplikasi **Postman**.
+2. **Login & Dapatkan Token:**
+   - Metode: `POST`
+   - URL: `http://localhost:3000/auth/login`
+   - Body (JSON): 
+     ```json
+     {
+       "email": "customer@gmail.com",
+       "password": "password123"
+       // "recaptcha_token": "abaikan saat ini di lingkungan development jika tidak diwajibkan"
+     }
+     ```
+   - Salin nilai `token` dari hasil *response*.
+3. **Melihat Cabang (Tidak perlu token):**
+   - Metode: `GET`
+   - URL: `http://localhost:3000/branches`
+4. **Membuat Pesanan (Perlu token):**
+   - Metode: `POST`
+   - URL: `http://localhost:3000/orders`
+   - Headers: Tambahkan `Authorization: Bearer <token_anda>`
+   - Body (JSON):
+     ```json
+     {
+       "order": {
+         "branch_id": 1,
+         "pickup_address_id": 1,
+         "delivery_address_id": 1
+       },
+       "order_items": [
+         { "service_id": 1, "weight_kg": 2 }
+       ]
+     }
+     ```
+   - *Catatan: Jika integrasi WhatsApp dihidupkan, sistem akan otomatis mengirim pesan WA ke nomor yang didaftarkan pada `.env` Meta API.*
+
+### Skenario Testing 2: Lewat Frontend Next.js
+1. Buka *browser* dan kunjungi alamat lokal frontend Anda (biasanya `http://localhost:3001`).
+2. Masuk ke halaman **Login**.
+   - Sistem akan otomatis menghitung skor reCAPTCHA v3 di latar belakang untuk keamanan anti-bot.
+3. Masuk menggunakan akun **Customer** (`customer@gmail.com`).
+4. **Buat Pesanan Baru**: Cobalah antarmuka pemesanan. Saat Anda memilih opsi *checkout* atau *bayar*, backend akan memanggil layanan Xendit dan *Invoice* / Kode Pembayaran akan muncul!
+5. Masuk menggunakan akun **Center Admin** (`admin@kitalaundry.com`) untuk melihat data analitik, tabel seluruh pesanan, atau merespons tiket keluhan.
+
+---
+*Dokumentasi ini otomatis digenerate dan diperbarui pada rilis integrasi Fase 6 (Eksternal).*
