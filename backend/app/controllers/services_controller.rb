@@ -2,7 +2,7 @@ class ServicesController < ApplicationController
 
   def branches
     # Format data agar sesuai dengan yang diharapkan oleh Frontend (Next.js)
-    formatted_branches = Branch.active.map do |branch|
+    formatted_branches = Branch.all.map do |branch|
       {
         _id: branch.id.to_s,
         name: branch.name,
