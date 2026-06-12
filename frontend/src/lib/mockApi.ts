@@ -20,7 +20,20 @@ export const mockCustomerAPI = {
 };
 
 export const mockServicesAPI = {
-  calculatePricing: () => Promise.resolve({ data: { success: true, data: { subtotal: 50000, tax: 5000, total: 55000 } } }),
+  calculatePricing: (items: any[], isExpress: boolean) => {
+    let subtotal = 0;
+    items.forEach(item => {
+      let price = 7000;
+      if (item.itemType && item.itemType.endsWith('_bed')) {
+        price = 14000;
+      }
+      subtotal += price * (item.quantity || 1);
+    });
+    if (isExpress) subtotal *= 1.5;
+    const tax = subtotal * 0.1;
+    const total = subtotal + tax;
+    return Promise.resolve({ data: { success: true, data: { subtotal, tax, orderTotal: { total } } } });
+  },
   getTimeSlots: () => Promise.resolve({ data: { success: true, data: { timeSlots: ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00'] } } }),
   checkServiceAvailability: () => Promise.resolve({ data: { success: true, data: { available: true } } })
 };
