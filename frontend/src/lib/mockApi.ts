@@ -11,9 +11,9 @@ export const mockCustomerAPI = {
 
   getAddresses: () => Promise.resolve({ data: { success: true, data: { addresses: MOCK_ADDRESSES } } }),
   addAddress: (address: any) => Promise.resolve({ data: { success: true, data: { address: { ...address, _id: Date.now().toString() } } } }),
-  updateAddress: () => Promise.resolve({ data: { success: true } }),
+  updateAddress: (id: string, address: any) => Promise.resolve({ data: { success: true, data: { address: { ...address, _id: id } } } }),
   deleteAddress: () => Promise.resolve({ data: { success: true } }),
-  setDefaultAddress: () => Promise.resolve({ data: { success: true } }),
+  setDefaultAddress: (id: string) => Promise.resolve({ data: { success: true, data: { address: { _id: id, isDefault: true } } } }),
 
   getNotifications: () => Promise.resolve({ data: { success: true, data: { notifications: [] } } }),
   markNotificationRead: () => Promise.resolve({ data: { success: true } })
