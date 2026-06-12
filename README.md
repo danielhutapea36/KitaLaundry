@@ -70,6 +70,7 @@ Setelah menjalankan proses `rails db:seed` pada backend, sistem telah menyediaka
 | Peran (Role) | Email | Password | Hak Akses Utama |
 |---|---|---|---|
 | **Center Admin** | `admin@kitalaundry.com` | `password123` | Manajemen semua cabang, laporan, layanan, admin sistem. |
+| **Branch Manager** | `medan@kitalaundry.com` | `password123` | Manajemen operasional khusus untuk cabangnya sendiri. |
 | **Customer** | `customer@gmail.com` | `password123` | Pembuatan pesanan, tiket keluhan, riwayat transaksi diri sendiri. |
 
 ### Skenario Testing 1: Lewat Postman (Backend Saja)

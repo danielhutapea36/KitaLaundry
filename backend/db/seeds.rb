@@ -79,9 +79,20 @@ customer = User.create!(
   phone: "08999888777"
 )
 
+# Buat User Branch Manager (Admin Cabang)
+branch_admin = User.create!(
+  email: "medan@kitalaundry.com",
+  password: "password123",
+  role: :branch_manager,
+  first_name: "Admin",
+  last_name: "Medan",
+  phone: "08116000000"
+)
+
 puts "✅ Seeding selesai!"
 puts "--------------------------------------------------"
 puts "🔑 Gunakan kredensial berikut untuk login/testing:"
-puts "Admin    : admin@kitalaundry.com    | password: password123"
-puts "Customer : customer@gmail.com       | password: password123"
+puts "Admin Pusat  : admin@kitalaundry.com    | password: password123"
+puts "Admin Cabang : medan@kitalaundry.com    | password: password123"
+puts "Customer     : customer@gmail.com       | password: password123"
 puts "--------------------------------------------------"
