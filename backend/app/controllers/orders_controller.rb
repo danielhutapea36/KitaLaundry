@@ -1,11 +1,14 @@
 class OrdersController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
+      pickup_address = current_user.addresses.find_by(id: params[:pickupAddressId]) || current_user.addresses.first || current_user.addresses.create!(full_address: 'Dummy Address, Medan')
+      delivery_address = current_user.addresses.find_by(id: params[:deliveryAddressId]) || pickup_address
+
       @order = Order.new(
         user: current_user,
         branch_id: params[:branchId] || Branch.first.id,
-        pickup_address_id: params[:pickupAddressId] || current_user.addresses.first&.id,
-        delivery_address_id: params[:deliveryAddressId] || current_user.addresses.first&.id,
+        pickup_address_id: pickup_address.id,
+        delivery_address_id: delivery_address.id,
         notes: params[:specialInstructions],
         payment_method: params[:paymentMethod] || 'cod'
       )
