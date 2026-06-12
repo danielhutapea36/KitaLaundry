@@ -1,11 +1,14 @@
 class OrdersController < ApplicationController
   def create
     ActiveRecord::Base.transaction do
+      pickup_address = current_user.addresses.find_by(id: params[:pickupAddressId]) || current_user.addresses.first || current_user.addresses.create!(full_address: 'Dummy Address, Medan')
+      delivery_address = current_user.addresses.find_by(id: params[:deliveryAddressId]) || pickup_address
+
       @order = Order.new(
         user: current_user,
         branch_id: params[:branchId] || Branch.first.id,
-        pickup_address_id: params[:pickupAddressId] || current_user.addresses.first&.id,
-        delivery_address_id: params[:deliveryAddressId] || current_user.addresses.first&.id,
+        pickup_address_id: pickup_address.id,
+        delivery_address_id: delivery_address.id,
         notes: params[:specialInstructions],
         payment_method: params[:paymentMethod] || 'cod'
       )
@@ -40,6 +43,39 @@ class OrdersController < ApplicationController
     end
   rescue => e
     render json: { success: false, error: e.message }, status: :internal_server_error
+  end
+
+  def show
+    order = Order.find(params[:id])
+    
+    formatted_order = {
+      _id: order.id.to_s,
+      id: order.id.to_s,
+      orderNumber: "ORD-#{order.id}-#{order.created_at.to_i}",
+      status: order.status,
+      createdAt: order.created_at.iso8601,
+      paymentMethod: order.payment_method == 'online' ? 'online' : 'cod',
+      paymentStatus: order.payment_status || 'pending',
+      pricing: {
+        subtotal: order.total_price,
+        expressCharge: 0,
+        deliveryCharge: 0,
+        discount: 0,
+        tax: 0,
+        total: order.total_price
+      },
+      pickupDate: order.created_at.iso8601,
+      pickupTimeSlot: "09:00-11:00",
+      isExpress: false,
+      items: order.order_items.map { |item| { itemType: "Service", quantity: item.weight_kg } },
+      statusHistory: [
+        { status: 'placed', date: order.created_at.iso8601 }
+      ]
+    }
+    
+    render json: { success: true, data: { order: formatted_order } }
+  rescue ActiveRecord::RecordNotFound
+    render json: { success: false, message: 'Order not found' }, status: :not_found
   end
 
   private

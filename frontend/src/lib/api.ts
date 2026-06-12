@@ -87,9 +87,13 @@ import { mockAuthAPI, mockCustomerAPI, mockServicesAPI, mockAdminAPI, mockBarcod
 export const authAPI = mockAuthAPI
 export const customerAPI = {
   ...mockCustomerAPI,
-  createOrder: (orderData: any) => api.post('/orders', orderData)
+  createOrder: (orderData: any) => api.post('/orders', orderData),
+  getOrder: (id: string) => api.get(`/orders/${id}`)
 }
-export const servicesAPI = mockServicesAPI
+export const servicesAPI = {
+  ...mockServicesAPI,
+  getBranches: () => api.get('/services/branches')
+}
 export const adminAPI = mockAdminAPI
 export const barcodeAPI = mockBarcodeAPI
 
