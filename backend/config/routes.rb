@@ -9,6 +9,10 @@ Rails.application.routes.draw do
   get '/services/branch/:branch_id', to: 'services#by_branch'
   get '/service-items/branch/:branch_id', to: 'services#items_by_branch'
 
+  get '/customer/notifications/unread-count', to: 'mock#unread_count'
+  get '/customer/notifications', to: 'mock#notifications'
+  get '/service-items', to: 'mock#service_items'
+
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
