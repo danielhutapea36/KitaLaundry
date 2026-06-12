@@ -65,8 +65,12 @@ export function useOrders() {
       
       toast.success('Order placed successfully!')
       
-      // Redirect to order confirmation page
-      router.push(`/customer/orders/${order._id}?success=true`)
+      // Redirect to Xendit invoice or order confirmation page
+      if (response.data.data.invoice_url) {
+        window.location.href = response.data.data.invoice_url
+      } else {
+        router.push(`/customer/orders/${order.id || order._id}?success=true`)
+      }
       
       return order
     } catch (err: any) {

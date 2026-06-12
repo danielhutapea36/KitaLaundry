@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   post '/auth/login', to: 'authentication#login'
   
+  resources :orders, only: [:create, :index, :show]
+  post '/webhooks/xendit', to: 'webhooks#xendit'
+  
   resources :services, only: [] do
     collection do
       get :branches

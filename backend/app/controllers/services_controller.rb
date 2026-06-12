@@ -1,16 +1,8 @@
 class ServicesController < ApplicationController
 
   def branches
-    branches_data = Branch.all.to_a
-    if branches_data.empty?
-      branches_data = [
-        Branch.new(id: 1, name: "KitaLaundry Pusat", address: "Jl. Sudirman No. 1, Medan", phone: "08111222333"),
-        Branch.new(id: 2, name: "KitaLaundry Medan Petisah", address: "Jl. Gatot Subroto No. 45", phone: "08116000001")
-      ]
-    end
-
     # Format data agar sesuai dengan yang diharapkan oleh Frontend (Next.js)
-    formatted_branches = branches_data.map do |branch|
+    formatted_branches = Branch.all.map do |branch|
       {
         _id: branch.id.to_s,
         name: branch.name,

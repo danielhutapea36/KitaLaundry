@@ -85,7 +85,10 @@ import { mockAuthAPI, mockCustomerAPI, mockServicesAPI, mockAdminAPI, mockBarcod
 
 // Export mock APIs instead of real ones for frontend demonstration
 export const authAPI = mockAuthAPI
-export const customerAPI = mockCustomerAPI
+export const customerAPI = {
+  ...mockCustomerAPI,
+  createOrder: (orderData: any) => api.post('/orders', orderData)
+}
 export const servicesAPI = mockServicesAPI
 export const adminAPI = mockAdminAPI
 export const barcodeAPI = mockBarcodeAPI
