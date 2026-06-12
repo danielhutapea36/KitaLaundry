@@ -89,7 +89,10 @@ export const customerAPI = {
   ...mockCustomerAPI,
   createOrder: (orderData: any) => api.post('/orders', orderData)
 }
-export const servicesAPI = mockServicesAPI
+export const servicesAPI = {
+  ...mockServicesAPI,
+  getBranches: () => api.get('/services/branches')
+}
 export const adminAPI = mockAdminAPI
 export const barcodeAPI = mockBarcodeAPI
 
