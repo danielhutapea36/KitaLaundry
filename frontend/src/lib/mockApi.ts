@@ -1,9 +1,48 @@
 import { MOCK_ORDERS, MOCK_ADDRESSES } from '@/data/dummyData'
 
+let lastCreatedOrder: any = null;
+
 export const mockCustomerAPI = {
-  getOrders: () => Promise.resolve({ data: { success: true, data: { orders: MOCK_ORDERS } } }),
-  createOrder: () => Promise.resolve({ data: { success: true, data: { order: { _id: 'new1' } } } }),
-  getOrder: (id: string) => Promise.resolve({ data: { success: true, data: { order: { ...MOCK_ORDERS[0], _id: id } } } }),
+  getOrders: () => Promise.resolve({ data: { success: true, data: { orders: lastCreatedOrder ? [lastCreatedOrder, ...MOCK_ORDERS] : MOCK_ORDERS } } }),
+  createOrder: (orderData: any) => {
+    let subtotal = 0;
+    orderData.items.forEach((item: any) => {
+      let price = 7000;
+      if (item.itemType && item.itemType.endsWith('_bed')) {
+        price = 14000;
+      }
+      subtotal += price * (item.quantity || 1);
+    });
+    if (orderData.isExpress) subtotal *= 1.5;
+    const tax = subtotal * 0.1;
+    const total = subtotal + tax;
+
+    lastCreatedOrder = {
+      _id: `new_${Date.now()}`,
+      orderNumber: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+      status: 'placed',
+      items: orderData.items,
+      totalAmount: total,
+      isExpress: orderData.isExpress,
+      createdAt: new Date().toISOString(),
+      statusHistory: [{ status: 'placed', date: new Date().toISOString(), updatedAt: new Date().toISOString() }],
+      pricing: { subtotal, tax, deliveryCharge: 0, expressCharge: 0, discount: 0, total },
+      paymentMethod: orderData.paymentMethod || 'cod',
+      paymentStatus: orderData.paymentMethod === 'online' ? 'paid' : 'pending',
+      pickupDate: orderData.pickupDate || new Date().toISOString(),
+      pickupTimeSlot: orderData.pickupTimeSlot || '09:00-11:00',
+      deliveryAddress: MOCK_ADDRESSES.find((a: any) => a._id === orderData.deliveryAddress) || MOCK_ADDRESSES[0],
+      pickupAddress: MOCK_ADDRESSES.find((a: any) => a._id === orderData.pickupAddress) || MOCK_ADDRESSES[0],
+      specialInstructions: orderData.specialInstructions
+    };
+    return Promise.resolve({ data: { success: true, data: { order: { _id: lastCreatedOrder._id } } } });
+  },
+  getOrder: (id: string) => {
+    if (lastCreatedOrder && lastCreatedOrder._id === id) {
+      return Promise.resolve({ data: { success: true, data: { order: lastCreatedOrder } } });
+    }
+    return Promise.resolve({ data: { success: true, data: { order: { ...MOCK_ORDERS[0], _id: id } } } });
+  },
   getOrderTracking: () => Promise.resolve({ data: { success: true, data: { tracking: [{ status: 'placed', date: new Date().toISOString() }, { status: 'in_process', date: new Date().toISOString() }] } } }),
   cancelOrder: () => Promise.resolve({ data: { success: true } }),
   rateOrder: () => Promise.resolve({ data: { success: true } }),
