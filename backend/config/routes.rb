@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       get :branches
     end
   end
+  get '/services/branch/:branch_id', to: 'services#by_branch'
+  get '/service-items/branch/:branch_id', to: 'services#items_by_branch'
+
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
