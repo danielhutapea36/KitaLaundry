@@ -81,8 +81,6 @@ api.interceptors.response.use(
   }
 )
 
-import { mockAuthAPI, mockCustomerAPI, mockServicesAPI, mockAdminAPI, mockBarcodeAPI } from './mockApi'
-
 // Export real APIs and mix with mocks for remaining features
 export const authAPI = {
   login: (credentials: { email: string; password: string }) => api.post('/auth/login', credentials),
@@ -91,27 +89,56 @@ export const authAPI = {
   verifyEmail: (token: string) => api.post('/auth/verify-email', { token }),
   resendVerification: (email: string) => api.post('/auth/resend-verification', { email })
 }
+
 export const customerAPI = {
-  ...mockCustomerAPI,
+  getOrders: () => api.get('/orders'),
   createOrder: (orderData: any) => api.post('/orders', orderData),
   getOrder: (id: string) => api.get(`/orders/${id}`),
+  getOrderTracking: (id: string) => api.get(`/orders/${id}/tracking`),
+  cancelOrder: (id: string) => api.post(`/orders/${id}/cancel`),
+  rateOrder: (id: string, rating: any) => api.post(`/orders/${id}/rate`, rating),
+  reorder: (id: string) => api.post(`/orders/${id}/reorder`),
+  
   getAddresses: () => api.get('/addresses'),
   addAddress: (address: any) => api.post('/addresses', address),
   updateAddress: (id: string, address: any) => api.put(`/addresses/${id}`, address),
   deleteAddress: (id: string) => api.delete(`/addresses/${id}`),
-  setDefaultAddress: (id: string) => api.put(`/addresses/${id}/set_default`)
+  setDefaultAddress: (id: string) => api.put(`/addresses/${id}/set_default`),
+
+  getNotifications: () => api.get('/notifications'),
+  markNotificationRead: (id: string) => api.put(`/notifications/mark_read`, { id }),
+  getUnreadNotificationCount: () => api.get('/notifications/unread_count')
 }
+
 export const servicesAPI = {
-  ...mockServicesAPI,
+  calculatePricing: (items: any[], isExpress: boolean) => api.post('/services/calculate', { items, isExpress }),
+  getTimeSlots: () => api.get('/services/time_slots'),
+  checkServiceAvailability: () => api.get('/services/availability'),
   getBranches: () => api.get('/services/branches')
 }
+
 export const adminAPI = {
-  ...mockAdminAPI,
+  getDashboardStats: () => api.get('/admin/dashboard/stats'),
+  getOrders: (params?: any) => api.get('/admin/orders', { params }),
+  assignOrderToBranch: (orderId: string, branchId: string) => api.post(`/admin/orders/${orderId}/assign_to_branch`, { branchId }),
+  assignOrderToLogistics: (orderId: string, driverId: string) => api.post(`/admin/orders/${orderId}/assign_to_logistics`, { driverId }),
+  processRefund: (orderId: string, data: any) => api.post(`/admin/orders/${orderId}/process_refund`, data),
+  
+  getCustomers: () => api.get('/admin/users?role=customer'),
+  updateCustomerStatus: (id: string, status: any) => api.put(`/admin/users/${id}/status`, status),
+  toggleVIPStatus: (id: string) => api.put(`/admin/users/${id}/toggle_vip`),
+  
   getUsers: (role?: string) => api.get(`/admin/users${role ? `?role=${role}` : ''}`),
   createUser: (userData: any) => api.post('/admin/users', userData),
   updateUser: (id: string, userData: any) => api.put(`/admin/users/${id}`, userData),
   deleteUser: (id: string) => api.delete(`/admin/users/${id}`),
 }
-export const barcodeAPI = mockBarcodeAPI
+
+export const barcodeAPI = {
+  scanBarcode: (barcode: string) => api.post('/admin/orders/scan_barcode', { barcode }),
+  getOrderBarcode: (id: string) => api.get(`/admin/orders/${id}/barcode`),
+  updateStatusViaScan: (barcode: string, newStatus: string) => api.post('/admin/orders/scan_barcode', { barcode, newStatus }),
+  bulkScan: (barcodes: string[], newStatus: string) => api.post('/admin/orders/bulk_scan', { barcodes, newStatus })
+}
 
 export default api

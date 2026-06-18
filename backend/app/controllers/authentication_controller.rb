@@ -47,9 +47,7 @@ class AuthenticationController < ApplicationController
     rescue ActiveRecord::RecordNotFound, JWT::DecodeError
       render json: { errors: 'Unauthorized' }, status: :unauthorized
     end
-    end
   end
-
   def verify_email
     @user = User.find_by(verification_token: params[:token])
 

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Search, Plus, MoreVertical, Edit2, Trash2, Shield, User, MapPin } from 'lucide-react'
 import { adminAPI } from '@/lib/api'
@@ -88,7 +87,7 @@ export default function UsersManagementPage() {
         </Button>
       </div>
 
-      <Card className="p-4 sm:p-6 bg-white shadow-sm border-gray-100">
+      <div className="rounded-xl border p-4 sm:p-6 bg-white shadow-sm border-gray-100">
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -195,7 +194,7 @@ export default function UsersManagementPage() {
             </tbody>
           </table>
         </div>
-      </Card>
+      </div>
 
       {isModalOpen && (
         <UserModal 

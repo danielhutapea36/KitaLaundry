@@ -6,10 +6,28 @@ Rails.application.routes.draw do
   post '/auth/resend-verification', to: 'authentication#resend_verification'
 
   namespace :admin do
+    get 'dashboard/stats', to: 'dashboard#stats'
     resources :users
+    resources :orders, only: [:index] do
+      member do
+        post :assign_to_branch
+        post :assign_to_logistics
+        post :process_refund
+      end
+      collection do
+        post :scan_barcode
+      end
+    end
   end
 
-  resources :orders, only: [:create, :index, :show]
+  resources :orders, only: [:create, :index, :show] do
+    member do
+      get :tracking
+      post :cancel
+      post :rate
+      post :reorder
+    end
+  end
   
   resources :addresses, only: [:index, :create, :update, :destroy] do
     member do
@@ -22,13 +40,20 @@ Rails.application.routes.draw do
   resources :services, only: [] do
     collection do
       get :branches
+      post :calculate
+      get :time_slots
+      get :availability
     end
   end
   get '/services/branch/:branch_id', to: 'services#by_branch'
   get '/service-items/branch/:branch_id', to: 'services#items_by_branch'
 
-  get '/customer/notifications/unread-count', to: 'mock#unread_count'
-  get '/customer/notifications', to: 'mock#notifications'
+  resources :notifications, only: [:index] do
+    collection do
+      get :unread_count
+      put :mark_read
+    end
+  end
   get '/service-items', to: 'mock#service_items'
 
   

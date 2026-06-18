@@ -51,4 +51,27 @@ class ServicesController < ApplicationController
 
     render json: { success: true, data: response_items }, status: :ok
   end
+
+  def calculate
+    subtotal = 0
+    params[:items].each do |item|
+      price = 7000
+      price = 14000 if item[:itemType].to_s.end_with?('_bed')
+      subtotal += price * (item[:quantity].to_i || 1)
+    end
+    subtotal = (subtotal * 1.5).to_i if params[:isExpress]
+    tax = (subtotal * 0.1).to_i
+    total = subtotal + tax
+    
+    render json: { success: true, data: { subtotal: subtotal, tax: tax, orderTotal: { total: total } } }
+  end
+
+  def time_slots
+    render json: { success: true, data: { timeSlots: ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00'] } }
+  end
+
+  def availability
+    render json: { success: true, data: { available: true } }
+  end
 end
+

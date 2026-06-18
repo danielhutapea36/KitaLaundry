@@ -45,6 +45,30 @@ class OrdersController < ApplicationController
     render json: { success: false, error: e.message }, status: :internal_server_error
   end
 
+  def index
+    orders = current_user.orders.order(created_at: :desc)
+    
+    formatted_orders = orders.map do |order|
+      {
+        _id: order.id.to_s,
+        id: order.id.to_s,
+        orderNumber: "ORD-#{order.id}-#{order.created_at.to_i}",
+        status: order.status,
+        createdAt: order.created_at.iso8601,
+        paymentMethod: order.payment_method == 'online' ? 'online' : 'cod',
+        paymentStatus: order.payment_status || 'pending',
+        pricing: {
+          subtotal: order.total_price,
+          total: order.total_price
+        },
+        pickupDate: order.created_at.iso8601,
+        items: order.order_items.map { |item| { itemType: item.service.name, quantity: item.weight_kg } }
+      }
+    end
+
+    render json: { success: true, data: { orders: formatted_orders } }
+  end
+
   def show
     order = Order.find(params[:id])
     
@@ -76,6 +100,44 @@ class OrdersController < ApplicationController
     render json: { success: true, data: { order: formatted_order } }
   rescue ActiveRecord::RecordNotFound
     render json: { success: false, message: 'Order not found' }, status: :not_found
+  end
+
+  def tracking
+    order = Order.find(params[:id])
+    
+    tracking_data = [
+      { status: 'placed', date: order.created_at.iso8601 }
+    ]
+    
+    # Enum for status: pending(0), processing(1), ready_for_delivery(2), completed(3), cancelled(4)
+    # This is a simple approximation
+    if order.status_before_type_cast >= 1 && order.status != 'cancelled'
+      tracking_data << { status: 'in_process', date: (order.created_at + 1.hour).iso8601 }
+    end
+    
+    if order.status_before_type_cast >= 2 && order.status != 'cancelled'
+      tracking_data << { status: 'ready', date: order.updated_at.iso8601 }
+    end
+
+    render json: { success: true, data: { tracking: tracking_data } }
+  end
+
+  def cancel
+    order = Order.find(params[:id])
+    if order.status == 'pending'
+      order.update(status: :cancelled)
+      render json: { success: true, message: 'Order cancelled' }
+    else
+      render json: { success: false, message: 'Order cannot be cancelled' }, status: :unprocessable_entity
+    end
+  end
+
+  def rate
+    render json: { success: true, message: 'Rating submitted' }
+  end
+
+  def reorder
+    render json: { success: true, message: 'Reordered' }
   end
 
   private
