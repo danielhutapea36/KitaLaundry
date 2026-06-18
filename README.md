@@ -10,6 +10,11 @@ KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yan
 - **Penyimpanan Berkas**: **Cloudinary** (via ActiveStorage) untuk Avatar, Struk Pembayaran, dan Bukti Kondisi Pakaian.
 - **Notifikasi**: **Meta WhatsApp Cloud API** (Notifikasi pesanan dan konfirmasi pembayaran).
 - **Real-Time**: ActionCable (WebSockets) untuk pembaruan status pesanan secara langsung.
+- **Port Khusus**: Frontend (`:3000`), Backend (`:8000`).
+- **Autentikasi Nyata**: Sinkronisasi login ke DB PostgreSQL menggunakan token JWT asli, dilindungi enkripsi. Verifikasi email dikirim (simulasi) dengan **Letter Opener**.
+- **Role-Based Routing**: *Branch Manager* memiliki dashboard khusus `/branch/dashboard` yang terpisah dari pelanggan.
+- **Manajemen Pengguna (CRUD)**: Admin Pusat dapat memantau dan mengedit informasi semua pelanggan, staf, maupun manager cabang.
+- **Manajemen Alamat**: Pelanggan dapat mengatur banyak alamat pengiriman secara dinamis yang terhubung ke DB.
 
 ---
 

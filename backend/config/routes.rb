@@ -1,7 +1,22 @@
 Rails.application.routes.draw do
   post '/auth/login', to: 'authentication#login'
-  
+  post '/auth/register', to: 'users#create'
+  get '/auth/profile', to: 'authentication#profile'
+  post '/auth/verify-email', to: 'authentication#verify_email'
+  post '/auth/resend-verification', to: 'authentication#resend_verification'
+
+  namespace :admin do
+    resources :users
+  end
+
   resources :orders, only: [:create, :index, :show]
+  
+  resources :addresses, only: [:index, :create, :update, :destroy] do
+    member do
+      put :set_default
+    end
+  end
+
   post '/webhooks/xendit', to: 'webhooks#xendit'
   
   resources :services, only: [] do

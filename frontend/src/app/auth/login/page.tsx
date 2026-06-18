@@ -43,6 +43,7 @@ export default function LoginPage() {
       const roleRoutes = {
         customer: '/',
         admin: '/admin/dashboard',
+        branch_manager: '/branch/dashboard',
         center_admin: '/center-admin/dashboard',
         support_agent: '/support/dashboard',
         superadmin: '/superadmin/dashboard',

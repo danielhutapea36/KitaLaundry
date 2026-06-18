@@ -10,15 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_12_000005) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_18_075525) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "addresses", force: :cascade do |t|
+    t.string "address_line_1"
+    t.string "address_line_2"
+    t.string "address_type"
+    t.string "city"
     t.datetime "created_at", null: false
-    t.text "full_address", null: false
+    t.text "full_address"
+    t.boolean "is_default"
+    t.string "landmark"
     t.float "latitude"
     t.float "longitude"
+    t.string "phone"
+    t.string "pincode"
+    t.string "state"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_addresses_on_user_id"
@@ -47,12 +56,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_000005) do
     t.bigint "branch_id", null: false
     t.datetime "created_at", null: false
     t.bigint "delivery_address_id"
+    t.string "invoice_url"
     t.text "notes"
+    t.string "payment_method"
+    t.integer "payment_status", default: 0
     t.bigint "pickup_address_id"
     t.integer "status", default: 0
     t.integer "total_price", default: 0
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.string "xendit_invoice_id"
     t.index ["branch_id"], name: "index_orders_on_branch_id"
     t.index ["delivery_address_id"], name: "index_orders_on_delivery_address_id"
     t.index ["pickup_address_id"], name: "index_orders_on_pickup_address_id"
@@ -72,12 +85,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_000005) do
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email"
+    t.datetime "email_verified_at"
     t.string "first_name"
     t.string "last_name"
     t.string "password_digest"
     t.string "phone"
     t.integer "role"
     t.datetime "updated_at", null: false
+    t.string "verification_token"
     t.index ["email"], name: "index_users_on_email"
   end
 

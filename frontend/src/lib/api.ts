@@ -83,18 +83,35 @@ api.interceptors.response.use(
 
 import { mockAuthAPI, mockCustomerAPI, mockServicesAPI, mockAdminAPI, mockBarcodeAPI } from './mockApi'
 
-// Export mock APIs instead of real ones for frontend demonstration
-export const authAPI = mockAuthAPI
+// Export real APIs and mix with mocks for remaining features
+export const authAPI = {
+  login: (credentials: { email: string; password: string }) => api.post('/auth/login', credentials),
+  register: (userData: any) => api.post('/auth/register', userData),
+  getProfile: () => api.get('/auth/profile'),
+  verifyEmail: (token: string) => api.post('/auth/verify-email', { token }),
+  resendVerification: (email: string) => api.post('/auth/resend-verification', { email })
+}
 export const customerAPI = {
   ...mockCustomerAPI,
   createOrder: (orderData: any) => api.post('/orders', orderData),
-  getOrder: (id: string) => api.get(`/orders/${id}`)
+  getOrder: (id: string) => api.get(`/orders/${id}`),
+  getAddresses: () => api.get('/addresses'),
+  addAddress: (address: any) => api.post('/addresses', address),
+  updateAddress: (id: string, address: any) => api.put(`/addresses/${id}`, address),
+  deleteAddress: (id: string) => api.delete(`/addresses/${id}`),
+  setDefaultAddress: (id: string) => api.put(`/addresses/${id}/set_default`)
 }
 export const servicesAPI = {
   ...mockServicesAPI,
   getBranches: () => api.get('/services/branches')
 }
-export const adminAPI = mockAdminAPI
+export const adminAPI = {
+  ...mockAdminAPI,
+  getUsers: (role?: string) => api.get(`/admin/users${role ? `?role=${role}` : ''}`),
+  createUser: (userData: any) => api.post('/admin/users', userData),
+  updateUser: (id: string, userData: any) => api.put(`/admin/users/${id}`, userData),
+  deleteUser: (id: string) => api.delete(`/admin/users/${id}`),
+}
 export const barcodeAPI = mockBarcodeAPI
 
 export default api

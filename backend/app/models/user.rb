@@ -13,4 +13,10 @@ class User < ApplicationRecord
   }, default: :customer
 
   validates :email, presence: true, uniqueness: true
+
+  before_create :generate_verification_token
+
+  def generate_verification_token
+    self.verification_token = SecureRandom.urlsafe_base64.to_s
+  end
 end

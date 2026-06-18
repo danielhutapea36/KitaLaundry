@@ -16,7 +16,7 @@ class WebhooksController < ApplicationController
 
     if order
       if payload['status'] == 'PAID'
-        order.update(payment_status: :paid, status: :in_process)
+        order.update(payment_status: :paid, status: :processing)
         # We can also notify the user here via WebSocket or WhatsApp later
       elsif payload['status'] == 'EXPIRED'
         order.update(payment_status: :expired, status: :cancelled)

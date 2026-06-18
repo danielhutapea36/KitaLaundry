@@ -26,6 +26,7 @@ const navigation = [
   { name: 'Pemindai Barcode', href: '/center-admin/scanner', icon: QrCode, module: 'orders' },
   { name: 'Layanan', href: '/center-admin/services', icon: Sparkles, module: 'services' },
   { name: 'Manajemen Staf', href: '/center-admin/staff', icon: Users, module: 'staff' },
+  { name: 'Manajemen Pengguna', href: '/center-admin/users', icon: Users, module: null },
   { name: 'Inventaris', href: '/center-admin/inventory', icon: Package2, module: 'inventory' },
   { name: 'Performa', href: '/center-admin/performance', icon: BarChart3, module: 'performance' },
   { name: 'Pengaturan', href: '/center-admin/settings', icon: Settings, module: 'settings' },
