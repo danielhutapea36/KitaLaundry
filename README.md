@@ -15,6 +15,9 @@ KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yan
 - **Role-Based Routing**: *Branch Manager* memiliki dashboard khusus `/branch/dashboard` yang terpisah dari pelanggan.
 - **Manajemen Pengguna (CRUD)**: Admin Pusat dapat memantau dan mengedit informasi semua pelanggan, staf, maupun manager cabang.
 - **Manajemen Alamat**: Pelanggan dapat mengatur banyak alamat pengiriman secara dinamis yang terhubung ke DB.
+- **Sistem Notifikasi Internal**: Lonceng notifikasi pelanggan tersambung riil ke PostgreSQL untuk rekam jejak status order.
+- **Barcode Scanner Terintegrasi**: Tersedia API khusus bagi admin untuk mengubah status pesanan secara instan hanya dengan memindai kode *barcode*.
+- **100% Database-Driven**: Aplikasi tidak lagi menggunakan *dummy/mock data* di *frontend*, melainkan menarik seluruh kalkulasi dan statistik (Dasbor) secara *real-time* dari *database*.
 
 ---
 
