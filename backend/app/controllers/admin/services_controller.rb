@@ -1,7 +1,11 @@
 class Admin::ServicesController < ApplicationController
+  before_action :authorize_request
+
   def index
-    services = Service.all.map { |s| format_service(s) }
-    render json: { success: true, data: { services: services } }, status: :ok
+    branch_id = current_user.role == 'branch_manager' ? get_branch_id : Branch.first&.id
+    services = branch_id ? Service.where(branch_id: branch_id) : Service.all
+    formatted_services = services.map { |s| format_service(s) }
+    render json: { success: true, data: { services: formatted_services } }, status: :ok
   end
 
   def create

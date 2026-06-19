@@ -124,7 +124,7 @@ class CenterAdminAPI {
 
   // Inventory
   async getInventory() {
-    const response = await fetch(`${API_BASE_URL}/center-admin/inventory`, {
+    const response = await fetch(`${API_BASE_URL}/admin/inventory`, {
       headers: this.getAuthHeaders(),
       credentials: 'include'
     })
@@ -132,7 +132,7 @@ class CenterAdminAPI {
   }
 
   async addInventoryItem(data: { itemName: string; currentStock: number; minThreshold?: number; maxCapacity?: number; unit?: string; unitCost?: number; supplier?: string; expiryDate?: string }) {
-    const response = await fetch(`${API_BASE_URL}/center-admin/inventory`, {
+    const response = await fetch(`${API_BASE_URL}/admin/inventory`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
       credentials: 'include',
@@ -142,7 +142,7 @@ class CenterAdminAPI {
   }
 
   async updateInventoryStock(itemId: string, quantity: number, action: 'add' | 'consume', reason?: string) {
-    const response = await fetch(`${API_BASE_URL}/center-admin/inventory/${itemId}/stock`, {
+    const response = await fetch(`${API_BASE_URL}/admin/inventory/${itemId}/stock`, {
       method: 'PUT',
       headers: this.getAuthHeaders(),
       credentials: 'include',
@@ -152,7 +152,7 @@ class CenterAdminAPI {
   }
 
   async deleteInventoryItem(itemId: string) {
-    const response = await fetch(`${API_BASE_URL}/center-admin/inventory/${itemId}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/inventory/${itemId}`, {
       method: 'DELETE',
       headers: this.getAuthHeaders(),
       credentials: 'include'
@@ -262,7 +262,7 @@ class CenterAdminAPI {
   }
 
   async deleteService(serviceId: string) {
-    const response = await fetch(`${API_BASE_URL}/center-admin/services/${serviceId}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/services/${serviceId}`, {
       method: 'DELETE',
       headers: this.getAuthHeaders(),
       credentials: 'include'
@@ -271,7 +271,7 @@ class CenterAdminAPI {
   }
 
   async toggleService(serviceId: string) {
-    const response = await fetch(`${API_BASE_URL}/center-admin/services/${serviceId}/toggle`, {
+    const response = await fetch(`${API_BASE_URL}/admin/services/${serviceId}/toggle`, {
       method: 'PUT',
       headers: this.getAuthHeaders(),
       credentials: 'include'

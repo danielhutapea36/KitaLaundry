@@ -12,31 +12,56 @@ module Admin
         return render json: { errors: 'Unauthorized' }, status: :unauthorized
       end
 
-      active_orders = orders.where(status: [:pending, :processing, :ready_for_delivery]).count
-      completed_orders = orders.where(status: :completed).count
-      total_revenue = orders.where(payment_status: :paid).sum(:total_price)
+      branch_info = if current_user.role == 'center_admin'
+                      { _id: 'center', name: 'Admin Pusat', code: 'HQ' }
+                    else
+                      branch = Branch.find_by(id: get_branch_id)
+                      { _id: branch&.id.to_s, name: branch&.name || 'Cabang', code: branch&.code || 'BR' }
+                    end
+
+      today = Time.zone.now.beginning_of_day
+      pending_orders = orders.where(status: 'pending').count
+      processing_orders = orders.where(status: 'processing').count
+      ready_orders = orders.where(status: 'ready_for_delivery').count
+      completed_today = orders.where(status: 'completed', updated_at: today..Time.zone.now).count
+      today_orders = orders.where(created_at: today..Time.zone.now).count
+      weekly_orders = orders.where(created_at: 1.week.ago..Time.zone.now).count
+      today_revenue = orders.where(payment_status: 'paid', updated_at: today..Time.zone.now).sum(:total_price).to_f
       
-      # Mocking revenue trend for chart (just for display purposes)
-      revenue_trend = [
-        { name: 'Mon', revenue: (total_revenue * 0.1).to_i },
-        { name: 'Tue', revenue: (total_revenue * 0.15).to_i },
-        { name: 'Wed', revenue: (total_revenue * 0.2).to_i },
-        { name: 'Thu', revenue: (total_revenue * 0.1).to_i },
-        { name: 'Fri', revenue: (total_revenue * 0.25).to_i },
-        { name: 'Sat', revenue: (total_revenue * 0.15).to_i },
-        { name: 'Sun', revenue: (total_revenue * 0.05).to_i }
-      ]
+      staff_count = User.where(role: ['staff', 'branch_manager', 'driver', 'washer', 'ironer']).count
+      active_staff = staff_count # Mock active staff
+
+      recent_orders = orders.order(created_at: :desc).limit(5).map do |o|
+        {
+          _id: o.id.to_s,
+          orderNumber: "ORD-#{o.id.to_s.rjust(4, '0')}",
+          status: o.status,
+          amount: o.total_price.to_f,
+          itemCount: o.order_items.sum(:weight_kg).to_i,
+          isExpress: false,
+          createdAt: o.created_at.iso8601,
+          customer: { name: o.user.first_name, phone: o.user.phone }
+        }
+      end
 
       render json: {
         success: true,
         data: {
-          stats: {
-            totalRevenue: total_revenue,
-            activeOrders: active_orders,
-            totalCustomers: customers_count,
-            completedOrders: completed_orders
+          branch: branch_info,
+          metrics: {
+            todayOrders: today_orders,
+            pendingOrders: pending_orders,
+            processingOrders: processing_orders,
+            readyOrders: ready_orders,
+            completedToday: completed_today,
+            todayRevenue: today_revenue,
+            weeklyOrders: weekly_orders,
+            staffCount: staff_count,
+            activeStaff: active_staff
           },
-          revenueTrend: revenue_trend
+          recentOrders: recent_orders,
+          staffPerformance: [],
+          alerts: []
         }
       }
     end
