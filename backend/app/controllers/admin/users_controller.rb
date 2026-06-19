@@ -4,10 +4,12 @@ module Admin
 
     def index
       # Support filtering by role
+      base_query = current_user.role == 'branch_manager' ? User.where(branch_id: get_branch_id).or(User.where(role: 'customer')) : User.all
+      
       if params[:role].present?
-        @users = User.where(role: params[:role]).order(created_at: :desc)
+        @users = base_query.where(role: params[:role]).order(created_at: :desc)
       else
-        @users = User.order(created_at: :desc)
+        @users = base_query.where.not(role: 'staff').order(created_at: :desc)
       end
       
       render json: {
@@ -101,7 +103,8 @@ module Admin
         phone: user.phone || '',
         role: user.role,
         isActive: true,
-        createdAt: user.created_at
+        createdAt: user.created_at,
+        branch: user.branch ? { id: user.branch.id.to_s, name: user.branch.name } : nil
       }
     end
   end

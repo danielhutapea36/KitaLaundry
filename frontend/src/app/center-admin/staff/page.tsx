@@ -31,6 +31,7 @@ interface StaffMember {
   workerType?: string
   isActive: boolean
   createdAt: string
+  branch?: { id: string; name: string }
   stats: {
     ordersToday: number
     totalOrders: number
@@ -422,6 +423,11 @@ export default function BranchStaffPage() {
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${WORKER_TYPE_COLORS[member.workerType || 'general']}`}>
                           {getWorkerTypeLabel(member.workerType || 'general')}
                         </span>
+                        {member.branch && (
+                          <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 flex items-center gap-1">
+                            {member.branch.name}
+                          </span>
+                        )}
                       </div>
                       <p className="text-sm text-gray-600">{member.email}</p>
                       {member.phone && <p className="text-sm text-gray-500">{member.phone}</p>}

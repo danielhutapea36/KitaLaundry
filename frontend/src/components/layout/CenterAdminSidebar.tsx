@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { centerAdminApi } from '@/lib/centerAdminApi'
 import { 
   Home, 
   ShoppingBag, 
@@ -76,6 +77,22 @@ export function CenterAdminSidebar({
   const handleNavClick = () => {
     if (onMobileClose) onMobileClose()
   }
+
+  const [stats, setStats] = useState({ pending: '--', processing: '--', completed: '--' })
+
+  useEffect(() => {
+    centerAdminApi.getDashboard().then(res => {
+      if (res.success && res.data && res.data.metrics) {
+        setStats({
+          pending: res.data.metrics.pendingOrders.toString(),
+          processing: res.data.metrics.processingOrders.toString(),
+          completed: res.data.metrics.completedToday.toString()
+        })
+      }
+    }).catch(err => {
+      console.error('Failed to load sidebar stats', err)
+    })
+  }, [])
 
   return (
     <>
@@ -152,15 +169,15 @@ export function CenterAdminSidebar({
               <div className="space-y-2 text-xs text-gray-600">
                 <div className="flex justify-between">
                   <span>Pesanan Pending</span>
-                  <span className="font-medium text-orange-600">--</span>
+                  <span className="font-medium text-orange-600">{stats.pending}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Sedang Diproses</span>
-                  <span className="font-medium text-blue-600">--</span>
+                  <span className="font-medium text-blue-600">{stats.processing}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Selesai</span>
-                  <span className="font-medium text-green-600">--</span>
+                  <span className="font-medium text-green-600">{stats.completed}</span>
                 </div>
               </div>
             </div>

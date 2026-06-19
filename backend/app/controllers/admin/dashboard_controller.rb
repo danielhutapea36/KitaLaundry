@@ -114,6 +114,39 @@ module Admin
       render json: { success: true, data: data }, status: :ok
     end
 
+    def settings
+      render json: {
+        success: true,
+        data: {
+          settings: {
+            autoAssignOrders: true,
+            prioritizeExpress: true,
+            maxOrdersPerStaff: 10
+          }
+        }
+      }
+    end
+
+    def update_settings
+      render json: { success: true, message: 'Settings updated successfully' }
+    end
+
+    def worker_types
+      render json: {
+        success: true,
+        data: {
+          workerTypes: [
+            { key: 'washer', value: 'washer', label: 'Washer (Pencuci)' },
+            { key: 'dry_cleaner', value: 'dry_cleaner', label: 'Dry Cleaner' },
+            { key: 'ironer', value: 'ironer', label: 'Ironer (Penyetrika)' },
+            { key: 'packer', value: 'packer', label: 'Packer (Pengemas)' },
+            { key: 'quality_checker', value: 'quality_checker', label: 'QC' },
+            { key: 'general', value: 'general', label: 'Umum' }
+          ]
+        }
+      }
+    end
+
     private
 
     def current_user

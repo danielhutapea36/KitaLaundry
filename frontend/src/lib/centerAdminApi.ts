@@ -78,11 +78,27 @@ class CenterAdminAPI {
 
   // Staff
   async getStaff() {
-    const response = await fetch(`${API_BASE_URL}/admin/users`, {
+    const response = await fetch(`${API_BASE_URL}/admin/users?role=staff`, {
       headers: this.getAuthHeaders(),
       credentials: 'include'
     })
-    return this.handleResponse(response)
+    
+    // Transform data to match staff page requirements if needed, or it handles the raw user array
+    const data = await this.handleResponse(response);
+    
+    if (data.success && data.data && data.data.users) {
+       // Staff page expects response.data.staff
+       return {
+         success: true,
+         data: {
+           staff: data.data.users.map((u: any) => ({
+             ...u,
+             stats: { ordersToday: 0, totalOrders: 0, efficiency: 100 } // mock stats since backend doesn't provide them yet
+           }))
+         }
+       }
+    }
+    return data;
   }
 
   async toggleStaffAvailability(staffId: string) {
