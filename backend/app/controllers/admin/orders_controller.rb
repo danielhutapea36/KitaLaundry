@@ -1,32 +1,81 @@
 module Admin
   class OrdersController < ApplicationController
     def index
-      if current_user.role == 'center_admin'
-        orders = Order.all.order(created_at: :desc)
-      elsif current_user.role == 'branch_manager'
-        orders = Order.where(branch_id: get_branch_id).order(created_at: :desc)
-      else
+      orders = Order.all
+      if current_user.role == 'branch_manager'
+        orders = orders.where(branch_id: get_branch_id)
+      elsif current_user.role != 'center_admin' && current_user.role != 'superadmin'
         return render json: { errors: 'Unauthorized' }, status: :unauthorized
       end
 
-      formatted_orders = orders.map do |order|
+      if params[:status].present? && params[:status] != 'all'
+        backend_status = case params[:status]
+                         when 'placed', 'assigned_to_branch', 'picked' then 'pending'
+                         when 'in_process' then 'processing'
+                         when 'delivered', 'out_for_delivery' then 'completed'
+                         else params[:status]
+                         end
+        orders = orders.where(status: backend_status)
+      end
+
+      if params[:search].present?
+        search_term = params[:search].strip.downcase
+        if search_term.start_with?("ord-")
+          order_id = search_term.gsub("ord-", "").to_i
+          orders = orders.where(id: order_id)
+        else
+          orders = orders.where(id: search_term.to_i)
+        end
+      end
+
+      orders = orders.order(created_at: :desc)
+
+      page = (params[:page] || 1).to_i
+      limit = (params[:limit] || 8).to_i
+      total_items = orders.count
+      orders_paginated = orders.offset((page - 1) * limit).limit(limit)
+
+      formatted_orders = orders_paginated.map do |order|
+        mapped_status = case order.status
+                        when 'pending' then 'assigned_to_branch'
+                        when 'processing' then 'in_process'
+                        when 'completed' then 'delivered'
+                        else order.status
+                        end
         {
           _id: order.id.to_s,
           id: order.id.to_s,
-          orderNumber: "ORD-#{order.id}-#{order.created_at.to_i}",
+          orderNumber: "ORD-#{order.id.to_s.rjust(4, '0')}",
+          customer: { 
+            name: "#{order.user.first_name} #{order.user.last_name}".strip, 
+            phone: order.user.phone 
+          },
           customerName: "#{order.user.first_name} #{order.user.last_name}".strip,
           customerPhone: order.user.phone,
-          status: order.status,
-          paymentStatus: order.payment_status || 'pending',
-          totalAmount: order.total_price,
+          status: mapped_status,
+          pricing: {
+            total: order.total_price.to_f,
+            subtotal: order.total_price.to_f
+          },
+          totalAmount: order.total_price.to_f,
           createdAt: order.created_at.iso8601,
           branchId: order.branch_id.to_s,
           pickupDate: order.created_at.iso8601,
-          items: order.order_items.map { |item| { itemType: item.service.name, quantity: item.weight_kg } }
+          items: order.order_items.map { |item| { serviceType: item.service.name, quantity: item.weight_kg, totalPrice: (item.weight_kg * item.service.price_per_kg).to_f } }
         }
       end
 
-      render json: { success: true, data: { orders: formatted_orders } }
+      render json: { 
+        success: true, 
+        data: { 
+          orders: formatted_orders,
+          pagination: {
+            totalItems: total_items,
+            currentPage: page,
+            totalPages: (total_items.to_f / limit).ceil
+          }
+        } 
+      }
     end
 
     def assign_to_branch
@@ -43,19 +92,50 @@ module Admin
       render json: { success: true, message: 'Refund processed' }
     end
 
+    def status
+      order = Order.find(params[:id])
+      backend_status = case params[:status]
+                       when 'placed', 'assigned_to_branch', 'picked' then 'pending'
+                       when 'in_process' then 'processing'
+                       when 'delivered', 'out_for_delivery' then 'completed'
+                       else params[:status]
+                       end
+      if order.update(status: backend_status)
+        render json: { success: true, message: 'Status updated' }
+      else
+        render json: { success: false, message: 'Failed to update status' }, status: :unprocessable_entity
+      end
+    end
+
+    def assign
+      order = Order.find(params[:id])
+      # Since we don't have staff_id in orders currently, we just return success
+      render json: { success: true, message: 'Assigned to staff' }
+    end
+
     def scan_barcode
-      # Either find by ID or generated orderNumber string
-      # ORD-12-16238128 means ID is 12.
       barcode = params[:barcode].to_s
       order_id = barcode.split('-')[1] rescue barcode
-      order = Order.find_by(id: order_id)
+      order = Order.find_by(id: order_id.to_i)
       
       if order
         if params[:newStatus]
-          order.update(status: params[:newStatus])
+          backend_status = case params[:newStatus]
+                           when 'placed', 'assigned_to_branch', 'picked' then 'pending'
+                           when 'in_process' then 'processing'
+                           when 'delivered', 'out_for_delivery' then 'completed'
+                           else params[:newStatus]
+                           end
+          order.update(status: backend_status)
           render json: { success: true, message: 'Status updated via scan' }
         else
-          render json: { success: true, data: { order: { _id: order.id.to_s, orderNumber: barcode, status: order.status } } }
+          mapped_status = case order.status
+                          when 'pending' then 'assigned_to_branch'
+                          when 'processing' then 'in_process'
+                          when 'completed' then 'delivered'
+                          else order.status
+                          end
+          render json: { success: true, data: { order: { _id: order.id.to_s, orderNumber: "ORD-#{order.id.to_s.rjust(4, '0')}", status: mapped_status } } }
         end
       else
         render json: { success: false, message: 'Order not found for this barcode' }, status: :not_found

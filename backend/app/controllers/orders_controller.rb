@@ -1,4 +1,6 @@
 class OrdersController < ApplicationController
+  before_action :authorize_request
+
   def create
     ActiveRecord::Base.transaction do
       pickup_address = current_user.addresses.find_by(id: params[:pickupAddressId]) || current_user.addresses.first || current_user.addresses.create!(full_address: 'Dummy Address, Medan')
@@ -35,25 +37,59 @@ class OrdersController < ApplicationController
           invoice_url = create_xendit_invoice(@order)
           @order.update!(invoice_url: invoice_url, status: :pending)
         end
-        
-        render json: { success: true, data: { order: @order, invoice_url: @order.invoice_url } }, status: :created
+        order_hash = @order.as_json
+        order_hash['orderNumber'] = "ORD-#{@order.id.to_s.rjust(4, '0')}"
+        render json: { success: true, data: { order: order_hash, invoice_url: @order.invoice_url } }, status: :created
       else
         render json: { success: false, errors: @order.errors.full_messages }, status: :unprocessable_entity
       end
     end
   rescue => e
-    render json: { success: false, error: e.message }, status: :internal_server_error
+    render json: { success: false, message: e.message }, status: :internal_server_error
   end
 
   def index
-    orders = current_user.orders.order(created_at: :desc)
+    orders = current_user.orders
+
+    if params[:status].present? && params[:status] != 'all'
+      backend_status = case params[:status]
+                       when 'placed', 'assigned_to_branch', 'picked' then 'pending'
+                       when 'in_process' then 'processing'
+                       when 'delivered', 'out_for_delivery' then 'completed'
+                       else params[:status]
+                       end
+      orders = orders.where(status: backend_status)
+    end
+
+    if params[:search].present?
+      search_term = params[:search].strip.downcase
+      if search_term.start_with?("ord-")
+        order_id = search_term.gsub("ord-", "").to_i
+        orders = orders.where(id: order_id)
+      else
+        orders = orders.where(id: search_term.to_i)
+      end
+    end
+
+    orders = orders.order(created_at: :desc)
+
+    page = (params[:page] || 1).to_i
+    limit = (params[:limit] || 8).to_i
+    total_items = orders.count
+    orders_paginated = orders.offset((page - 1) * limit).limit(limit)
     
-    formatted_orders = orders.map do |order|
+    formatted_orders = orders_paginated.map do |order|
+      mapped_status = case order.status
+                      when 'pending' then 'assigned_to_branch'
+                      when 'processing' then 'in_process'
+                      when 'completed' then 'delivered'
+                      else order.status
+                      end
       {
         _id: order.id.to_s,
         id: order.id.to_s,
-        orderNumber: "ORD-#{order.id}-#{order.created_at.to_i}",
-        status: order.status,
+        orderNumber: "ORD-#{order.id.to_s.rjust(4, '0')}",
+        status: mapped_status,
         createdAt: order.created_at.iso8601,
         paymentMethod: order.payment_method == 'online' ? 'online' : 'cod',
         paymentStatus: order.payment_status || 'pending',
@@ -66,17 +102,34 @@ class OrdersController < ApplicationController
       }
     end
 
-    render json: { success: true, data: { orders: formatted_orders } }
+    render json: { 
+      success: true, 
+      data: { 
+        orders: formatted_orders,
+        pagination: {
+          totalItems: total_items,
+          currentPage: page,
+          totalPages: (total_items.to_f / limit).ceil
+        }
+      } 
+    }
   end
 
   def show
     order = Order.find(params[:id])
     
+    mapped_status = case order.status
+                    when 'pending' then 'assigned_to_branch'
+                    when 'processing' then 'in_process'
+                    when 'completed' then 'delivered'
+                    else order.status
+                    end
+
     formatted_order = {
       _id: order.id.to_s,
       id: order.id.to_s,
-      orderNumber: "ORD-#{order.id}-#{order.created_at.to_i}",
-      status: order.status,
+      orderNumber: "ORD-#{order.id.to_s.rjust(4, '0')}",
+      status: mapped_status,
       createdAt: order.created_at.iso8601,
       paymentMethod: order.payment_method == 'online' ? 'online' : 'cod',
       paymentStatus: order.payment_status || 'pending',
@@ -141,10 +194,6 @@ class OrdersController < ApplicationController
   end
 
   private
-
-  def current_user
-    @current_user ||= User.first || User.create!(email: 'demo@example.com', first_name: 'Demo', phone: '123456789', role: :customer, password_digest: 'dummy')
-  end
 
   def create_xendit_invoice(order)
     require 'net/http'

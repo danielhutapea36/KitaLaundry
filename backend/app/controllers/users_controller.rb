@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
   def create
+    if User.exists?(email: params[:email])
+      render json: { success: false, errors: ['Akun dengan email tersebut sudah terdaftar. Silakan login.'] }, status: :unprocessable_entity
+      return
+    end
+
     @user = User.new(user_params)
     @user.role = :customer # default role for public registration
 

@@ -76,9 +76,14 @@ export default function RegisterPage() {
 
   const passwordStrength = (password: string) => {
     if (password.length === 0) return { strength: 0, text: '', color: '' }
-    if (password.length < 6) return { strength: 25, text: 'Lemah', color: 'bg-red-500' }
-    if (password.length < 8) return { strength: 50, text: 'Cukup', color: 'bg-yellow-500' }
-    if (password.length < 12) return { strength: 75, text: 'Baik', color: 'bg-blue-500' }
+    let score = 0
+    if (password.length >= 8) score += 25
+    if (/[A-Z]/.test(password)) score += 25
+    if (/[0-9]/.test(password)) score += 25
+    if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) score += 25
+    
+    if (score < 50) return { strength: score, text: 'Lemah', color: 'bg-red-500' }
+    if (score < 100) return { strength: score, text: 'Cukup', color: 'bg-yellow-500' }
     return { strength: 100, text: 'Kuat', color: 'bg-green-500' }
   }
 
@@ -367,7 +372,7 @@ export default function RegisterPage() {
 
                 <Button
                   type="submit"
-                  disabled={isLoading}
+                  disabled={isLoading || strength.strength < 100 || formData.password !== formData.confirmPassword}
                   className="w-full bg-gradient-to-r from-teal-500 to-cyan-600 hover:from-teal-600 hover:to-cyan-700 text-white py-3 px-4 rounded-lg font-medium shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
                 >
                   {isLoading ? (

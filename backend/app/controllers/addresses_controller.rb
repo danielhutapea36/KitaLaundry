@@ -1,4 +1,5 @@
 class AddressesController < ApplicationController
+  before_action :authorize_request
   before_action :set_address, only: [:update, :destroy, :set_default]
 
   def index
@@ -76,7 +77,22 @@ class AddressesController < ApplicationController
   end
 
   def address_params
-    params.permit(:address_type, :address_line_1, :address_line_2, :city, :state, :pincode, :landmark, :phone, :is_default)
+    permitted = params.permit(
+      :addressLine1, :addressLine2, :city, :state, :pincode, :landmark, :phone, :isDefault, :addressType,
+      :address_line_1, :address_line_2, :is_default, :address_type
+    )
+    
+    {
+      address_type: permitted[:addressType] || permitted[:address_type] || 'home',
+      address_line_1: permitted[:addressLine1] || permitted[:address_line_1],
+      address_line_2: permitted[:addressLine2] || permitted[:address_line_2],
+      city: permitted[:city],
+      state: permitted[:state] || 'N/A',
+      pincode: permitted[:pincode],
+      landmark: permitted[:landmark],
+      phone: permitted[:phone],
+      is_default: permitted[:isDefault] || permitted[:is_default] || false
+    }
   end
 
   def format_address(address)

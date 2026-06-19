@@ -21,6 +21,8 @@ class AuthenticationController < ApplicationController
           }
         }
       }, status: :ok
+    else
+      render json: { success: false, message: 'Email atau kata sandi tidak valid. Silakan coba lagi.' }, status: :unauthorized
     end
   end
 

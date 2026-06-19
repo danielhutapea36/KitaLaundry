@@ -33,7 +33,7 @@ class CenterAdminAPI {
 
   // Dashboard
   async getDashboard() {
-    const response = await fetch(`${API_BASE_URL}/center-admin/dashboard`, {
+    const response = await fetch(`${API_BASE_URL}/admin/dashboard/stats`, {
       headers: this.getAuthHeaders(),
       credentials: 'include'
     })
@@ -48,7 +48,7 @@ class CenterAdminAPI {
         if (value !== undefined && value !== '') searchParams.append(key, value.toString())
       })
     }
-    const response = await fetch(`${API_BASE_URL}/center-admin/orders?${searchParams}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/orders?${searchParams}`, {
       headers: this.getAuthHeaders(),
       credentials: 'include'
     })
@@ -56,7 +56,7 @@ class CenterAdminAPI {
   }
 
   async updateOrderStatus(orderId: string, status: string, notes?: string) {
-    const response = await fetch(`${API_BASE_URL}/center-admin/orders/${orderId}/status`, {
+    const response = await fetch(`${API_BASE_URL}/admin/orders/${orderId}/status`, {
       method: 'PUT',
       headers: this.getAuthHeaders(),
       credentials: 'include',
@@ -78,7 +78,7 @@ class CenterAdminAPI {
 
   // Staff
   async getStaff() {
-    const response = await fetch(`${API_BASE_URL}/center-admin/staff`, {
+    const response = await fetch(`${API_BASE_URL}/admin/users`, {
       headers: this.getAuthHeaders(),
       credentials: 'include'
     })
@@ -244,15 +244,15 @@ class CenterAdminAPI {
 
   // Services Management
   async getServices() {
-    const response = await fetch(`${API_BASE_URL}/center-admin/services`, {
+    const response = await fetch(`${API_BASE_URL}/admin/services`, {
       headers: this.getAuthHeaders(),
       credentials: 'include'
     })
     return this.handleResponse(response)
   }
 
-  async createService(data: { name: string; displayName: string; description?: string; category?: string; icon?: string; turnaroundTime?: { standard: number; express: number }; isExpressAvailable?: boolean }) {
-    const response = await fetch(`${API_BASE_URL}/center-admin/services`, {
+  async createService(data: any) {
+    const response = await fetch(`${API_BASE_URL}/admin/services`, {
       method: 'POST',
       headers: this.getAuthHeaders(),
       credentials: 'include',
@@ -328,7 +328,5 @@ class CenterAdminAPI {
   }
 }
 
-// Export both names for backward compatibility
-import { MockCenterAdminAPI } from './mockCenterAdminApi'
-export const centerAdminApi = new MockCenterAdminAPI() as unknown as CenterAdminAPI
+export const centerAdminApi = new CenterAdminAPI()
 export const branchApi = centerAdminApi

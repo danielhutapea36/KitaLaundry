@@ -47,7 +47,7 @@ export default function CustomerHeader({ onMenuClick, sidebarCollapsed = false }
   useEffect(() => {
     const fetchUnreadCount = async () => {
       try {
-        const response = await api.get('/customer/notifications/unread-count')
+        const response = await api.get('/notifications/unread_count')
         if (response.data.success) {
           setUnreadCount(response.data.data.unreadCount || 0)
         }

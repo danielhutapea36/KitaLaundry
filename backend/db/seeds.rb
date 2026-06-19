@@ -92,9 +92,9 @@ branches.each_with_index do |branch, index|
   )
 end
 
-# 15 Customers (3 per cabang)
+# 20 Customers (4 per cabang)
 customers = []
-15.times do |i|
+20.times do |i|
   customers << User.create!(
     email: "customer#{i+1}@gmail.com",
     password: "password123",
@@ -143,7 +143,7 @@ payment_methods = ['cash', 'qris', 'bank_transfer', 'ewallet']
 order_statuses = [0, 1, 2, 3, 4] # :pending, :processing, :ready_for_delivery, :completed, :cancelled
 payment_statuses = [0, 1, 2] # :unpaid, :paid, :failed
 
-# Membuat total 45 orderan (rata-rata 3 order per pelanggan)
+# Membuat total 60 orderan (rata-rata 3 order per pelanggan)
 customers.each_with_index do |customer, idx|
   # Pilih cabang yang lokasinya sesuai dengan kota pelanggan (index branch sama dengan index city mod 5)
   branch = branches[idx % 5]

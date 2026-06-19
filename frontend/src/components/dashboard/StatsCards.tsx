@@ -9,6 +9,7 @@ import {
   TrendingDown,
   Minus
 } from 'lucide-react'
+import CountUp from 'react-countup'
 
 interface StatsData {
   totalOrders: number
@@ -48,7 +49,8 @@ export default function StatsCards({ data, loading }: StatsCardsProps) {
   const stats = [
     {
       name: 'Total Orders',
-      value: (data.totalOrders || 0).toLocaleString(),
+      numericValue: data.totalOrders || 0,
+      prefix: '',
       change: data.growth?.orders || 0,
       changeText: `+${data.periodStats?.orders || 0} this period`,
       icon: ShoppingBag,
@@ -57,7 +59,8 @@ export default function StatsCards({ data, loading }: StatsCardsProps) {
     },
     {
       name: 'Total Revenue',
-      value: `Rp${(data.totalRevenue || 0).toLocaleString()}`,
+      numericValue: data.totalRevenue || 0,
+      prefix: 'Rp',
       change: data.growth?.revenue || 0,
       changeText: `+Rp${(data.periodStats?.revenue || 0).toLocaleString()}`,
       icon: DollarSign,
@@ -66,7 +69,8 @@ export default function StatsCards({ data, loading }: StatsCardsProps) {
     },
     {
       name: 'Total Customers',
-      value: (data.totalCustomers || 0).toLocaleString(),
+      numericValue: data.totalCustomers || 0,
+      prefix: '',
       change: data.growth?.customers || 0,
       changeText: `+${data.periodStats?.customers || 0} new`,
       icon: Users,
@@ -75,7 +79,8 @@ export default function StatsCards({ data, loading }: StatsCardsProps) {
     },
     {
       name: 'Active Branches',
-      value: (data.activeBranches || 0).toString(),
+      numericValue: data.activeBranches || 0,
+      prefix: '',
       change: 0,
       changeText: 'Operational',
       icon: Building2,
@@ -128,7 +133,7 @@ export default function StatsCards({ data, loading }: StatsCardsProps) {
               </div>
               
               <div className="text-3xl font-bold mb-1">
-                {stat.value}
+                <CountUp end={stat.numericValue} prefix={stat.prefix} separator="." duration={2.5} />
               </div>
               
               <div className="text-sm font-medium text-white/90 mb-1">

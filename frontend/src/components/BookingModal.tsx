@@ -203,7 +203,7 @@ export default function BookingModal({ isOpen, onClose, onLoginRequired }: Booki
 
   const fetchAddresses = async () => {
     try {
-      const response = await fetch(`${API_URL}/customer/addresses`, {
+      const response = await fetch(`${API_URL}/addresses`, {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       const data = await response.json()
@@ -281,7 +281,7 @@ export default function BookingModal({ isOpen, onClose, onLoginRequired }: Booki
   const handleAddAddress = async (e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await fetch(`${API_URL}/customer/addresses`, {
+      const response = await fetch(`${API_URL}/addresses`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

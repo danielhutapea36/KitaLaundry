@@ -1,4 +1,6 @@
 class NotificationsController < ApplicationController
+  before_action :authorize_request
+
   def index
     notifications = current_user.notifications.order(created_at: :desc)
     
@@ -38,8 +40,4 @@ class NotificationsController < ApplicationController
   end
 
   private
-
-  def current_user
-    @current_user ||= User.first || User.create!(email: 'demo@example.com', first_name: 'Demo', phone: '123456789', role: :customer, password_digest: 'dummy')
-  end
 end

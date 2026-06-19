@@ -112,6 +112,7 @@ export default function AdminOrdersPage() {
     search: searchParams.get('search') || '',
     isExpress: undefined as boolean | undefined
   })
+  const [searchTermLocal, setSearchTermLocal] = useState(filters.search)
   const [goToPage, setGoToPage] = useState('')
   const [showAssignModal, setShowAssignModal] = useState(false)
   const [logisticsType, setLogisticsType] = useState<'pickup' | 'delivery'>('pickup')
@@ -140,6 +141,16 @@ export default function AdminOrdersPage() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  // Debounce search
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchTermLocal !== filters.search) {
+        handleFilterChange('search', searchTermLocal)
+      }
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [searchTermLocal])
 
   const handleFilterChange = (key: string, value: any) => {
     const newFilters = { ...filters, [key]: value, page: 1 }
@@ -427,8 +438,8 @@ export default function AdminOrdersPage() {
             <input
               type="text"
               placeholder="Search by order ID, customer name, or phone..."
-              value={filters.search}
-              onChange={(e) => handleFilterChange('search', e.target.value)}
+              value={searchTermLocal}
+              onChange={(e) => setSearchTermLocal(e.target.value)}
               className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>

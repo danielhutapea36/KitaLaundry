@@ -8,11 +8,18 @@ Rails.application.routes.draw do
   namespace :admin do
     get 'dashboard/stats', to: 'dashboard#stats'
     resources :users
+    resources :services do
+      member do
+        put :toggle
+      end
+    end
     resources :orders, only: [:index] do
       member do
         post :assign_to_branch
         post :assign_to_logistics
         post :process_refund
+        put :status
+        put :assign
       end
       collection do
         post :scan_barcode

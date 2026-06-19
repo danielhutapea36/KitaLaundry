@@ -49,6 +49,7 @@ export default function BranchOrdersPage() {
   const [staff, setStaff] = useState<Staff[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [showAssignModal, setShowAssignModal] = useState(false)
   const [showViewModal, setShowViewModal] = useState(false)
@@ -64,7 +65,7 @@ export default function BranchOrdersPage() {
       setLoading(true)
       const params: any = { page: pagination.page, limit: 20 }
       if (statusFilter !== 'all') params.status = statusFilter
-      if (searchTerm) params.search = searchTerm
+      if (debouncedSearchTerm) params.search = debouncedSearchTerm
       
       const response = await centerAdminApi.getOrders(params)
       if (response.success) {
@@ -97,9 +98,9 @@ export default function BranchOrdersPage() {
 
   const fetchStaff = async () => {
     try {
-      const response = await centerAdminApi.getStaff()
+      const response = await branchApi.getStaff()
       if (response.success) {
-        setStaff(response.data.staff || [])
+        setStaff(response.data.users || response.data.staff || [])
       }
     } catch (err: any) {
       console.error('Failed to load staff:', err)
@@ -108,12 +109,20 @@ export default function BranchOrdersPage() {
 
   useEffect(() => {
     fetchOrders()
-    fetchStaff()
-  }, [statusFilter, pagination.page])
+    if (staff.length === 0) fetchStaff()
+  }, [statusFilter, pagination.page, debouncedSearchTerm])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm)
+      setPagination(prev => ({ ...prev, page: 1 }))
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [searchTerm])
 
   const handleSearch = () => {
     setPagination(prev => ({ ...prev, page: 1 }))
-    fetchOrders()
+    setDebouncedSearchTerm(searchTerm)
   }
 
   const getStatusColor = (status: string) => {
@@ -300,7 +309,6 @@ export default function BranchOrdersPage() {
               placeholder="Search by order ID..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
               className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
