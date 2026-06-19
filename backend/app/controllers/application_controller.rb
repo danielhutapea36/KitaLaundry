@@ -24,4 +24,8 @@ class ApplicationController < ActionController::API
       render json: { errors: 'Forbidden' }, status: :forbidden
     end
   end
+
+  def get_branch_id
+    Branch.where(manager_id: current_user.id).first&.id || Branch.first&.id
+  end
 end

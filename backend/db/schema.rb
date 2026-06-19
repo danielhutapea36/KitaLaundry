@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_19_123613) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_19_123917) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -115,6 +115,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_123613) do
   end
 
   create_table "users", force: :cascade do |t|
+    t.bigint "branch_id"
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.datetime "email_verified_at"
@@ -125,6 +126,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_123613) do
     t.integer "role"
     t.datetime "updated_at", null: false
     t.string "verification_token"
+    t.index ["branch_id"], name: "index_users_on_branch_id"
     t.index ["email"], name: "index_users_on_email"
   end
 
@@ -138,4 +140,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_19_123613) do
   add_foreign_key "orders", "branches"
   add_foreign_key "orders", "users"
   add_foreign_key "services", "branches"
+  add_foreign_key "users", "branches"
 end

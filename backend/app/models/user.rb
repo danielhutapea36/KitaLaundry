@@ -10,7 +10,11 @@ class User < ApplicationRecord
     admin: 1,
     branch_manager: 2,
     support_agent: 3,
-    center_admin: 4
+    center_admin: 4,
+    staff: 5,
+    driver: 6,
+    washer: 7,
+    ironer: 8
   }, default: :customer
 
   validates :first_name, presence: { message: "tidak boleh kosong" }

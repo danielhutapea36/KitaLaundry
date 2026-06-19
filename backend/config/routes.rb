@@ -7,7 +7,13 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get 'dashboard/stats', to: 'dashboard#stats'
+    get 'analytics', to: 'dashboard#analytics'
     resources :users
+    resources :inventory, only: [:index, :create, :destroy] do
+      member do
+        put :stock
+      end
+    end
     resources :services do
       member do
         put :toggle

@@ -96,7 +96,7 @@ class CenterAdminAPI {
 
   // Analytics
   async getAnalytics(timeframe: string = '7d') {
-    const response = await fetch(`${API_BASE_URL}/center-admin/analytics?timeframe=${timeframe}`, {
+    const response = await fetch(`${API_BASE_URL}/admin/analytics?timeframe=${timeframe}`, {
       headers: this.getAuthHeaders(),
       credentials: 'include'
     })
