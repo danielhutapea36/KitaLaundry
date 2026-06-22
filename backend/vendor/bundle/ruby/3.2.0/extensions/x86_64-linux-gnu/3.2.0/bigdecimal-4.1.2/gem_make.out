@@ -1,4 +1,4 @@
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
 /usr/bin/ruby3.2 -I/usr/lib/ruby/vendor_ruby extconf.rb
 checking for __builtin_clz()... yes
 checking for __builtin_clzl()... yes
@@ -22,18 +22,24 @@ checking for RB_WARN_CATEGORY_DEPRECATED in ruby.h... yes
 checking for RUBY_TYPED_EMBEDDABLE in ruby.h... no
 creating Makefile
 
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
-make DESTDIR\= sitearchdir\=./.gem.20260612-4078594-lmg7o0 sitelibdir\=./.gem.20260612-4078594-lmg7o0 clean
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
+make DESTDIR\= sitearchdir\=./.gem.20260619-509621-zu3gfc sitelibdir\=./.gem.20260619-509621-zu3gfc clean
+make: Warning: File 'Makefile' has modification time 1.5 s in the future
+make: warning:  Clock skew detected.  Your build may be incomplete.
 
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
-make DESTDIR\= sitearchdir\=./.gem.20260612-4078594-lmg7o0 sitelibdir\=./.gem.20260612-4078594-lmg7o0
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
+make DESTDIR\= sitearchdir\=./.gem.20260619-509621-zu3gfc sitelibdir\=./.gem.20260619-509621-zu3gfc
+make: Warning: File 'Makefile' has modification time 1.5 s in the future
 compiling bigdecimal.c
 compiling missing.c
 linking shared-object bigdecimal.so
+make: warning:  Clock skew detected.  Your build may be incomplete.
 
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
-make DESTDIR\= sitearchdir\=./.gem.20260612-4078594-lmg7o0 sitelibdir\=./.gem.20260612-4078594-lmg7o0 install
-/usr/bin/install -c -m 0755 bigdecimal.so ./.gem.20260612-4078594-lmg7o0
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
+make DESTDIR\= sitearchdir\=./.gem.20260619-509621-zu3gfc sitelibdir\=./.gem.20260619-509621-zu3gfc install
+make: Warning: File 'bigdecimal.so' has modification time 3 s in the future
+/usr/bin/install -c -m 0755 bigdecimal.so ./.gem.20260619-509621-zu3gfc
+make: warning:  Clock skew detected.  Your build may be incomplete.
 
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
-make DESTDIR\= sitearchdir\=./.gem.20260612-4078594-lmg7o0 sitelibdir\=./.gem.20260612-4078594-lmg7o0 clean
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/bigdecimal-4.1.2/ext/bigdecimal
+make DESTDIR\= sitearchdir\=./.gem.20260619-509621-zu3gfc sitelibdir\=./.gem.20260619-509621-zu3gfc clean

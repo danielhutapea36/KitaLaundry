@@ -66,7 +66,7 @@ class CenterAdminAPI {
   }
 
   async assignStaffToOrder(orderId: string, staffId: string, estimatedTime?: string) {
-    const response = await fetch(`${API_BASE_URL}/center-admin/orders/${orderId}/assign`, {
+    const response = await fetch(`${API_BASE_URL}/admin/orders/${orderId}/assign`, {
       method: 'PUT',
       headers: this.getAuthHeaders(),
       credentials: 'include',
@@ -93,7 +93,7 @@ class CenterAdminAPI {
          data: {
            staff: data.data.users.map((u: any) => ({
              ...u,
-             stats: { ordersToday: 0, totalOrders: 0, efficiency: 100 } // mock stats since backend doesn't provide them yet
+             stats: u.stats || { ordersToday: 0, totalOrders: 0, efficiency: 100 }
            }))
          }
        }

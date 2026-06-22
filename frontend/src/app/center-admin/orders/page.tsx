@@ -444,51 +444,8 @@ export default function BranchOrdersPage() {
                       Detail
                     </Button>
                     
-                    {/* Status Change Dropdown - like admin */}
-                    {canUpdate && ['placed', 'assigned_to_branch', 'picked', 'in_process', 'ready', 'out_for_delivery'].includes(order.status) && (
-                      <select
-                        value=""
-                        onChange={(e) => {
-                          if (e.target.value) {
-                            handleUpdateStatus(order._id, e.target.value)
-                          }
-                        }}
-                        disabled={actionLoading === order._id}
-                        className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
-                      >
-                        <option value="">Ubah Status</option>
-                        {order.status === 'placed' && (
-                          <option value="in_process">Mulai Proses</option>
-                        )}
-                        {['assigned_to_branch', 'picked'].includes(order.status) && (
-                          <option value="in_process">Mulai Proses</option>
-                        )}
-                        {order.status === 'in_process' && (
-                          <option value="ready">Tandai Siap</option>
-                        )}
-                        {order.status === 'ready' && order.deliveryType !== 'self' && (
-                          <option value="out_for_delivery">Kirimkan</option>
-                        )}
-                        {order.status === 'ready' && order.deliveryType === 'self' && (
-                          <option value="delivered">Tandai Terkirim (Ambil Sendiri)</option>
-                        )}
-                        {order.status === 'out_for_delivery' && (
-                          <option value="delivered">Tandai Terkirim</option>
-                        )}
-                      </select>
-                    )}
-                    
-                    {canAssign && ['assigned_to_branch', 'picked'].includes(order.status) && (
-                      <Button 
-                        size="sm" 
-                        className="bg-green-500 hover:bg-green-600 text-white"
-                        onClick={() => handleAssignStaff(order)}
-                        disabled={actionLoading === order._id}
-                      >
-                        {actionLoading === order._id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 mr-1" />}
-                        Tugaskan Staf
-                      </Button>
-                    )}
+                    {/* Status Change and Assign Staff removed from Center Admin - moved to Branch Admin exclusively */}
+                    {/* Assign Staff button removed */}
                   </div>
                 </div>
               </div>

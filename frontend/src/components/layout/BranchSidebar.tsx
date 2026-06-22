@@ -53,8 +53,8 @@ export function BranchSidebar({ collapsed: externalCollapsed, onCollapsedChange 
   // Check if user has view permission for a module
   const hasModuleAccess = (module: string | null) => {
     if (!module) return true // Dashboard is always visible
-    // Admin and SuperAdmin have full access
-    if (user?.role === 'admin' || user?.role === 'superadmin') return true
+    // Admin, SuperAdmin, and Branch Manager have full access to their branch modules
+    if (user?.role === 'admin' || user?.role === 'superadmin' || user?.role === 'branch_manager') return true
     if (!user?.permissions) return false
     return user.permissions[module]?.view === true
   }
@@ -85,7 +85,7 @@ export function BranchSidebar({ collapsed: externalCollapsed, onCollapsedChange 
                   <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg flex items-center justify-center">
                     <Leaf className="w-5 h-5 text-white" />
                   </div>
-                  <span className="font-semibold text-gray-800">Center Admin</span>
+                  <span className="font-semibold text-gray-800">Admin Cabang</span>
                 </div>
                 <ChevronLeft className="w-5 h-5 text-gray-500" />
               </div>

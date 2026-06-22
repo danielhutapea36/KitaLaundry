@@ -109,8 +109,12 @@ module Admin
 
     def assign
       order = Order.find(params[:id])
-      # Since we don't have staff_id in orders currently, we just return success
-      render json: { success: true, message: 'Assigned to staff' }
+      staff_id = params[:staffId] || params[:staff_id]
+      if order.update(assigned_staff_id: staff_id, status: :processing)
+        render json: { success: true, message: 'Assigned to staff', order: order }
+      else
+        render json: { success: false, message: 'Failed to assign staff' }, status: :unprocessable_entity
+      end
     end
 
     def scan_barcode

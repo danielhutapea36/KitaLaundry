@@ -1,15 +1,16 @@
 module Admin
   class UsersController < ApplicationController
+    before_action :authorize_request
     before_action :set_user, only: [:show, :update, :destroy]
 
     def index
       # Support filtering by role
-      base_query = current_user.role == 'branch_manager' ? User.where(branch_id: get_branch_id).or(User.where(role: 'customer')) : User.all
+      base_query = current_user.role == 'branch_manager' ? User.where(branch_id: get_branch_id) : User.all
       
       if params[:role].present?
         @users = base_query.where(role: params[:role]).order(created_at: :desc)
       else
-        @users = base_query.where.not(role: 'staff').order(created_at: :desc)
+        @users = base_query.where.not(role: ['staff', 'driver', 'washer', 'ironer', 'quality_checker', 'packer', 'dry_cleaner']).order(created_at: :desc)
       end
       
       render json: {
@@ -95,6 +96,29 @@ module Admin
     end
 
     def format_user(user)
+      # Calculate stats if user is staff
+      stats = nil
+      if user.role == 'staff' || user.role == 'driver' || user.role == 'washer' || user.role == 'ironer'
+        today_start = Time.current.beginning_of_day
+        today_end = Time.current.end_of_day
+        
+        # We define "completed" orders as status 3 (completed) or status 2 (ready) depending on workflow.
+        # Let's use status :completed and :ready.
+        completed_statuses = [Order.statuses[:ready], Order.statuses[:completed]]
+        
+        orders_today = user.assigned_orders.where(status: completed_statuses, updated_at: today_start..today_end).count
+        total_orders = user.assigned_orders.where(status: completed_statuses).count
+        
+        # Calculate efficiency: simply 100% for now, or based on some metric. We will return 100 as placeholder.
+        efficiency = 100
+        
+        stats = {
+          ordersToday: orders_today,
+          totalOrders: total_orders,
+          efficiency: efficiency
+        }
+      end
+
       {
         _id: user.id.to_s,
         id: user.id.to_s,
@@ -104,7 +128,8 @@ module Admin
         role: user.role,
         isActive: true,
         createdAt: user.created_at,
-        branch: user.branch ? { id: user.branch.id.to_s, name: user.branch.name } : nil
+        branch: user.branch ? { id: user.branch.id.to_s, name: user.branch.name } : nil,
+        stats: stats
       }
     end
   end

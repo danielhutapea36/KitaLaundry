@@ -28,4 +28,20 @@ class ApplicationController < ActionController::API
   def get_branch_id
     Branch.where(manager_id: current_user.id).first&.id || Branch.first&.id
   end
+
+  protected
+
+  def verify_recaptcha?(token)
+    return false if token.blank?
+    
+    secret_key = ENV['RECAPTCHA_SECRET_KEY']
+    uri = URI.parse('https://www.google.com/recaptcha/api/siteverify')
+    response = Net::HTTP.post_form(uri, secret: secret_key, response: token)
+    result = JSON.parse(response.body)
+    
+    result['success']
+  rescue StandardError => e
+    Rails.logger.error("reCAPTCHA validation failed: #{e.message}")
+    false
+  end
 end

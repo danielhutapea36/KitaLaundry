@@ -1,5 +1,9 @@
 class AuthenticationController < ApplicationController
   def login
+    unless verify_recaptcha?(params[:recaptcha_token])
+      return render json: { success: false, message: 'Validasi reCAPTCHA gagal. Silakan coba lagi.' }, status: :unauthorized
+    end
+
     @user = User.find_by(email: params[:email])
     
     if @user&.authenticate(params[:password])

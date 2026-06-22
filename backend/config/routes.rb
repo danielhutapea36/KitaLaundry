@@ -20,12 +20,7 @@ Rails.application.routes.draw do
       end
     end
     
-    # Adding center-admin namespace for missing API endpoints
-    namespace :center_admin, path: '/center-admin' do
-      get 'settings', to: '../admin/dashboard#settings'
-      put 'settings', to: '../admin/dashboard#update_settings'
-      get 'worker-types', to: '../admin/dashboard#worker_types'
-    end
+
     
     resources :orders, only: [:index] do
       member do
@@ -39,6 +34,12 @@ Rails.application.routes.draw do
         post :scan_barcode
       end
     end
+  end
+
+  namespace :center_admin, path: '/center-admin' do
+    get 'settings', to: '/admin/dashboard#settings'
+    put 'settings', to: '/admin/dashboard#update_settings'
+    get 'worker-types', to: '/admin/dashboard#worker_types'
   end
 
   resources :orders, only: [:create, :index, :show] do

@@ -22,7 +22,7 @@ export default function BranchLayout({
   // Refresh user permissions from backend
   useEffect(() => {
     const refreshPermissions = async () => {
-      if (!token || !user || user.role !== 'center_admin') return
+      if (!token || !user || user.role !== 'branch_manager') return
       
       try {
         const response = await fetch(`${API_URL}/auth/profile`, {
@@ -47,7 +47,7 @@ export default function BranchLayout({
       }
     }
 
-    if (_hasHydrated && isAuthenticated && user?.role === 'center_admin') {
+    if (_hasHydrated && isAuthenticated && user?.role === 'branch_manager') {
       refreshPermissions()
     }
   }, [_hasHydrated, isAuthenticated, user?.role, token])
@@ -63,7 +63,7 @@ export default function BranchLayout({
       return
     }
     
-    if (user.role !== 'center_admin') {
+    if (user.role !== 'branch_manager') {
       router.push('/auth/login')
       return
     }

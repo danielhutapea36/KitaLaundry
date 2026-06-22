@@ -6,6 +6,7 @@ KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yan
 - **Frontend**: Next.js 14, React, Tailwind CSS, TypeScript.
 - **Backend**: Ruby on Rails 8 (API mode), PostgreSQL.
 - **Autentikasi & Keamanan**: JWT (JSON Web Tokens), `bcrypt`, **Google reCAPTCHA v3**.
+- **Auto-Logout Sesi**: Sistem mendeteksi inaktivitas pengguna (30 menit) di frontend dan otomatis mengakhiri sesi untuk mencegah penyalahgunaan.
 - **Payment Gateway**: Integrasi **Xendit** (Pembuatan Invoice Otomatis & Webhook Callback).
 - **Penyimpanan Berkas**: **Cloudinary** (via ActiveStorage) untuk Avatar, Struk Pembayaran, dan Bukti Kondisi Pakaian.
 - **Notifikasi**: **Meta WhatsApp Cloud API** (Notifikasi pesanan dan konfirmasi pembayaran).
@@ -117,8 +118,27 @@ Setelah menjalankan proses `rails db:seed` pada backend, sistem telah menyediaka
      ```
    - *Catatan: Jika integrasi WhatsApp dihidupkan, sistem akan otomatis mengirim pesan WA ke nomor yang didaftarkan pada `.env` Meta API.*
 
-### Skenario Testing 2: Lewat Frontend Next.js
-1. Buka *browser* dan kunjungi alamat lokal frontend Anda (biasanya `http://localhost:3001`).
+### Skenario Testing 2: Pengujian Keamanan reCAPTCHA v3 (Anti-Bot)
+Untuk memastikan sistem backend kebal dari serangan bot dan menolak permintaan login/register tanpa verifikasi Google reCAPTCHA:
+1. Buka aplikasi **Postman**.
+2. **Uji Coba Login Tanpa Token reCAPTCHA:**
+   - Metode: `POST`
+   - URL: `http://localhost:8000/auth/login` (sesuaikan port backend Anda, misalnya `:8000` atau `:3000`)
+   - Headers: `Content-Type: application/json`
+   - Body (JSON): 
+     ```json
+     {
+       "email": "customer1@gmail.com",
+       "password": "password123"
+     }
+     ```
+   - Tekan **Send**.
+   - **Hasil yang Diharapkan:** Anda akan mendapat balasan `422 Unprocessable Entity` atau `401 Unauthorized` dengan pesan:
+     `{"success": false, "message": "Validasi reCAPTCHA gagal. Silakan coba lagi."}`
+   - *Catatan: Ini membuktikan keamanan berfungsi. Login yang valid dari frontend (melalui browser nyata) akan secara otomatis menyertakan `"recaptcha_token"` pada body di latar belakang.*
+
+### Skenario Testing 3: Lewat Frontend Next.js
+1. Buka *browser* dan kunjungi alamat lokal frontend Anda (berjalan di `http://localhost:3000` atau `3001` sesuai konfigurasi).
 2. Masuk ke halaman **Login**.
    - Sistem akan otomatis menghitung skor reCAPTCHA v3 di latar belakang untuk keamanan anti-bot.
 3. Masuk menggunakan akun **Customer** (`customer1@gmail.com`).

@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
   def create
+    unless verify_recaptcha?(params[:recaptcha_token])
+      return render json: { success: false, errors: ['Validasi reCAPTCHA gagal. Silakan coba lagi.'] }, status: :unprocessable_entity
+    end
+
     if User.exists?(email: params[:email])
       render json: { success: false, errors: ['Akun dengan email tersebut sudah terdaftar. Silakan login.'] }, status: :unprocessable_entity
       return

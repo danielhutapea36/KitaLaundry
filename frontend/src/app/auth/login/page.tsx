@@ -8,6 +8,7 @@ import { authAPI } from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
 import toast from 'react-hot-toast'
 import { Eye, EyeOff, Mail, Lock, Sparkles, ArrowLeft, Shield, Truck, Clock, CheckCircle } from 'lucide-react'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -19,15 +20,28 @@ export default function LoginPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const setAuth = useAuthStore((state) => state.setAuth)
+  const { executeRecaptcha } = useGoogleReCaptcha()
   
   const redirectUrl = searchParams.get('redirect')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!executeRecaptcha) {
+      toast.error('Sistem reCAPTCHA belum siap. Silakan muat ulang halaman.')
+      return
+    }
+
     setIsLoading(true)
 
     try {
-      const response = await authAPI.login(formData)
+      // Execute reCAPTCHA to get the token
+      const recaptchaToken = await executeRecaptcha('login')
+      
+      const response = await authAPI.login({
+        ...formData,
+        recaptcha_token: recaptchaToken
+      })
       const { token, user } = response.data.data
 
       setAuth(user, token)

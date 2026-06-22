@@ -458,23 +458,6 @@ export default function BranchStaffPage() {
                           <Edit className="w-4 h-4" />
                         </Button>
                       )}
-                      {canUpdate && (
-                        <Button
-                          variant={member.isActive ? "outline" : "default"}
-                          size="sm"
-                          onClick={() => handleToggleAvailability(member._id)}
-                          disabled={actionLoading === member._id}
-                          className={member.isActive ? '' : 'bg-green-500 hover:bg-green-600 text-white'}
-                        >
-                          {actionLoading === member._id ? (
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                          ) : member.isActive ? (
-                            <UserX className="w-4 h-4" />
-                          ) : (
-                            <UserCheck className="w-4 h-4" />
-                          )}
-                        </Button>
-                      )}
                       {canDelete && (
                         <Button variant="outline" size="sm" className="text-red-600 border-red-300 hover:bg-red-50" onClick={() => openDeleteModal(member)}>
                           <Trash2 className="w-4 h-4" />

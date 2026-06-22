@@ -1,4 +1,4 @@
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
 /usr/bin/ruby3.2 -I/usr/lib/ruby/vendor_ruby extconf.rb
 checking for whether -Wall is accepted as CFLAGS... yes
 checking for whether -O3 is accepted as CFLAGS... yes
@@ -6,11 +6,14 @@ checking for whether -pedantic is accepted as CFLAGS... no
 checking for whether -std=c99 is accepted as CFLAGS... yes
 creating Makefile
 
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
-make DESTDIR\= sitearchdir\=./.gem.20260612-4078594-ydi5dp sitelibdir\=./.gem.20260612-4078594-ydi5dp clean
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
+make DESTDIR\= sitearchdir\=./.gem.20260619-509621-c6nd18 sitelibdir\=./.gem.20260619-509621-c6nd18 clean
+make: Warning: File 'Makefile' has modification time 2.3 s in the future
+make: warning:  Clock skew detected.  Your build may be incomplete.
 
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
-make DESTDIR\= sitearchdir\=./.gem.20260612-4078594-ydi5dp sitelibdir\=./.gem.20260612-4078594-ydi5dp
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
+make DESTDIR\= sitearchdir\=./.gem.20260619-509621-c6nd18 sitelibdir\=./.gem.20260619-509621-c6nd18
+make: Warning: File 'Makefile' has modification time 2.2 s in the future
 compiling ed25519_ref10.c
 compiling fe.c
 compiling ge.c
@@ -22,10 +25,13 @@ compiling sha512.c
 compiling sign.c
 compiling verify.c
 linking shared-object ed25519_ref10.so
+make: warning:  Clock skew detected.  Your build may be incomplete.
 
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
-make DESTDIR\= sitearchdir\=./.gem.20260612-4078594-ydi5dp sitelibdir\=./.gem.20260612-4078594-ydi5dp install
-/usr/bin/install -c -m 0755 ed25519_ref10.so ./.gem.20260612-4078594-ydi5dp
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
+make DESTDIR\= sitearchdir\=./.gem.20260619-509621-c6nd18 sitelibdir\=./.gem.20260619-509621-c6nd18 install
+make: Warning: File 'ed25519_ref10.so' has modification time 1.7 s in the future
+/usr/bin/install -c -m 0755 ed25519_ref10.so ./.gem.20260619-509621-c6nd18
+make: warning:  Clock skew detected.  Your build may be incomplete.
 
-current directory: /home/danbilaesok/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
-make DESTDIR\= sitearchdir\=./.gem.20260612-4078594-ydi5dp sitelibdir\=./.gem.20260612-4078594-ydi5dp clean
+current directory: /mnt/d/KitaLaundry/backend/vendor/bundle/ruby/3.2.0/gems/ed25519-1.4.0/ext/ed25519_ref10
+make DESTDIR\= sitearchdir\=./.gem.20260619-509621-c6nd18 sitelibdir\=./.gem.20260619-509621-c6nd18 clean

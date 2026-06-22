@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { authAPI } from '@/lib/api'
 import toast from 'react-hot-toast'
 import { Eye, EyeOff, Mail, Lock, User, Phone, Sparkles, ArrowLeft, CheckCircle, Shield, Truck, Clock, Star } from 'lucide-react'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -20,10 +21,16 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const router = useRouter()
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    if (!executeRecaptcha) {
+      toast.error('Sistem reCAPTCHA belum siap. Silakan muat ulang halaman.')
+      return
+    }
+
     if (formData.password !== formData.confirmPassword) {
       toast.error('Kata sandi tidak cocok')
       return
@@ -43,12 +50,15 @@ export default function RegisterPage() {
     setIsLoading(true)
 
     try {
+      const recaptchaToken = await executeRecaptcha('register')
+
       await authAPI.register({
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
         password: formData.password,
         confirmPassword: formData.confirmPassword,
+        recaptcha_token: recaptchaToken,
       })
 
       toast.success('Pendaftaran berhasil! Silakan cek email Anda untuk memverifikasi akun.')

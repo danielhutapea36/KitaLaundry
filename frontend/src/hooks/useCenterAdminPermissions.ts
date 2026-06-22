@@ -11,7 +11,7 @@ export function useCenterAdminPermissions(defaultModule?: string) {
 
   // Center Admin default permissions - full access to branch operations
   const defaultCenterAdminPermissions: Record<string, Record<string, boolean>> = {
-    orders: { view: true, create: true, update: true, delete: false, assign: true, cancel: true },
+    orders: { view: true, create: true, update: false, delete: false, assign: false, cancel: true },
     services: { view: true, create: true, update: true, delete: true },
     staff: { view: true, create: true, update: true, delete: true },
     inventory: { view: true, create: true, update: true, delete: true },
