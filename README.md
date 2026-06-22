@@ -75,7 +75,7 @@ KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yan
 
 Setelah menjalankan proses `rails db:seed` pada backend, sistem telah menyediakan beberapa data awal dan akun *dummy* untuk keperluan *testing*:
 
-### Kredensial Akun Dummy:
+### Kredensial Akun:
 | Peran (Role) | Email | Password | Hak Akses Utama |
 |---|---|---|---|
 | **Center Admin** | `admin@kitalaundry.com` | `password123` | Manajemen semua cabang, laporan, layanan, admin sistem. |
@@ -141,6 +141,7 @@ Untuk memastikan sistem backend kebal dari serangan bot dan menolak permintaan l
 1. Buka *browser* dan kunjungi alamat lokal frontend Anda (berjalan di `http://localhost:3000` atau `3001` sesuai konfigurasi).
 2. Masuk ke halaman **Login**.
    - Sistem akan otomatis menghitung skor reCAPTCHA v3 di latar belakang untuk keamanan anti-bot.
+   - **Cara Memastikan reCAPTCHA Berjalan:** Tekan **F12** (atau klik kanan > *Inspect*) untuk membuka **Developer Tools**, lalu pindah ke *tab* **Network**. Saat Anda menekan tombol "Masuk", klik *request* bernama `login` di daftar Network, lalu lihat bagian **Payload**. Jika terdapat bidang `recaptcha_token` berisi kode panjang, berarti fungsi *invisible* reCAPTCHA berhasil bekerja!
 3. Masuk menggunakan akun **Customer** (`customer1@gmail.com`).
 4. **Buat Pesanan Baru**: Cobalah antarmuka pemesanan. Saat Anda memilih opsi *checkout* atau *bayar*, backend akan memanggil layanan Xendit dan *Invoice* / Kode Pembayaran akan muncul!
 5. Masuk menggunakan akun **Center Admin** (`admin@kitalaundry.com`) untuk melihat data analitik, tabel seluruh pesanan, atau merespons tiket keluhan.
