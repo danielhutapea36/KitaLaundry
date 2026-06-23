@@ -186,6 +186,70 @@ customers.each_with_index do |customer, idx|
   end
 end
 
+puts "Membuat Daftar Harga Satuan (Service Items)..."
+ServiceItem.destroy_all
+
+# Kategori: men, women, kids, household, institutional, others
+# Service: dry_clean, steam_press, starching, wash_fold, wash_iron, premium_laundry
+
+items_data = [
+  # --- PRIA (men) ---
+  { cat: 'men', name: 'Kemeja Lengan Pendek', services: { wash_fold: 5000, wash_iron: 7000, dry_clean: 15000, steam_press: 4000 } },
+  { cat: 'men', name: 'Kemeja Lengan Panjang', services: { wash_fold: 6000, wash_iron: 8000, dry_clean: 18000, steam_press: 5000 } },
+  { cat: 'men', name: 'Celana Panjang', services: { wash_fold: 7000, wash_iron: 9000, dry_clean: 20000, steam_press: 5000 } },
+  { cat: 'men', name: 'Celana Pendek', services: { wash_fold: 4000, wash_iron: 6000, dry_clean: 12000, steam_press: 3000 } },
+  { cat: 'men', name: 'Jas / Blazer', services: { wash_fold: 0, wash_iron: 0, dry_clean: 35000, steam_press: 10000 } },
+  { cat: 'men', name: 'Jaket', services: { wash_fold: 12000, wash_iron: 15000, dry_clean: 25000, steam_press: 8000 } },
+
+  # --- WANITA (women) ---
+  { cat: 'women', name: 'Blus', services: { wash_fold: 6000, wash_iron: 8000, dry_clean: 18000, steam_press: 5000 } },
+  { cat: 'women', name: 'Rok', services: { wash_fold: 7000, wash_iron: 9000, dry_clean: 20000, steam_press: 5000 } },
+  { cat: 'women', name: 'Gaun / Dress (Pendek)', services: { wash_fold: 10000, wash_iron: 15000, dry_clean: 30000, steam_press: 8000 } },
+  { cat: 'women', name: 'Gaun / Dress (Panjang)', services: { wash_fold: 15000, wash_iron: 20000, dry_clean: 45000, steam_press: 12000 } },
+  { cat: 'women', name: 'Kebaya', services: { wash_fold: 0, wash_iron: 0, dry_clean: 50000, steam_press: 15000 } },
+
+  # --- ANAK-ANAK (kids) ---
+  { cat: 'kids', name: 'Baju Anak', services: { wash_fold: 3000, wash_iron: 5000, dry_clean: 10000, steam_press: 2000 } },
+  { cat: 'kids', name: 'Celana Anak', services: { wash_fold: 3000, wash_iron: 5000, dry_clean: 10000, steam_press: 2000 } },
+  { cat: 'kids', name: 'Jaket Anak', services: { wash_fold: 6000, wash_iron: 8000, dry_clean: 15000, steam_press: 4000 } },
+  { cat: 'kids', name: 'Seragam Sekolah', services: { wash_fold: 5000, wash_iron: 8000, dry_clean: 15000, steam_press: 4000 } },
+
+  # --- RUMAH TANGGA (household) ---
+  { cat: 'household', name: 'Sprei Single', services: { wash_fold: 10000, wash_iron: 15000, dry_clean: 25000, steam_press: 8000 } },
+  { cat: 'household', name: 'Sprei Double/King', services: { wash_fold: 15000, wash_iron: 20000, dry_clean: 30000, steam_press: 10000 } },
+  { cat: 'household', name: 'Bed Cover Single', services: { wash_fold: 20000, wash_iron: 0, dry_clean: 35000, steam_press: 0 } },
+  { cat: 'household', name: 'Bed Cover Double', services: { wash_fold: 30000, wash_iron: 0, dry_clean: 50000, steam_press: 0 } },
+  { cat: 'household', name: 'Selimut Tipis', services: { wash_fold: 12000, wash_iron: 0, dry_clean: 20000, steam_press: 0 } },
+  { cat: 'household', name: 'Selimut Tebal', services: { wash_fold: 18000, wash_iron: 0, dry_clean: 30000, steam_press: 0 } },
+  { cat: 'household', name: 'Handuk Mandi', services: { wash_fold: 8000, wash_iron: 10000, dry_clean: 0, steam_press: 0 } },
+  { cat: 'household', name: 'Sarung Bantal/Guling', services: { wash_fold: 3000, wash_iron: 5000, dry_clean: 0, steam_press: 2000 } },
+
+  # --- INSTITUSI (institutional) ---
+  { cat: 'institutional', name: 'Seragam Karyawan', services: { wash_fold: 5000, wash_iron: 8000, dry_clean: 15000, steam_press: 4000 } },
+  { cat: 'institutional', name: 'Taplak Meja (Kecil)', services: { wash_fold: 5000, wash_iron: 8000, dry_clean: 0, steam_press: 4000 } },
+  { cat: 'institutional', name: 'Taplak Meja (Besar)', services: { wash_fold: 10000, wash_iron: 15000, dry_clean: 0, steam_press: 8000 } },
+
+  # --- LAINNYA (others) ---
+  { cat: 'others', name: 'Sepatu Kets/Sneakers', services: { wash_fold: 0, wash_iron: 0, dry_clean: 0, premium_laundry: 35000 } },
+  { cat: 'others', name: 'Sepatu Kulit', services: { wash_fold: 0, wash_iron: 0, dry_clean: 0, premium_laundry: 50000 } },
+  { cat: 'others', name: 'Tas Ransel', services: { wash_fold: 0, wash_iron: 0, dry_clean: 0, premium_laundry: 40000 } },
+  { cat: 'others', name: 'Topi', services: { wash_fold: 5000, wash_iron: 0, dry_clean: 10000, premium_laundry: 15000 } },
+  { cat: 'others', name: 'Boneka Kecil', services: { wash_fold: 10000, wash_iron: 0, dry_clean: 15000, premium_laundry: 0 } },
+  { cat: 'others', name: 'Boneka Besar', services: { wash_fold: 25000, wash_iron: 0, dry_clean: 35000, premium_laundry: 0 } },
+]
+
+items_data.each do |item|
+  item[:services].each do |service_type, price|
+    next if price == 0 # Jangan buat data jika harga 0 (tidak tersedia)
+    ServiceItem.create!(
+      category: item[:cat],
+      name: item[:name],
+      service_type: service_type.to_s,
+      base_price: price
+    )
+  end
+end
+
 puts "✅ Seeding selesai dengan sempurna!"
 puts "--------------------------------------------------"
 puts "🔑 Gunakan kredensial berikut untuk login/testing:"

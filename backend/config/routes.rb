@@ -76,7 +76,7 @@ Rails.application.routes.draw do
       put :mark_read
     end
   end
-  get '/service-items', to: 'mock#service_items'
+  get '/service-items', to: 'service_items#index'
 
   
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
