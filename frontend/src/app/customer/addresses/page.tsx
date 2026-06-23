@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { MapPin, Plus, Edit2, Trash2, Star, Phone, Home, Building, Loader2, ArrowLeft, Check } from 'lucide-react'
 import { useAddresses } from '@/hooks/useAddresses'
 import { useAuthStore } from '@/store/authStore'
+import { AddressAutocomplete } from '@/components/ui/AddressAutocomplete'
 import toast from 'react-hot-toast'
 
 export default function AddressesPage() {
@@ -68,7 +69,22 @@ export default function AddressesPage() {
               <div><label className="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap</label><input type="text" value={formData.name} onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required /></div>
               <div><label className="block text-sm font-medium text-gray-700 mb-1">Nomor Telepon</label><input type="tel" value={formData.phone} onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))} className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required /></div>
             </div>
-            <div><label className="block text-sm font-medium text-gray-700 mb-1">Alamat Baris 1</label><input type="text" value={formData.addressLine1} onChange={(e) => setFormData(prev => ({ ...prev, addressLine1: e.target.value }))} placeholder="No. Rumah, Nama Jalan" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" required /></div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Alamat Baris 1 (Cari Peta)</label>
+              <AddressAutocomplete 
+                value={formData.addressLine1} 
+                onChange={(val) => setFormData(prev => ({ ...prev, addressLine1: val }))} 
+                onSelect={(item) => {
+                  setFormData(prev => ({
+                    ...prev,
+                    city: item.address.city || item.address.city_district || item.address.state || prev.city,
+                    pincode: item.address.postcode || prev.pincode,
+                    addressLine2: [item.address.village, item.address.suburb].filter(Boolean).join(', ') || prev.addressLine2
+                  }))
+                }}
+                required 
+              />
+            </div>
             <div><label className="block text-sm font-medium text-gray-700 mb-1">Alamat Baris 2 (Opsional)</label><input type="text" value={formData.addressLine2} onChange={(e) => setFormData(prev => ({ ...prev, addressLine2: e.target.value }))} placeholder="Kelurahan, Kecamatan" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>
             <div><label className="block text-sm font-medium text-gray-700 mb-1">Patokan (Opsional)</label><input type="text" value={formData.landmark} onChange={(e) => setFormData(prev => ({ ...prev, landmark: e.target.value }))} placeholder="Dekat dengan..." className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500" /></div>
             <div className="grid grid-cols-2 gap-4">

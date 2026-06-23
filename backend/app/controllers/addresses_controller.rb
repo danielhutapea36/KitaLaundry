@@ -49,7 +49,7 @@ class AddressesController < ApplicationController
     if @address.destroy
       render json: { success: true, message: 'Address deleted successfully' }
     else
-      render json: { success: false, errors: @address.errors.full_messages }, status: :unprocessable_entity
+      render json: { success: false, message: @address.errors.full_messages.join(', ') }, status: :unprocessable_entity
     end
   end
 
