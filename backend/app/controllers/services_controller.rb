@@ -57,11 +57,13 @@ class ServicesController < ApplicationController
       name_down = s.name.downcase
       type = 'wash_fold' # default
       
-      if name_down.include?('setrika') && name_down.include?('cuci')
+      if name_down.include?('sepatu') || name_down.include?('tas') || name_down.include?('premium')
+        type = 'premium_laundry'
+      elsif name_down.include?('setrika') && name_down.include?('cuci')
         type = 'wash_iron'
       elsif name_down.include?('setrika')
         type = 'steam_press'
-      elsif name_down.include?('jas') || name_down.include?('kering') || name_down.include?('premium')
+      elsif name_down.include?('jas') || name_down.include?('kering') || name_down.include?('dry')
         type = 'dry_clean'
       end
       

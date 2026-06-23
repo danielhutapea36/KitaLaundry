@@ -18,15 +18,33 @@ class OrdersController < ApplicationController
       subtotal = 0
       if params[:items].present?
         params[:items].each do |item|
-          price = 7000
-          price = 14000 if item[:itemType].to_s.end_with?('_bed')
-          subtotal += price * (item[:quantity].to_i || 1)
+          price = 0
+          item_id = item[:itemType].to_s
+          
+          if item_id.end_with?('_kg')
+            service_id = item_id.split('_').first
+            s = Service.find_by(id: service_id)
+            price = s ? s.price_per_kg : 7000
+          elsif item_id.start_with?('si_')
+            si_id = item_id.split('_').last
+            si = ServiceItem.find_by(id: si_id)
+            price = si ? si.base_price : 0
+          end
+          
+          quantity = item[:quantity].to_f || 1.0
+          subtotal += price * quantity
         end
       end
       
       subtotal = (subtotal * 1.5).to_i if params[:isExpress]
       tax = (subtotal * 0.1).to_i
-      @order.total_price = subtotal + tax
+      
+      delivery_charge = 0
+      if params[:deliveryDetails].present? && params[:deliveryDetails][:deliveryCharge].present?
+        delivery_charge = params[:deliveryDetails][:deliveryCharge].to_i
+      end
+      
+      @order.total_price = subtotal.to_i + tax + delivery_charge
       @order.payment_status = (@order.payment_method == 'online' ? :unpaid : :pending)
 
       service = Service.find_by(branch_id: @order.branch_id) || Service.first

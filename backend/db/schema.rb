@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_18_075525) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_23_083032) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -42,6 +42,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_075525) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "inventory_items", force: :cascade do |t|
+    t.bigint "branch_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "current_stock"
+    t.string "item_name"
+    t.datetime "last_restocked"
+    t.integer "max_capacity"
+    t.integer "min_threshold"
+    t.string "supplier"
+    t.string "unit"
+    t.decimal "unit_cost"
+    t.datetime "updated_at", null: false
+    t.index ["branch_id"], name: "index_inventory_items_on_branch_id"
+  end
+
+  create_table "notifications", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.boolean "is_read", default: false
+    t.text "message"
+    t.string "notification_type"
+    t.string "reference_id"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "order_items", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "order_id", null: false
@@ -53,6 +80,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_075525) do
   end
 
   create_table "orders", force: :cascade do |t|
+    t.integer "assigned_staff_id"
     t.bigint "branch_id", null: false
     t.datetime "created_at", null: false
     t.bigint "delivery_address_id"
@@ -72,31 +100,49 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_075525) do
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
+  create_table "service_items", force: :cascade do |t|
+    t.integer "base_price"
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.string "service_type"
+    t.datetime "updated_at", null: false
+  end
+
   create_table "services", force: :cascade do |t|
     t.bigint "branch_id", null: false
+    t.string "category", default: "laundry"
     t.datetime "created_at", null: false
     t.text "description"
+    t.boolean "is_active", default: true
+    t.boolean "is_express_available", default: true
     t.string "name", null: false
     t.integer "price_per_kg", null: false
+    t.integer "turnaround_express", default: 24
+    t.integer "turnaround_standard", default: 48
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_services_on_branch_id"
   end
 
   create_table "users", force: :cascade do |t|
+    t.bigint "branch_id"
     t.datetime "created_at", null: false
-    t.string "email"
+    t.string "email", null: false
     t.datetime "email_verified_at"
-    t.string "first_name"
+    t.string "first_name", null: false
     t.string "last_name"
-    t.string "password_digest"
+    t.string "password_digest", null: false
     t.string "phone"
     t.integer "role"
     t.datetime "updated_at", null: false
     t.string "verification_token"
+    t.index ["branch_id"], name: "index_users_on_branch_id"
     t.index ["email"], name: "index_users_on_email"
   end
 
   add_foreign_key "addresses", "users"
+  add_foreign_key "inventory_items", "branches"
+  add_foreign_key "notifications", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "services"
   add_foreign_key "orders", "addresses", column: "delivery_address_id"
@@ -104,4 +150,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_075525) do
   add_foreign_key "orders", "branches"
   add_foreign_key "orders", "users"
   add_foreign_key "services", "branches"
+  add_foreign_key "users", "branches"
 end

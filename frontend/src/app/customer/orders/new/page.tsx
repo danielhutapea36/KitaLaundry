@@ -163,7 +163,7 @@ export default function NewOrderPage() {
   const [deliveryLoading, setDeliveryLoading] = useState(false)
   
   // Form state
-  const [selectedService, setSelectedService] = useState('wash_fold')
+  const [selectedServices, setSelectedServices] = useState<string[]>(['wash_fold'])
   const [items, setItems] = useState<{ [key: string]: number }>({})
   const [selectedDate, setSelectedDate] = useState('')
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('')
@@ -270,7 +270,7 @@ export default function NewOrderPage() {
         if (data.success) {
           setBranchServices(data.data.services || [])
           // Reset selected service when branch changes
-          setSelectedService('')
+          setSelectedServices([])
           setItems({})
         }
       } catch (error) {
@@ -360,7 +360,7 @@ export default function NewOrderPage() {
         .map(([itemId, quantity]) => {
           return {
             itemType: itemId,
-            service: selectedService,
+            service: selectedServices[0],
             category: 'normal',
             quantity
           }
@@ -379,7 +379,7 @@ export default function NewOrderPage() {
     }
 
     calculatePrice()
-  }, [items, selectedService, isExpress, calculatePricing])
+  }, [items, selectedServices, isExpress, calculatePricing])
 
   const updateItemQuantity = (itemId: string, change: number) => {
     setItems(prev => ({
@@ -389,7 +389,13 @@ export default function NewOrderPage() {
   }
 
   const getCurrentItemTypes = () => {
-    return serviceItems[selectedService] || []
+    let allItems: any[] = []
+    selectedServices.forEach(srv => {
+      if (serviceItems[srv]) {
+        allItems = [...allItems, ...serviceItems[srv]]
+      }
+    })
+    return allItems
   }
 
   const getTotalItems = () => {
@@ -433,7 +439,7 @@ export default function NewOrderPage() {
       .filter(([_, quantity]) => quantity > 0)
       .map(([itemId, quantity]) => ({
         itemType: itemId,
-        service: selectedService,
+        service: selectedServices[0],
         category: 'normal',
         quantity,
         specialInstructions: ''
@@ -479,7 +485,7 @@ export default function NewOrderPage() {
         return true
       case 3:
         // Must select a service
-        return selectedService !== ''
+        return selectedServices.length > 0
       case 4:
         // Must have items selected
         return getTotalItems() > 0
@@ -796,13 +802,16 @@ export default function NewOrderPage() {
                       <div
                         key={service._id}
                         className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                          selectedService === service.code
+                          selectedServices.includes(service.code)
                             ? 'border-teal-500 bg-teal-50'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                         onClick={() => {
-                          setSelectedService(service.code)
-                          setItems({})
+                          if (selectedServices.includes(service.code)) {
+                            setSelectedServices(selectedServices.filter(s => s !== service.code))
+                          } else {
+                            setSelectedServices([...selectedServices, service.code])
+                          }
                         }}
                       >
                         <div className="flex items-start justify-between">
@@ -820,7 +829,7 @@ export default function NewOrderPage() {
                               )}
                             </div>
                           </div>
-                          {selectedService === service.code && (
+                          {selectedServices.includes(service.code) && (
                             <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center">
                               <Check className="w-3 h-3 text-white" />
                             </div>
@@ -842,7 +851,7 @@ export default function NewOrderPage() {
                 <div className="flex items-center text-sm text-teal-700">
                   <Sparkles className="w-4 h-4 mr-2" />
                   <span className="font-medium">
-                    {branchServices.find(s => s.code === selectedService)?.displayName || selectedService}
+                    {selectedServices.map(srv => branchServices.find(s => s.code === srv)?.displayName || srv).join(', ')}
                   </span>
                 </div>
               </div>
@@ -917,7 +926,7 @@ export default function NewOrderPage() {
                 </div>
                 <div className="flex items-center text-sm text-teal-600">
                   <Sparkles className="w-4 h-4 mr-2" />
-                  <span>{branchServices.find(s => s.code === selectedService)?.displayName || selectedService}</span>
+                  <span>{selectedServices.map(srv => branchServices.find(s => s.code === srv)?.displayName || srv).join(', ')}</span>
                 </div>
                 {/* Service Type Info */}
                 <div className="flex items-center text-sm text-teal-600 mt-1">
