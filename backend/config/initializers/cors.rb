@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins %r{^https?://localhost:\d+$}, %r{^https?://127\.0\.0\.1:\d+$}
+    origins %r{^https?://localhost:\d+$}, %r{^https?://127\.0\.0\.1:\d+$}, "https://kita-laundry.vercel.app"
 
     resource "*",
       headers: :any,

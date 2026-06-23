@@ -137,8 +137,19 @@ Untuk memastikan sistem backend kebal dari serangan bot dan menolak permintaan l
      `{"success": false, "message": "Validasi reCAPTCHA gagal. Silakan coba lagi."}`
    - *Catatan: Ini membuktikan keamanan berfungsi. Login yang valid dari frontend (melalui browser nyata) akan secara otomatis menyertakan `"recaptcha_token"` pada body di latar belakang.*
 
-### Skenario Testing 3: Lewat Frontend Next.js
-1. Buka *browser* dan kunjungi alamat lokal frontend Anda (berjalan di `http://localhost:3000` atau `3001` sesuai konfigurasi).
+### Skenario Testing 3: Lewat Frontend Vercel Menggunakan Cloudflare Tunnel (Tanpa Kartu Kredit)
+Untuk menguji *frontend* Vercel langsung ke *backend* lokal Anda, kita akan menggunakan **Cloudflare Tunnel** (lebih disarankan daripada Ngrok karena tidak memiliki halaman peringatan blokir API).
+1. Pastikan *backend* berjalan lokal: `rails s -p 8000`.
+2. Di terminal baru, jalankan Cloudflare Tunnel:
+   ```bash
+   npx cloudflared tunnel --url http://localhost:8000
+   ```
+3. Salin URL publik yang dihasilkan (misal: `https://xxxx.trycloudflare.com`).
+4. Buka **Dashboard Vercel** > Settings > Environment Variables.
+5. Set `NEXT_PUBLIC_API_URL` ke URL Cloudflare yang baru Anda salin.
+6. Lakukan **Redeploy** di Vercel.
+7. Buka *website* Vercel Anda dan coba masuk dengan akun yang sudah ada.
+
 2. Masuk ke halaman **Login**.
    - Sistem akan otomatis menghitung skor reCAPTCHA v3 di latar belakang untuk keamanan anti-bot.
    - **Cara Memastikan reCAPTCHA Berjalan:** Tekan **F12** (atau klik kanan > *Inspect*) untuk membuka **Developer Tools**, lalu pindah ke *tab* **Network**. Saat Anda menekan tombol "Masuk", klik *request* bernama `login` di daftar Network, lalu lihat bagian **Payload**. Jika terdapat bidang `recaptcha_token` berisi kode panjang, berarti fungsi *invisible* reCAPTCHA berhasil bekerja!
