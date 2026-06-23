@@ -41,29 +41,75 @@ class ServicesController < ApplicationController
     branch_services = Service.where(branch_id: params[:branch_id])
     response_items = {}
     
+    # Ambil semua data item satuan dari database
+    all_service_items = ServiceItem.all
+    grouped_items = all_service_items.group_by(&:service_type)
+    
     branch_services.each do |s|
       price = s.price_per_kg || 7000
-      response_items[s.id.to_s] = [
-        { id: "#{s.id}_kg", name: "Berat Cucian (per KG)", basePrice: price, category: "normal" },
-        { id: "#{s.id}_bed", name: "Sprei / Selimut", basePrice: price * 2, category: "large" }
+      
+      # Item pertama selalu Kiloan (per KG)
+      items = [
+        { id: "#{s.id}_kg", name: "Berat Cucian (per KG)", basePrice: price, category: "Kiloan" }
       ]
+      
+      # Pemetaan nama layanan kiloan ke jenis layanan satuan
+      name_down = s.name.downcase
+      type = 'wash_fold' # default
+      
+      if name_down.include?('setrika') && name_down.include?('cuci')
+        type = 'wash_iron'
+      elsif name_down.include?('setrika')
+        type = 'steam_press'
+      elsif name_down.include?('jas') || name_down.include?('kering') || name_down.include?('premium')
+        type = 'dry_clean'
+      end
+      
+      # Tambahkan semua opsi satuan yang sesuai
+      if grouped_items[type]
+        grouped_items[type].each do |si|
+          items << {
+            id: "si_#{si.id}",
+            name: "#{si.name} (Satuan)",
+            basePrice: si.base_price,
+            category: "Satuan - #{si.category.capitalize}"
+          }
+        end
+      end
+      
+      response_items[s.id.to_s] = items
     end
 
     render json: { success: true, data: response_items }, status: :ok
   end
 
   def calculate
+    Rails.logger.debug "CALCULATE PARAMS: #{params.inspect}"
     subtotal = 0
-    params[:items].each do |item|
-      price = 7000
-      price = 14000 if item[:itemType].to_s.end_with?('_bed')
-      subtotal += price * (item[:quantity].to_i || 1)
+    (params[:items] || []).each do |item|
+      price = 0
+      item_id = item[:itemType].to_s
+      
+      if item_id.end_with?('_kg')
+        service_id = item_id.split('_').first
+        s = Service.find_by(id: service_id)
+        price = s ? s.price_per_kg : 7000
+      elsif item_id.start_with?('si_')
+        si_id = item_id.split('_').last
+        si = ServiceItem.find_by(id: si_id)
+        price = si ? si.base_price : 0
+      end
+      
+      # Frontend mungkin mengirim quantity berupa float untuk KG (misal: 2.5 KG)
+      quantity = item[:quantity].to_f || 1.0
+      subtotal += price * quantity
     end
+    
     subtotal = (subtotal * 1.5).to_i if params[:isExpress]
     tax = (subtotal * 0.1).to_i
     total = subtotal + tax
     
-    render json: { success: true, data: { subtotal: subtotal, tax: tax, orderTotal: { total: total } } }
+    render json: { success: true, data: { subtotal: subtotal.to_i, tax: tax.to_i, orderTotal: { total: total.to_i } } }
   end
 
   def time_slots
