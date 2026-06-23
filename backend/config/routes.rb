@@ -76,6 +76,7 @@ Rails.application.routes.draw do
       put :mark_read
     end
   end
+  post 'delivery/calculate-distance', to: 'delivery#calculate_distance'
   get '/service-items', to: 'service_items#index'
 
   

@@ -1426,16 +1426,16 @@ export default function NewOrderPage() {
                   <div className="p-4 bg-teal-50 rounded-lg">
                     <div className="flex justify-between text-sm mb-1">
                       <span className="text-gray-600">Subtotal</span>
-                      <span>Rp{calculatedPricing.orderTotal.subtotal}</span>
+                      <span>Rp{calculatedPricing.subtotal}</span>
                     </div>
                     {/* Distance-based delivery charge - only for logistics delivery */}
-                    {serviceType !== 'self_drop_self_pickup' && deliveryInfo && deliveryInfo.isServiceable && (
+                    {serviceType !== 'self_drop_self_pickup' && (
                       <div className="flex justify-between text-sm mb-1">
                         <span className="text-gray-600">
-                          Delivery {deliveryInfo.distance ? `(${deliveryInfo.distance} km)` : ''}
+                          Delivery {deliveryInfo?.distance ? `(${deliveryInfo.distance} km)` : ''}
                         </span>
-                        <span className={deliveryInfo.deliveryCharge === 0 ? 'text-green-600' : ''}>
-                          {deliveryInfo.deliveryCharge === 0 ? 'FREE' : `Rp${deliveryInfo.deliveryCharge}`}
+                        <span className={!deliveryInfo || deliveryInfo.deliveryCharge === 0 ? 'text-green-600' : ''}>
+                          {!deliveryInfo || deliveryInfo.deliveryCharge === 0 ? 'FREE' : `Rp${deliveryInfo?.deliveryCharge || 0}`}
                         </span>
                       </div>
                     )}
@@ -1446,10 +1446,10 @@ export default function NewOrderPage() {
                         <span>-Rp{getServiceTypeDiscount()}</span>
                       </div>
                     )}
-                    {calculatedPricing.orderTotal.tax > 0 && (
+                    {calculatedPricing.tax > 0 && (
                       <div className="flex justify-between text-sm mb-1">
                         <span className="text-gray-600">Tax</span>
-                        <span>Rp{calculatedPricing.orderTotal.tax}</span>
+                        <span>Rp{calculatedPricing.tax}</span>
                       </div>
                     )}
                     <hr className="my-2 border-teal-200" />
