@@ -69,7 +69,7 @@ puts "Membuat User (Admin, Managers, Customers)..."
 # Admin Pusat
 admin = User.create!(
   email: "admin@kitalaundry.com",
-  password: "password123",
+  password: "Password123!",
   role: :center_admin,
   first_name: "Admin",
   last_name: "Pusat",
@@ -83,7 +83,7 @@ branches.each_with_index do |branch, index|
   name_parts = branch.name.split(' ')
   managers << User.create!(
     email: "manager.#{name_parts.last.downcase}@kitalaundry.com",
-    password: "password123",
+    password: "Password123!",
     role: :branch_manager,
     first_name: "Manager",
     last_name: name_parts.last,
@@ -97,7 +97,7 @@ customers = []
 20.times do |i|
   customers << User.create!(
     email: "customer#{i+1}@gmail.com",
-    password: "password123",
+    password: "Password123!",
     role: :customer,
     first_name: "Pelanggan",
     last_name: "Ke-#{i+1}",
@@ -190,11 +190,11 @@ puts "✅ Seeding selesai dengan sempurna!"
 puts "--------------------------------------------------"
 puts "🔑 Gunakan kredensial berikut untuk login/testing:"
 puts "--- ADMIN PUSAT ---"
-puts "Email: admin@kitalaundry.com | Pass: password123"
+puts "Email: admin@kitalaundry.com | Pass: Password123!"
 puts "--- BRANCH MANAGERS ---"
 managers.each do |m|
-  puts "Email: #{m.email} | Pass: password123 | (Cabang #{m.last_name})"
+  puts "Email: #{m.email} | Pass: Password123! | (Cabang #{m.last_name})"
 end
 puts "--- CUSTOMERS ---"
-puts "Email: customer1@gmail.com s/d customer15@gmail.com | Pass: password123"
+puts "Email: customer1@gmail.com s/d customer15@gmail.com | Pass: Password123!"
 puts "--------------------------------------------------"

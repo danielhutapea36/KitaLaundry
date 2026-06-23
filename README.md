@@ -78,9 +78,9 @@ Setelah menjalankan proses `rails db:seed` pada backend, sistem telah menyediaka
 ### Kredensial Akun:
 | Peran (Role) | Email | Password | Hak Akses Utama |
 |---|---|---|---|
-| **Center Admin** | `admin@kitalaundry.com` | `password123` | Manajemen semua cabang, laporan, layanan, admin sistem. |
-| **Branch Manager** | `manager.petisah@kitalaundry.com`,<br>`manager.baru@kitalaundry.com`,<br>`manager.timur@kitalaundry.com`,<br>`manager.sunggal@kitalaundry.com`,<br>`manager.johor@kitalaundry.com` | `password123` | Manajemen operasional khusus untuk cabangnya sendiri (Medan). |
-| **Customer** | `customer1@gmail.com` s/d `customer15@gmail.com` | `password123` | Pembuatan pesanan, manajemen alamat, riwayat transaksi diri sendiri. |
+| **Center Admin** | `admin@kitalaundry.com` | `Password123!` | Manajemen semua cabang, laporan, layanan, admin sistem. |
+| **Branch Manager** | `manager.petisah@kitalaundry.com`,<br>`manager.baru@kitalaundry.com`,<br>`manager.timur@kitalaundry.com`,<br>`manager.sunggal@kitalaundry.com`,<br>`manager.johor@kitalaundry.com` | `Password123!` | Manajemen operasional khusus untuk cabangnya sendiri (Medan). |
+| **Customer** | `customer1@gmail.com` s/d `customer15@gmail.com` | `Password123!` | Pembuatan pesanan, manajemen alamat, riwayat transaksi diri sendiri. |
 
 ### Skenario Testing 1: Lewat Postman (Backend Saja)
 1. Buka aplikasi **Postman**.
@@ -91,7 +91,7 @@ Setelah menjalankan proses `rails db:seed` pada backend, sistem telah menyediaka
      ```json
      {
        "email": "customer1@gmail.com",
-       "password": "password123"
+       "password": "Password123!"
        // "recaptcha_token": "abaikan saat ini di lingkungan development jika tidak diwajibkan"
      }
      ```
@@ -129,7 +129,7 @@ Untuk memastikan sistem backend kebal dari serangan bot dan menolak permintaan l
      ```json
      {
        "email": "customer1@gmail.com",
-       "password": "password123"
+       "password": "Password123!"
      }
      ```
    - Tekan **Send**.
