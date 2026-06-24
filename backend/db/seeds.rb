@@ -12,31 +12,31 @@ puts "Membuat Cabang..."
 branches = [
   Branch.create!(
     name: "KitaLaundry Medan Petisah",
-    address: "Jl. Gatot Subroto No. 45, Medan",
+    address: "Plaza Medan Fair, Kota Medan",
     phone: "08116000001",
     status: :active
   ),
   Branch.create!(
-    name: "KitaLaundry Medan Baru",
-    address: "Jl. Jamin Ginting No. 102, Medan",
+    name: "KitaLaundry Medan Polonia",
+    address: "Sun Plaza, Kota Medan",
     phone: "08116000002",
     status: :active
   ),
   Branch.create!(
     name: "KitaLaundry Medan Timur",
-    address: "Jl. Krakatau No. 77, Medan",
+    address: "Centre Point Mall, Kota Medan",
     phone: "08116000003",
     status: :active
   ),
   Branch.create!(
     name: "KitaLaundry Medan Sunggal",
-    address: "Jl. Setia Budi No. 200, Medan",
+    address: "Manhattan Times Square, Kota Medan",
     phone: "08116000004",
     status: :active
   ),
   Branch.create!(
     name: "KitaLaundry Medan Johor",
-    address: "Jl. Karya Wisata No. 50, Medan",
+    address: "Jalan Karya Wisata, Medan Johor, Kota Medan",
     phone: "08116000005",
     status: :active
   )
