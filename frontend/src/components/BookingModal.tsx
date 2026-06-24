@@ -220,9 +220,14 @@ export default function BookingModal({ isOpen, onClose, onLoginRequired }: Booki
 
   const fetchTimeSlots = async () => {
     try {
-      const response = await fetch(`${API_URL}/services/time-slots`)
+      const response = await fetch(`${API_URL}/services/time_slots`)
+      if (!response.ok) throw new Error('Failed to fetch')
       const data = await response.json()
-      if (data.success) setTimeSlots(data.data.timeSlots || [])
+      if (data.success && data.data && data.data.timeSlots && data.data.timeSlots.length > 0) {
+        setTimeSlots(data.data.timeSlots)
+      } else {
+        throw new Error('No time slots returned')
+      }
     } catch (error) {
       setTimeSlots(['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00', '17:00-19:00'])
     }

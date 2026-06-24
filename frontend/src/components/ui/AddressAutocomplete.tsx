@@ -39,10 +39,13 @@ export function AddressAutocomplete({
   const [loading, setLoading] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+  const skipSearchRef = useRef(false)
 
   // Sync external value
   useEffect(() => {
-    setQuery(value)
+    if (value !== query) {
+      setQuery(value)
+    }
   }, [value])
 
   // Handle outside click
@@ -59,8 +62,13 @@ export function AddressAutocomplete({
   // Debounced search
   useEffect(() => {
     const timer = setTimeout(async () => {
-      // Only search if user typed something and it's not the exact value we just selected
-      if (query.trim().length > 3 && query !== value) {
+      // Skip search if it was triggered by a selection
+      if (skipSearchRef.current) {
+        skipSearchRef.current = false
+        return
+      }
+
+      if (query.trim().length > 3) {
         setLoading(true)
         try {
           const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&countrycodes=id&limit=5`, {
@@ -82,7 +90,7 @@ export function AddressAutocomplete({
     }, 500)
 
     return () => clearTimeout(timer)
-  }, [query, value])
+  }, [query])
 
   const handleSelect = (item: AddressData) => {
     // Determine a clean address line 1
@@ -97,6 +105,7 @@ export function AddressAutocomplete({
     }
 
     setQuery(cleanAddress)
+    skipSearchRef.current = true
     onChange(cleanAddress)
     setShowDropdown(false)
     onSelect(item)
@@ -109,6 +118,7 @@ export function AddressAutocomplete({
           type="text"
           value={query}
           onChange={(e) => {
+            skipSearchRef.current = false
             setQuery(e.target.value)
             onChange(e.target.value)
             setShowDropdown(true)

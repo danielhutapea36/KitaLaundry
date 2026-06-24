@@ -101,7 +101,10 @@ export function useOrders() {
   const getTimeSlots = async () => {
     try {
       const response = await servicesAPI.getTimeSlots()
-      return response.data.data.timeSlots
+      if (response.data?.success && response.data?.data?.timeSlots?.length > 0) {
+        return response.data.data.timeSlots
+      }
+      throw new Error('No time slots returned')
     } catch (err: any) {
       console.error('Error fetching time slots:', err)
       return [

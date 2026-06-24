@@ -20,18 +20,29 @@ class OrdersController < ApplicationController
         params[:items].each do |item|
           price = 0
           item_id = item[:itemType].to_s
+          quantity = item[:quantity].to_f || 1.0
           
           if item_id.end_with?('_kg')
             service_id = item_id.split('_').first
             s = Service.find_by(id: service_id)
-            price = s ? s.price_per_kg : 7000
+            if s
+              price = s.price_per_kg
+              @order.order_items.build(service: s, weight_kg: quantity)
+            else
+              price = 7000
+            end
           elsif item_id.start_with?('si_')
             si_id = item_id.split('_').last
             si = ServiceItem.find_by(id: si_id)
-            price = si ? si.base_price : 0
+            if si
+              price = si.base_price
+              # We don't have a service_item_id in order_items right now, so we need to map to a service or something.
+              # But order_items requires a service_id. We'll find a generic service.
+              s = Service.find_by(category: si.category) || Service.first
+              @order.order_items.build(service: s, weight_kg: quantity)
+            end
           end
           
-          quantity = item[:quantity].to_f || 1.0
           subtotal += price * quantity
         end
       end
@@ -47,8 +58,7 @@ class OrdersController < ApplicationController
       @order.total_price = subtotal.to_i + tax + delivery_charge
       @order.payment_status = (@order.payment_method == 'online' ? :unpaid : :pending)
 
-      service = Service.find_by(branch_id: @order.branch_id) || Service.first
-      @order.order_items.build(service: service, weight_kg: 1)
+
 
       if @order.save!
         if @order.payment_method == 'online'
@@ -136,6 +146,30 @@ class OrdersController < ApplicationController
   def show
     order = Order.find(params[:id])
     
+    if order.payment_status == 'unpaid' && order.xendit_invoice_id.present?
+      require 'net/http'
+      require 'uri'
+      require 'json'
+      
+      uri = URI.parse("https://api.xendit.co/v2/invoices/#{order.xendit_invoice_id}")
+      request = Net::HTTP::Get.new(uri)
+      request.basic_auth(ENV['XENDIT_API_KEY'], "")
+      
+      req_options = { use_ssl: uri.scheme == "https" }
+      response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+        http.request(request)
+      end
+      
+      if response.code.to_i == 200
+        result = JSON.parse(response.body)
+        if result['status'] == 'PAID' || result['status'] == 'SETTLED'
+          order.update(payment_status: :paid, status: :processing)
+        elsif result['status'] == 'EXPIRED'
+          order.update(payment_status: :expired, status: :cancelled)
+        end
+      end
+    end
+    
     mapped_status = case order.status
                     when 'pending' then 'assigned_to_branch'
                     when 'processing' then 'in_process'
@@ -162,10 +196,37 @@ class OrdersController < ApplicationController
       pickupDate: order.created_at.iso8601,
       pickupTimeSlot: "09:00-11:00",
       isExpress: false,
-      items: order.order_items.map { |item| { itemType: "Service", quantity: item.weight_kg } },
+      specialInstructions: order.notes,
+      items: order.order_items.map do |item|
+        {
+          name: item.service.name,
+          service: item.service.name,
+          category: item.service.category,
+          quantity: item.weight_kg,
+          unitPrice: item.service.price_per_kg,
+          totalPrice: item.weight_kg * item.service.price_per_kg
+        }
+      end,
+      pickupAddress: order.pickup_address ? {
+        name: "#{order.user.first_name} #{order.user.last_name}".strip,
+        addressLine1: order.pickup_address.address_line_1,
+        addressLine2: order.pickup_address.address_line_2,
+        city: order.pickup_address.city,
+        pincode: order.pickup_address.pincode,
+        phone: order.pickup_address.phone
+      } : nil,
+      deliveryAddress: order.delivery_address ? {
+        name: "#{order.user.first_name} #{order.user.last_name}".strip,
+        addressLine1: order.delivery_address.address_line_1,
+        addressLine2: order.delivery_address.address_line_2,
+        city: order.delivery_address.city,
+        pincode: order.delivery_address.pincode,
+        phone: order.delivery_address.phone
+      } : nil,
       statusHistory: [
-        { status: 'placed', date: order.created_at.iso8601 }
-      ]
+        { status: 'placed', updatedAt: order.created_at.iso8601 },
+        (order.status != 'pending' ? { status: mapped_status, updatedAt: order.updated_at.iso8601 } : nil)
+      ].compact
     }
     
     render json: { success: true, data: { order: formatted_order } }
@@ -229,7 +290,8 @@ class OrdersController < ApplicationController
       "amount" => order.total_price.to_i,
       "payer_email" => order.user.email,
       "description" => "Payment for Laundry Order ##{order.id}",
-      "success_redirect_url" => "http://localhost:3002/customer/orders/#{order.id}?success=true"
+      "success_redirect_url" => "#{ENV['FRONTEND_URL'] || 'http://localhost:3000'}/customer/orders/#{order.id}?success=true",
+      "failure_redirect_url" => "#{ENV['FRONTEND_URL'] || 'http://localhost:3000'}/customer/orders/#{order.id}?success=false"
     })
 
     req_options = {
