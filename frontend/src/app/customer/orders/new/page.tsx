@@ -187,17 +187,60 @@ export default function NewOrderPage() {
   const needsDeliveryAddress = serviceType === 'full_service' || serviceType === 'self_drop_home_delivery'
   // Get current service type discount
   const getServiceTypeDiscount = () => SERVICE_TYPES.find(s => s.id === serviceType)?.discount || 0
+  const [showAddressForm, setShowAddressForm] = useState(false)
   const [newAddress, setNewAddress] = useState({
-    name: user?.name || '',
+    name: user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : '',
     phone: user?.phone || '',
     addressLine1: '',
-    addressLine2: '',
     landmark: '',
-    city: '',
-    pincode: '',
-    isDefault: false
+    city: 'Medan',
+    pincode: ''
   })
+  
+  // Nominatim Address Suggestions
+  const [addressSuggestions, setAddressSuggestions] = useState<any[]>([])
+  const [isSearchingAddress, setIsSearchingAddress] = useState(false)
+  const [showSuggestions, setShowSuggestions] = useState(false)
+  useEffect(() => {
+    if (!newAddress.addressLine1 || newAddress.addressLine1.length < 3) {
+      setAddressSuggestions([])
+      setShowSuggestions(false)
+      return
+    }
 
+    const delayDebounceFn = setTimeout(async () => {
+      setIsSearchingAddress(true)
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(newAddress.addressLine1 + ', Medan')}&format=json&addressdetails=1&countrycodes=id&limit=5`)
+        const data = await response.json()
+        setAddressSuggestions(data)
+        setShowSuggestions(true)
+      } catch (error) {
+        console.error('Error fetching address suggestions:', error)
+      } finally {
+        setIsSearchingAddress(false)
+      }
+    }, 500)
+
+    return () => clearTimeout(delayDebounceFn)
+  }, [newAddress.addressLine1])
+
+  const handleSelectSuggestion = (suggestion: any) => {
+    setNewAddress(prev => ({
+      ...prev,
+      addressLine1: suggestion.display_name.split(',')[0], // just take the main part or full? We'll take full:
+      city: suggestion.address?.city || suggestion.address?.town || 'Medan',
+      pincode: suggestion.address?.postcode || ''
+    }))
+    // But actually, it's better to store a clean name. Let's do:
+    setNewAddress(prev => ({
+      ...prev,
+      addressLine1: suggestion.display_name,
+      city: suggestion.address?.city || suggestion.address?.town || suggestion.address?.state_district || 'Medan',
+      pincode: suggestion.address?.postcode || prev.pincode
+    }))
+    setShowSuggestions(false)
+  }
 
   // Fetch service items from database (with branch-specific items)
   useEffect(() => {
@@ -1522,14 +1565,35 @@ export default function NewOrderPage() {
                   required
                 />
               </div>
-              <input
-                type="text"
-                placeholder="Address Line 1 *"
-                value={newAddress.addressLine1}
-                onChange={(e) => setNewAddress(prev => ({ ...prev, addressLine1: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-                required
-              />
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="Address Line 1 *"
+                  value={newAddress.addressLine1}
+                  onChange={(e) => setNewAddress(prev => ({ ...prev, addressLine1: e.target.value }))}
+                  onFocus={() => setShowSuggestions(true)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  required
+                />
+                {isSearchingAddress && (
+                  <div className="absolute right-3 top-2.5">
+                    <Loader2 className="w-5 h-5 animate-spin text-teal-500" />
+                  </div>
+                )}
+                {showSuggestions && addressSuggestions.length > 0 && (
+                  <ul className="absolute z-10 w-full bg-white border border-gray-300 mt-1 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                    {addressSuggestions.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        className="px-4 py-2 hover:bg-teal-50 cursor-pointer text-sm text-gray-700"
+                        onClick={() => handleSelectSuggestion(suggestion)}
+                      >
+                        {suggestion.display_name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
               <input
                 type="text"
                 placeholder="Landmark (Optional)"
