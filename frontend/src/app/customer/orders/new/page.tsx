@@ -187,7 +187,6 @@ export default function NewOrderPage() {
   const needsDeliveryAddress = serviceType === 'full_service' || serviceType === 'self_drop_home_delivery'
   // Get current service type discount
   const getServiceTypeDiscount = () => SERVICE_TYPES.find(s => s.id === serviceType)?.discount || 0
-  const [showAddressForm, setShowAddressForm] = useState(false)
   const [newAddress, setNewAddress] = useState({
     name: user?.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : '',
     phone: user?.phone || '',
