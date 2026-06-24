@@ -115,7 +115,8 @@ class ServicesController < ApplicationController
   end
 
   def time_slots
-    render json: { success: true, data: { timeSlots: ['09:00-11:00', '11:00-13:00', '13:00-15:00', '15:00-17:00'] } }
+    slots = TimeSlot.where(is_active: true).order(start_time: :asc).map { |t| "#{t.start_time}-#{t.end_time}" }
+    render json: { success: true, data: { timeSlots: slots } }
   end
 
   def availability

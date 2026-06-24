@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_23_083032) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_24_150608) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -122,6 +122,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_23_083032) do
     t.integer "turnaround_standard", default: 48
     t.datetime "updated_at", null: false
     t.index ["branch_id"], name: "index_services_on_branch_id"
+  end
+
+  create_table "time_slots", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "end_time"
+    t.boolean "is_active"
+    t.string "start_time"
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
