@@ -21,17 +21,32 @@ class DeliveryController < ApplicationController
     # Format the addresses to search in Nominatim
     branch_address = branch.address
     
-    pickup_address_str = [
-      pickup[:addressLine1],
-      pickup[:addressLine2],
-      pickup[:landmark],
-      pickup[:city],
-      pickup[:pincode]
-    ].compact.reject(&:empty?).join(', ')
-
+    # Format the addresses to search in Nominatim
+    branch_address = branch.address
+    
     begin
       branch_coords = geocode(branch_address)
-      pickup_coords = geocode(pickup_address_str)
+      
+      # Try 1: Full Address
+      full_address = [
+        pickup[:addressLine1],
+        pickup[:addressLine2],
+        pickup[:landmark],
+        pickup[:city],
+        pickup[:pincode]
+      ].compact.reject(&:empty?).join(', ')
+      pickup_coords = geocode(full_address)
+
+      # Try 2: Basic Address (Line 1 + City)
+      if !pickup_coords
+        basic_address = [pickup[:addressLine1], pickup[:city]].compact.reject(&:empty?).join(', ')
+        pickup_coords = geocode(basic_address)
+      end
+
+      # Try 3: City only
+      if !pickup_coords
+        pickup_coords = geocode(pickup[:city] || 'Medan')
+      end
 
       if branch_coords && pickup_coords
         # OSRM expects: {longitude},{latitude}
@@ -52,7 +67,7 @@ class DeliveryController < ApplicationController
       end
       
       # Fallback to pseudo-distance if geocoding fails (for demo purposes)
-      fallback_distance = [1.0, (pickup_address_str.length % 10).to_f].max
+      fallback_distance = [1.0, ((full_address || "").length % 10).to_f].max
       charge = calculate_fee(fallback_distance)
       
       render json: { 
@@ -90,7 +105,7 @@ class DeliveryController < ApplicationController
     })
 
     request = Net::HTTP::Get.new(uri)
-    request['User-Agent'] = 'KitaLaundryApp/1.0 (daniel@example.com)'
+    request['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 KitaLaundry/1.0'
 
     response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
       http.request(request)
