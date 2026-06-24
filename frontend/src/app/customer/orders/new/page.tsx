@@ -193,7 +193,9 @@ export default function NewOrderPage() {
     addressLine1: '',
     landmark: '',
     city: 'Medan',
-    pincode: ''
+    pincode: '',
+    lat: '',
+    lng: ''
   })
   
   // Nominatim Address Suggestions
@@ -236,7 +238,9 @@ export default function NewOrderPage() {
       ...prev,
       addressLine1: suggestion.display_name,
       city: suggestion.address?.city || suggestion.address?.town || suggestion.address?.state_district || 'Medan',
-      pincode: suggestion.address?.postcode || prev.pincode
+      pincode: suggestion.address?.postcode || prev.pincode,
+      lat: suggestion.lat,
+      lng: suggestion.lon
     }))
     setShowSuggestions(false)
   }
@@ -373,7 +377,9 @@ export default function NewOrderPage() {
               addressLine2: selectedAddress.addressLine2,
               landmark: selectedAddress.landmark,
               city: selectedAddress.city,
-              pincode: selectedAddress.pincode
+              pincode: selectedAddress.pincode,
+              lat: (selectedAddress as any).lat,
+              lng: (selectedAddress as any).lng
             },
             branchId: selectedBranchId,
             isExpress
@@ -465,11 +471,11 @@ export default function NewOrderPage() {
         name: user?.name || '',
         phone: user?.phone || '',
         addressLine1: '',
-        addressLine2: '',
         landmark: '',
-        city: '',
+        city: 'Medan',
         pincode: '',
-        isDefault: false
+        lat: '',
+        lng: ''
       })
     } catch (error) {
       console.error('Failed to add address:', error)

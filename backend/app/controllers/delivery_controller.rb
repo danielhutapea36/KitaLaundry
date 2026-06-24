@@ -31,15 +31,23 @@ class DeliveryController < ApplicationController
         branch_coords = geocode("Medan, Indonesia")
       end
       
-      # Try 1: Full Address
-      full_address = [
-        pickup[:addressLine1],
-        pickup[:addressLine2],
-        pickup[:landmark],
-        pickup[:city],
-        pickup[:pincode]
-      ].compact.reject(&:empty?).join(', ')
-      pickup_coords = geocode(full_address)
+      # Try 1: Exact coordinates from frontend auto-suggestion
+      pickup_coords = nil
+      if pickup[:lat].present? && pickup[:lng].present?
+        pickup_coords = {
+          lat: pickup[:lat].to_f,
+          lon: pickup[:lng].to_f
+        }
+      else
+        full_address = [
+          pickup[:addressLine1],
+          pickup[:addressLine2],
+          pickup[:landmark],
+          pickup[:city],
+          pickup[:pincode]
+        ].compact.reject(&:empty?).join(', ')
+        pickup_coords = geocode(full_address)
+      end
 
       # Try 2: Basic Address (Line 1 + City)
       if !pickup_coords
@@ -71,7 +79,8 @@ class DeliveryController < ApplicationController
       end
       
       # Fallback to pseudo-distance if geocoding fails (for demo purposes)
-      fallback_distance = [1.0, ((full_address || "").length % 10).to_f].max
+      addr_string = pickup[:addressLine1] || ""
+      fallback_distance = [1.0, (addr_string.length % 10).to_f].max
       charge = calculate_fee(fallback_distance)
       
       render json: { 

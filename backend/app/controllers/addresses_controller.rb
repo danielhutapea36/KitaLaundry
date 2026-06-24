@@ -79,7 +79,7 @@ class AddressesController < ApplicationController
   def address_params
     permitted = params.permit(
       :addressLine1, :addressLine2, :city, :state, :pincode, :landmark, :phone, :isDefault, :addressType,
-      :address_line_1, :address_line_2, :is_default, :address_type
+      :address_line_1, :address_line_2, :is_default, :address_type, :lat, :lng
     )
     
     {
@@ -91,7 +91,9 @@ class AddressesController < ApplicationController
       pincode: permitted[:pincode],
       landmark: permitted[:landmark],
       phone: permitted[:phone],
-      is_default: permitted[:isDefault] || permitted[:is_default] || false
+      is_default: permitted[:isDefault] || permitted[:is_default] || false,
+      latitude: permitted[:lat],
+      longitude: permitted[:lng]
     }
   end
 
@@ -107,7 +109,9 @@ class AddressesController < ApplicationController
       pincode: address.pincode,
       landmark: address.landmark,
       phone: address.phone,
-      isDefault: address.is_default || false
+      isDefault: address.is_default || false,
+      lat: address.latitude,
+      lng: address.longitude
     }
   end
 end
