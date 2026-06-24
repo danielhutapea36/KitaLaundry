@@ -26,6 +26,10 @@ class DeliveryController < ApplicationController
     
     begin
       branch_coords = geocode(branch_address)
+      if !branch_coords
+        # Try generic city if branch address fails
+        branch_coords = geocode("Medan, Indonesia")
+      end
       
       # Try 1: Full Address
       full_address = [
