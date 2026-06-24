@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_24_150608) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_24_151402) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -71,8 +71,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_24_150608) do
 
   create_table "order_items", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "item_name"
     t.bigint "order_id", null: false
     t.bigint "service_id", null: false
+    t.integer "unit_price"
     t.datetime "updated_at", null: false
     t.decimal "weight_kg", precision: 8, scale: 2, null: false
     t.index ["order_id"], name: "index_order_items_on_order_id"

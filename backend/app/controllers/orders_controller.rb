@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
             s = Service.find_by(id: service_id)
             if s
               price = s.price_per_kg
-              @order.order_items.build(service: s, weight_kg: quantity)
+              @order.order_items.build(service: s, weight_kg: quantity, item_name: s.name, unit_price: price)
             else
               price = 7000
             end
@@ -36,10 +36,8 @@ class OrdersController < ApplicationController
             si = ServiceItem.find_by(id: si_id)
             if si
               price = si.base_price
-              # We don't have a service_item_id in order_items right now, so we need to map to a service or something.
-              # But order_items requires a service_id. We'll find a generic service.
               s = Service.find_by(category: si.category) || Service.first
-              @order.order_items.build(service: s, weight_kg: quantity)
+              @order.order_items.build(service: s, weight_kg: quantity, item_name: si.name, unit_price: price)
             end
           end
           
@@ -198,13 +196,14 @@ class OrdersController < ApplicationController
       isExpress: false,
       specialInstructions: order.notes,
       items: order.order_items.map do |item|
+        price = item.unit_price || item.service.price_per_kg
         {
-          name: item.service.name,
+          name: item.item_name || item.service.name,
           service: item.service.name,
           category: item.service.category,
           quantity: item.weight_kg,
-          unitPrice: item.service.price_per_kg,
-          totalPrice: item.weight_kg * item.service.price_per_kg
+          unitPrice: price,
+          totalPrice: item.weight_kg * price
         }
       end,
       pickupAddress: order.pickup_address ? {
