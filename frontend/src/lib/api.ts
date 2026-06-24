@@ -91,7 +91,7 @@ export const authAPI = {
 }
 
 export const customerAPI = {
-  getOrders: () => api.get('/orders'),
+  getOrders: (params?: any) => api.get('/orders', { params }),
   createOrder: (orderData: any) => api.post('/orders', orderData),
   getOrder: (id: string) => api.get(`/orders/${id}`),
   getOrderTracking: (id: string) => api.get(`/orders/${id}/tracking`),

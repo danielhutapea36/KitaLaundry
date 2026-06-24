@@ -40,7 +40,7 @@ const statusConfig: Record<string, { color: string; icon: any; text: string }> =
 
 export default function OrdersPage() {
   const searchParams = useSearchParams()
-  const { orders, loading, fetchOrders } = useOrders()
+  const { orders, pagination, loading, fetchOrders } = useOrders()
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [currentPage, setCurrentPage] = useState(1)
@@ -53,21 +53,17 @@ export default function OrdersPage() {
   }, [searchParams])
 
   useEffect(() => {
-    fetchOrders()
-  }, [fetchOrders])
+    fetchOrders({ 
+      page: currentPage, 
+      limit: ITEMS_PER_PAGE, 
+      search: searchTerm, 
+      status: statusFilter 
+    })
+  }, [fetchOrders, currentPage, searchTerm, statusFilter])
 
-  const filteredOrders = orders.filter(order => {
-    const matchesSearch = order.orderNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         order._id?.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === 'all' || order.status === statusFilter
-    return matchesSearch && matchesStatus
-  })
-
-  const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE)
-  const paginatedOrders = filteredOrders.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  )
+  const paginatedOrders = orders
+  const totalPages = pagination.totalPages || 1
+  const totalItems = pagination.totalItems || 0
 
   useEffect(() => {
     setCurrentPage(1)
@@ -154,7 +150,7 @@ export default function OrdersPage() {
           <div className="flex items-center justify-center py-12">
             <Loader2 className="w-8 h-8 animate-spin text-teal-500" />
           </div>
-        ) : filteredOrders.length === 0 ? (
+        ) : orders.length === 0 ? (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
             <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-800 mb-2">Tidak ada pesanan ditemukan</h3>
@@ -232,12 +228,12 @@ export default function OrdersPage() {
             })}
             
             {/* Pagination */}
-            {filteredOrders.length > ITEMS_PER_PAGE && (
+            {totalPages > 1 && (
               <div className="bg-white rounded-xl shadow-sm border border-gray-200">
                 <Pagination
                   current={currentPage}
                   pages={totalPages}
-                  total={filteredOrders.length}
+                  total={totalItems}
                   limit={ITEMS_PER_PAGE}
                   onPageChange={handlePageChange}
                   itemName="pesanan"

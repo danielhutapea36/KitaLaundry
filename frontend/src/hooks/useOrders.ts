@@ -33,17 +33,21 @@ interface CreateOrderData {
 
 export function useOrders() {
   const [orders, setOrders] = useState<any[]>([])
+  const [pagination, setPagination] = useState({ totalItems: 0, currentPage: 1, totalPages: 1 })
   const [loading, setLoading] = useState(false)
   const [pricingLoading, setPricingLoading] = useState(false)
   const router = useRouter()
 
-  const fetchOrders = useCallback(async () => {
+  const fetchOrders = useCallback(async (params?: { page?: number; limit?: number; status?: string; search?: string }) => {
     try {
       setLoading(true)
-      const response = await customerAPI.getOrders()
+      const response = await customerAPI.getOrders(params)
       // Response structure: { success, data: { data: orders[], pagination: {...} }, message }
       const ordersData = response.data.data?.data || response.data.data?.orders || []
       setOrders(ordersData)
+      if (response.data.data?.pagination) {
+        setPagination(response.data.data.pagination)
+      }
     } catch (err: any) {
       // Provide mock data for frontend demonstration purposes
       setOrders([
@@ -129,12 +133,13 @@ export function useOrders() {
 
   return {
     orders,
+    pagination,
+    loading,
+    pricingLoading,
     fetchOrders,
     createOrder,
     calculatePricing,
     getTimeSlots,
-    checkServiceAvailability,
-    loading,
-    pricingLoading
+    checkServiceAvailability
   }
 }
