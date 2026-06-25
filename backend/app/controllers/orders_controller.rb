@@ -12,7 +12,8 @@ class OrdersController < ApplicationController
         pickup_address_id: pickup_address.id,
         delivery_address_id: delivery_address.id,
         notes: params[:specialInstructions],
-        payment_method: params[:paymentMethod] || 'cod'
+        payment_method: params[:paymentMethod] || 'cod',
+        service_type: params[:serviceType] || 'full_service'
       )
       
       subtotal = 0

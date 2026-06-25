@@ -34,6 +34,7 @@ module Admin
       formatted_orders = orders_paginated.map do |order|
         mapped_status = case order.status
                         when 'pending' then 'assigned_to_branch'
+                        when 'driver_assigned' then 'driver_assigned'
                         when 'picked' then 'picked'
                         when 'processing' then 'in_process'
                         when 'completed' then 'delivered'
@@ -58,6 +59,7 @@ module Admin
           createdAt: order.created_at.iso8601,
           branchId: order.branch_id.to_s,
           pickupDate: order.created_at.iso8601,
+          serviceType: order.service_type,
           items: order.order_items.map { |item| { serviceType: item.service.name, quantity: item.weight_kg, totalPrice: (item.weight_kg * item.service.price_per_kg).to_f } }
         }
       end
@@ -93,6 +95,7 @@ module Admin
       order = Order.find(params[:id])
       backend_status = case params[:status]
                        when 'placed', 'assigned_to_branch' then 'pending'
+                       when 'driver_assigned' then 'driver_assigned'
                        when 'picked' then 'picked'
                        when 'in_process' then 'processing'
                        when 'delivered', 'out_for_delivery' then 'completed'
@@ -108,19 +111,27 @@ module Admin
     def assign
       order = Order.find(params[:id])
       
-      if order.status != 'picked'
-        return render json: { success: false, message: 'Order must be arrived at branch (Picked Up) before assigning to a staff' }, status: :unprocessable_entity
-      end
-      
       staff_id = params[:staffId] || params[:staff_id]
       staff = User.find(staff_id)
       
-      active_orders_count = staff.assigned_orders.where(status: Order.statuses[:processing]).count
+      if staff.role == 'driver'
+        if order.status != 'pending'
+          return render json: { success: false, message: 'Driver can only be assigned to pending orders' }, status: :unprocessable_entity
+        end
+        new_status = :driver_assigned
+      else
+        if order.status != 'picked'
+          return render json: { success: false, message: 'Order must be arrived at branch (Picked Up) before assigning to a washer/ironer' }, status: :unprocessable_entity
+        end
+        new_status = :processing
+      end
+      
+      active_orders_count = staff.assigned_orders.where(status: Order.statuses[new_status]).count
       if active_orders_count >= 3
         return render json: { success: false, message: 'Staff already has 3 active orders and cannot take more' }, status: :unprocessable_entity
       end
 
-      if order.update(assigned_staff_id: staff_id, status: :processing)
+      if order.update(assigned_staff_id: staff_id, status: new_status)
         render json: { success: true, message: 'Assigned to staff', order: order }
       else
         render json: { success: false, message: 'Failed to assign staff' }, status: :unprocessable_entity
@@ -135,7 +146,9 @@ module Admin
       if order
         if params[:newStatus]
           backend_status = case params[:newStatus]
-                           when 'placed', 'assigned_to_branch', 'picked' then 'pending'
+                           when 'placed', 'assigned_to_branch' then 'pending'
+                           when 'driver_assigned' then 'driver_assigned'
+                           when 'picked' then 'picked'
                            when 'in_process' then 'processing'
                            when 'delivered', 'out_for_delivery' then 'completed'
                            else params[:newStatus]
@@ -145,6 +158,8 @@ module Admin
         else
           mapped_status = case order.status
                           when 'pending' then 'assigned_to_branch'
+                          when 'driver_assigned' then 'driver_assigned'
+                          when 'picked' then 'picked'
                           when 'processing' then 'in_process'
                           when 'completed' then 'delivered'
                           else order.status

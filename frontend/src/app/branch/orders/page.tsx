@@ -35,6 +35,7 @@ interface Order {
   processedBy?: { _id: string; name: string }
   estimatedCompletionTime?: string
   specialInstructions?: string
+  serviceType?: string
   createdAt: string
 }
 
@@ -59,6 +60,7 @@ export default function BranchOrdersPage() {
   const [showViewModal, setShowViewModal] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
   const [selectedStaffId, setSelectedStaffId] = useState('')
+  const [isAssigningDriver, setIsAssigningDriver] = useState(false)
   const [estimatedTime, setEstimatedTime] = useState('2')
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [stats, setStats] = useState({ pending: 0, processing: 0, ready: 0, completed: 0 })
@@ -131,7 +133,8 @@ export default function BranchOrdersPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'assigned_to_branch':
+      case 'assigned_to_branch': return 'text-orange-600 bg-orange-50 border-orange-200'
+      case 'driver_assigned': return 'text-indigo-600 bg-indigo-50 border-indigo-200'
       case 'picked': return 'text-orange-600 bg-orange-50 border-orange-200'
       case 'in_process': return 'text-blue-600 bg-blue-50 border-blue-200'
       case 'ready': return 'text-green-600 bg-green-50 border-green-200'
@@ -144,6 +147,7 @@ export default function BranchOrdersPage() {
   const getStatusText = (status: string) => {
     const statusMap: Record<string, string> = {
       'assigned_to_branch': 'Pending',
+      'driver_assigned': 'Driver Assigned',
       'picked': 'Picked Up',
       'in_process': 'Processing',
       'ready': 'Ready',
@@ -153,10 +157,19 @@ export default function BranchOrdersPage() {
     return statusMap[status] || status
   }
 
+  const handleAssignDriver = (order: Order) => {
+    setSelectedOrder(order)
+    setSelectedStaffId('')
+    setEstimatedTime('1')
+    setIsAssigningDriver(true)
+    setShowAssignModal(true)
+  }
+
   const handleAssignStaff = (order: Order) => {
     setSelectedOrder(order)
     setSelectedStaffId('')
     setEstimatedTime('2')
+    setIsAssigningDriver(false)
     setShowAssignModal(true)
   }
 
@@ -418,7 +431,7 @@ export default function BranchOrdersPage() {
                     </Button>
                     
                     {/* Status Change Dropdown - like admin */}
-                    {['placed', 'assigned_to_branch', 'picked', 'in_process', 'ready', 'out_for_delivery'].includes(order.status) && (
+                    {['placed', 'assigned_to_branch', 'driver_assigned', 'picked', 'in_process', 'ready', 'out_for_delivery'].includes(order.status) && (
                       <select
                         value=""
                         onChange={(e) => {
@@ -433,7 +446,10 @@ export default function BranchOrdersPage() {
                         {order.status === 'placed' && (
                           <option value="in_process">Start Processing</option>
                         )}
-                        {order.status === 'assigned_to_branch' && (
+                        {order.status === 'assigned_to_branch' && (!['full_service', 'home_pickup_self_pickup'].includes(order.serviceType || '')) && (
+                          <option value="picked">Mark Arrived (Self Drop)</option>
+                        )}
+                        {order.status === 'driver_assigned' && (
                           <option value="picked">Mark Arrived / Picked Up</option>
                         )}
                         {order.status === 'picked' && (
@@ -451,6 +467,18 @@ export default function BranchOrdersPage() {
                       </select>
                     )}
                     
+                    {order.status === 'assigned_to_branch' && ['full_service', 'home_pickup_self_pickup'].includes(order.serviceType || '') && (
+                      <Button 
+                        size="sm" 
+                        className="bg-indigo-500 hover:bg-indigo-600 text-white"
+                        onClick={() => handleAssignDriver(order)}
+                        disabled={actionLoading === order._id}
+                      >
+                        {actionLoading === order._id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 mr-1" />}
+                        Assign Driver
+                      </Button>
+                    )}
+
                     {order.status === 'picked' && (
                       <Button 
                         size="sm" 
@@ -489,7 +517,7 @@ export default function BranchOrdersPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Assign Staff Member</h3>
+              <h3 className="text-lg font-semibold">{isAssigningDriver ? 'Assign Driver' : 'Assign Staff Member'}</h3>
               <button onClick={() => setShowAssignModal(false)} className="text-gray-500 hover:text-gray-700">
                 <X className="w-5 h-5" />
               </button>
@@ -498,15 +526,15 @@ export default function BranchOrdersPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Select Staff Member
+                  Select {isAssigningDriver ? 'Driver' : 'Staff Member'}
                 </label>
                 <select
                     className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
                     value={selectedStaffId}
                     onChange={(e) => setSelectedStaffId(e.target.value)}
                   >
-                    <option value="">Choose staff member...</option>
-                    {staff.filter(s => s.isActive).map((member) => (
+                    <option value="">Choose {isAssigningDriver ? 'driver' : 'staff member'}...</option>
+                    {staff.filter(s => s.isActive && (isAssigningDriver ? s.role === 'driver' : s.role !== 'driver')).map((member) => (
                       <option 
                         key={member._id} 
                         value={member._id}
@@ -584,6 +612,12 @@ export default function BranchOrdersPage() {
                   <p className="text-gray-800">{selectedOrder.customer?.name || 'N/A'}</p>
                   <p className="text-sm text-gray-600">{selectedOrder.customer?.phone || 'N/A'}</p>
                   <p className="text-sm text-gray-600">{selectedOrder.customer?.email || 'N/A'}</p>
+                  <div className="mt-2 text-xs font-semibold text-teal-700 bg-teal-50 inline-block px-2 py-1 rounded">
+                    {selectedOrder.serviceType === 'self_drop_self_pickup' ? 'Diantar & Diambil Sendiri' : 
+                     selectedOrder.serviceType === 'self_drop_home_delivery' ? 'Diantar Sendiri & Dikirim Kurir' : 
+                     selectedOrder.serviceType === 'home_pickup_self_pickup' ? 'Dijemput Kurir & Diambil Sendiri' : 
+                     'Dijemput & Dikirim Kurir'}
+                  </div>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h4 className="font-medium text-gray-700 mb-2">Pricing</h4>
