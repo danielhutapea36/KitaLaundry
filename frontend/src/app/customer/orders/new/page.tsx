@@ -70,7 +70,7 @@ interface BranchService {
 
 const STEPS = [
   { id: 1, title: 'Select Branch' },
-  { id: 2, title: 'Service Type' },
+  { id: 2, title: 'Pickup & Delivery' },
   { id: 3, title: 'Select Service' },
   { id: 4, title: 'Select Items' },
   { id: 5, title: 'Address' },
@@ -163,7 +163,7 @@ export default function NewOrderPage() {
   const [deliveryLoading, setDeliveryLoading] = useState(false)
   
   // Form state
-  const [selectedServices, setSelectedServices] = useState<string[]>(['wash_fold'])
+  const [selectedServices, setSelectedServices] = useState<string[]>([])
   const [items, setItems] = useState<{ [key: string]: number }>({})
   const [selectedDate, setSelectedDate] = useState('')
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('')
@@ -850,15 +850,15 @@ export default function NewOrderPage() {
                       <div
                         key={service._id}
                         className={`p-4 border-2 rounded-lg cursor-pointer transition-all ${
-                          selectedServices.includes(service.code)
+                          selectedServices.includes(service._id)
                             ? 'border-teal-500 bg-teal-50'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                         onClick={() => {
-                          if (selectedServices.includes(service.code)) {
-                            setSelectedServices(selectedServices.filter(s => s !== service.code))
+                          if (selectedServices.includes(service._id)) {
+                            setSelectedServices(selectedServices.filter(s => s !== service._id))
                           } else {
-                            setSelectedServices([...selectedServices, service.code])
+                            setSelectedServices([...selectedServices, service._id])
                           }
                         }}
                       >
@@ -877,7 +877,7 @@ export default function NewOrderPage() {
                               )}
                             </div>
                           </div>
-                          {selectedServices.includes(service.code) && (
+                          {selectedServices.includes(service._id) && (
                             <div className="w-5 h-5 bg-teal-500 rounded-full flex items-center justify-center">
                               <Check className="w-3 h-3 text-white" />
                             </div>

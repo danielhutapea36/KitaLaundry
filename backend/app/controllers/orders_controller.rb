@@ -162,7 +162,7 @@ class OrdersController < ApplicationController
       if response.code.to_i == 200
         result = JSON.parse(response.body)
         if result['status'] == 'PAID' || result['status'] == 'SETTLED'
-          order.update(payment_status: :paid, status: :processing)
+          order.update(payment_status: :paid)
         elsif result['status'] == 'EXPIRED'
           order.update(payment_status: :expired, status: :cancelled)
         end

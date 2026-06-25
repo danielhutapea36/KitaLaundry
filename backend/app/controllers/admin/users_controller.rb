@@ -136,9 +136,9 @@ module Admin
         # We define "completed" orders as status 3 (completed) or status 2 (ready) depending on workflow.
         # Let's use status :completed and :ready.
         completed_statuses = [Order.statuses[:ready], Order.statuses[:completed]]
-        
         orders_today = user.assigned_orders.where(status: completed_statuses, updated_at: today_start..today_end).count
         total_orders = user.assigned_orders.where(status: completed_statuses).count
+        active_orders = user.assigned_orders.where(status: Order.statuses[:processing]).count
         
         # Calculate efficiency: simply 100% for now, or based on some metric. We will return 100 as placeholder.
         efficiency = 100
@@ -146,6 +146,7 @@ module Admin
         stats = {
           ordersToday: orders_today,
           totalOrders: total_orders,
+          activeOrders: active_orders,
           efficiency: efficiency
         }
       end
@@ -161,7 +162,7 @@ module Admin
         isActive: true,
         createdAt: user.created_at,
         branch: user.branch ? { id: user.branch.id.to_s, name: user.branch.name } : nil,
-        stats: stats || { ordersToday: 0, totalOrders: 0, efficiency: 0 }
+        stats: stats || { ordersToday: 0, totalOrders: 0, activeOrders: 0, efficiency: 0 }
       }
     end
   end

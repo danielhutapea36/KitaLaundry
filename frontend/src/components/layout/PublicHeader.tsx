@@ -58,12 +58,7 @@ export default function PublicHeader() {
             >
               Bantuan
             </Link>
-            <Link 
-              href="/portal" 
-              className={`${isActive('/portal') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 transition-colors font-semibold`}
-            >
-              Portal
-            </Link>
+
             
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
@@ -166,13 +161,7 @@ export default function PublicHeader() {
               >
                 Bantuan
               </Link>
-              <Link 
-                href="/portal" 
-                className={`${isActive('/portal') ? 'text-teal-500 font-medium' : 'text-gray-600'} hover:text-teal-500 py-2 font-semibold`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Portal
-              </Link>
+
               
               {isAuthenticated ? (
                 <>

@@ -43,6 +43,9 @@ interface Staff {
   name: string
   role: string
   isActive: boolean
+  stats?: {
+    activeOrders: number
+  }
 }
 
 export default function BranchOrdersPage() {
@@ -494,18 +497,22 @@ export default function BranchOrdersPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Select Staff Member
                 </label>
-                <select 
-                  value={selectedStaffId}
-                  onChange={(e) => setSelectedStaffId(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-                >
-                  <option value="">Choose staff member...</option>
-                  {staff.filter(s => s.isActive).map((member) => (
-                    <option key={member._id} value={member._id}>
-                      {member.name} - {member.role}
-                    </option>
-                  ))}
-                </select>
+                <select
+                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none"
+                    value={selectedStaffId}
+                    onChange={(e) => setSelectedStaffId(e.target.value)}
+                  >
+                    <option value="">Choose staff member...</option>
+                    {staff.filter(s => s.isActive).map((member) => (
+                      <option 
+                        key={member._id} 
+                        value={member._id}
+                        disabled={(member.stats?.activeOrders || 0) >= 3}
+                      >
+                        {member.name} {((member.stats?.activeOrders || 0) >= 3) ? '(Limit Reached)' : `(${member.stats?.activeOrders || 0} active)`} - {member.role}
+                      </option>
+                    ))}
+                  </select>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">

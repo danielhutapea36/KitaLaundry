@@ -1,5 +1,6 @@
 module Admin
   class DashboardController < ApplicationController
+    before_action :authorize_request
     def stats
       if current_user.role == 'center_admin'
         orders = Order.all
@@ -16,7 +17,7 @@ module Admin
                       { _id: 'center', name: 'Admin Pusat', code: 'HQ' }
                     else
                       branch = Branch.find_by(id: get_branch_id)
-                      { _id: branch&.id.to_s, name: branch&.name || 'Cabang', code: branch&.code || 'BR' }
+                      { _id: branch&.id.to_s, name: branch&.name || 'Cabang', code: 'BR' }
                     end
 
       today = Time.zone.now.beginning_of_day
@@ -149,14 +150,8 @@ module Admin
 
     private
 
-    def current_user
-      @current_user ||= User.find_by(email: params[:email]) || User.where.not(role: :customer).first
-    end
 
-    def get_branch_id
-      # Simple heuristic: map last name to branch if manager, or pass branch_id in params.
-      # Usually this would be current_user.branch_id
-      Branch.first.id
-    end
+
+
   end
 end

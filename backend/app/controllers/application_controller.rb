@@ -26,6 +26,7 @@ class ApplicationController < ActionController::API
   end
 
   def get_branch_id
+    puts "DEBUG: current_user is #{current_user.email}, branch_id=#{current_user.branch_id}"
     current_user.branch_id || Branch.first&.id
   end
 

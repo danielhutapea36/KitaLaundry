@@ -1,5 +1,6 @@
 module Admin
   class OrdersController < ApplicationController
+    before_action :authorize_request
     def index
       orders = Order.all
       if current_user.role == 'branch_manager'
@@ -105,6 +106,13 @@ module Admin
     def assign
       order = Order.find(params[:id])
       staff_id = params[:staffId] || params[:staff_id]
+      staff = User.find(staff_id)
+      
+      active_orders_count = staff.assigned_orders.where(status: Order.statuses[:processing]).count
+      if active_orders_count >= 3
+        return render json: { success: false, message: 'Staff already has 3 active orders and cannot take more' }, status: :unprocessable_entity
+      end
+
       if order.update(assigned_staff_id: staff_id, status: :processing)
         render json: { success: true, message: 'Assigned to staff', order: order }
       else
@@ -143,22 +151,8 @@ module Admin
 
     private
 
-    def current_user
-      header = request.headers['Authorization']
-      if header
-        token = header.split(' ').last
-        begin
-          decoded = JsonWebToken.decode(token)
-          @current_user ||= User.find(decoded[:user_id])
-        rescue
-          nil
-        end
-      end
-      @current_user ||= User.where.not(role: :customer).first
-    end
 
-    def get_branch_id
-      Branch.first.id
-    end
+
+
   end
 end
