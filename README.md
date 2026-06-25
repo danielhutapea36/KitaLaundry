@@ -11,7 +11,7 @@ KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yan
 - **Auto-Logout Sesi**: Sistem mendeteksi inaktivitas pengguna (30 menit) di frontend dan otomatis mengakhiri sesi untuk mencegah penyalahgunaan.
 - **Payment Gateway**: Integrasi **Xendit** (Pembuatan Invoice Otomatis & Webhook Callback).
 - **Penyimpanan Berkas**: **Cloudinary** (via ActiveStorage) untuk Avatar, Struk Pembayaran, dan Bukti Kondisi Pakaian.
-- **Notifikasi**: **Meta WhatsApp Cloud API** (Notifikasi pesanan dan konfirmasi pembayaran).
+- **Notifikasi**: **Meta WhatsApp Cloud API** dengan kapabilitas *Production* (Nomor Terdaftar & System User Permanent Token).
 - **Real-Time**: ActionCable (WebSockets) untuk pembaruan status pesanan secara langsung.
 - **Port Khusus**: Frontend (`:3000`), Backend (`:8000`).
 - **Autentikasi Nyata**: Sinkronisasi login ke DB PostgreSQL menggunakan token JWT asli, dilindungi enkripsi. Verifikasi email dikirim (simulasi) dengan **Letter Opener**.

@@ -80,7 +80,7 @@ export default function LoginPage() {
         ...formData,
         recaptcha_token: recaptchaToken
       })
-      const { token, user } = response.data.data
+      const { token, user } = response.data
 
       setAuth(user, token)
       toast.success('Login berhasil!')
