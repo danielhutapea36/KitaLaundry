@@ -26,24 +26,12 @@ export default function CustomerLayout({
   }
 
   useEffect(() => {
-    // Wait a bit for store to initialize
-    const timer = setTimeout(() => {
-      // Inject mock user for frontend demonstration
-      if (!isAuthenticated || !user || user.role !== 'customer') {
-        useAuthStore.getState().setAuth({
-          _id: 'demo-customer-123',
-          name: 'Demo Customer',
-          email: 'customer@demo.com',
-          phone: '081234567890',
-          role: 'customer',
-          isActive: true
-        }, 'demo-token')
-      }
-      
+    // Check authentication
+    if (!isAuthenticated || !user || user.role !== 'customer') {
+      router.push('/auth/login')
+    } else {
       setIsLoading(false)
-    }, 200)
-    
-    return () => clearTimeout(timer)
+    }
   }, [isAuthenticated, user, router])
 
   if (isLoading) {
