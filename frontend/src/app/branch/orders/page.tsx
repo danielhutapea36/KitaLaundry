@@ -22,6 +22,7 @@ import {
 } from 'lucide-react'
 import { branchApi, centerAdminApi } from '@/lib/centerAdminApi'
 import toast from 'react-hot-toast'
+import { Pagination } from '@/components/ui/Pagination'
 
 interface Order {
   _id: string
@@ -464,26 +465,15 @@ export default function BranchOrdersPage() {
 
         {/* Pagination */}
         {pagination.totalPages > 1 && (
-          <div className="p-4 border-t border-gray-200 flex justify-center gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              disabled={pagination.page === 1}
-              onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-            >
-              Previous
-            </Button>
-            <span className="px-4 py-2 text-sm text-gray-600">
-              Page {pagination.page} of {pagination.totalPages}
-            </span>
-            <Button
-              variant="outline"
-              size="sm"
-              disabled={pagination.page === pagination.totalPages}
-              onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-            >
-              Next
-            </Button>
+          <div className="p-6 border-t border-gray-200">
+            <Pagination
+              current={pagination.page}
+              pages={pagination.totalPages}
+              total={pagination.total}
+              limit={20}
+              onPageChange={(p) => setPagination(prev => ({ ...prev, page: p }))}
+              itemName="pesanan"
+            />
           </div>
         )}
       </div>
