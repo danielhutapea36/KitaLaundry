@@ -631,6 +631,11 @@ export default function OrderDetailsPage() {
                 </div>
                 
                 <div className="flex justify-between">
+                  <span className="text-gray-600">Processing Branch</span>
+                  <span className="font-medium text-right">{order.branch?.name || 'Not Assigned'}</span>
+                </div>
+                
+                <div className="flex justify-between">
                   <span className="text-gray-600">Pickup Date</span>
                   <span className="font-medium">{new Date(order.pickupDate).toLocaleDateString()}</span>
                 </div>

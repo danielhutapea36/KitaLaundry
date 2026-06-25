@@ -143,7 +143,7 @@ export default function CustomerDashboard() {
   const [greeting, setGreeting] = useState('')
 
   useEffect(() => {
-    fetchOrders()
+    fetchOrders({ limit: 10000 })
     const h = new Date().getHours()
     setGreeting(h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening')
   }, [])

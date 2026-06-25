@@ -124,7 +124,8 @@ class OrdersController < ApplicationController
           total: order.total_price
         },
         pickupDate: order.created_at.iso8601,
-        items: order.order_items.map { |item| { itemType: item.service.name, quantity: item.weight_kg } }
+        items: order.order_items.map { |item| { itemType: item.service.name, quantity: item.weight_kg } },
+        branch: order.branch ? { id: order.branch.id.to_s, name: order.branch.name } : nil
       }
     end
 
@@ -225,7 +226,12 @@ class OrdersController < ApplicationController
       statusHistory: [
         { status: 'placed', updatedAt: order.created_at.iso8601 },
         (order.status != 'pending' ? { status: mapped_status, updatedAt: order.updated_at.iso8601 } : nil)
-      ].compact
+      ].compact,
+      branch: order.branch ? {
+        id: order.branch.id.to_s,
+        name: order.branch.name,
+        phone: order.branch.phone
+      } : nil
     }
     
     render json: { success: true, data: { order: formatted_order } }
