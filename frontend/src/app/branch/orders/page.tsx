@@ -464,7 +464,7 @@ export default function BranchOrdersPage() {
         )}
 
         {/* Pagination */}
-        {pagination.totalPages > 1 && (
+        {pagination.totalPages > 0 && (
           <div className="p-6 border-t border-gray-200">
             <Pagination
               current={pagination.page}

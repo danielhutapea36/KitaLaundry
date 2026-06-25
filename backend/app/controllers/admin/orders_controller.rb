@@ -20,12 +20,7 @@ module Admin
 
       if params[:search].present?
         search_term = params[:search].strip.downcase
-        if search_term.start_with?("ord-")
-          order_id = search_term.gsub("ord-", "")
-          orders = orders.where("CAST(id AS text) LIKE ?", "%#{order_id}%")
-        else
-          orders = orders.where("CAST(id AS text) LIKE ?", "%#{search_term}%")
-        end
+        orders = orders.where("'ORD-' || LPAD(CAST(id AS text), 4, '0') ILIKE ?", "%#{search_term}%")
       end
 
       orders = orders.order(created_at: :desc)
