@@ -7,7 +7,9 @@ module Admin
       # Support filtering by role
       base_query = current_user.role == 'branch_manager' ? User.where(branch_id: get_branch_id) : User.all
       
-      if params[:role].present?
+      if params[:role] == 'staff'
+        @users = base_query.where(role: ['staff', 'driver', 'washer', 'ironer', 'quality_checker', 'packer', 'dry_cleaner']).order(created_at: :desc)
+      elsif params[:role].present?
         @users = base_query.where(role: params[:role]).order(created_at: :desc)
       else
         @users = base_query.where.not(role: ['staff', 'driver', 'washer', 'ironer', 'quality_checker', 'packer', 'dry_cleaner']).order(created_at: :desc)

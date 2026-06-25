@@ -26,7 +26,7 @@ class ApplicationController < ActionController::API
   end
 
   def get_branch_id
-    Branch.where(manager_id: current_user.id).first&.id || Branch.first&.id
+    current_user.branch_id || Branch.first&.id
   end
 
   protected

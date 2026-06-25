@@ -21,6 +21,8 @@ KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yan
 - **100% Database-Driven**: Aplikasi tidak lagi menggunakan *dummy/mock data* di *frontend*, melainkan menarik seluruh kalkulasi dan statistik (Dasbor) secara *real-time* dari *database*.
 - **Pemesanan Hybrid & Multilayanan**: Mendukung pemilihan menu campuran (contoh: Kiloan digabung dengan Cuci Sepatu Premium) dalam satu kali keranjang *checkout*.
 - **Peta Rute Riil (OpenStreetMap)**: Kalkulasi otomatis jarak antar (KM) dari lokasi *laundry* ke alamat pelanggan menggunakan API Geocoding (Nominatim) dan Routing (OSRM) yang 100% gratis.
+- **Tampilan Invoice Transparan**: Detail invoice kini mencantumkan *Processing Branch* (cabang spesifik) tempat pakaian diproses.
+- **Manajemen Pekerja Multidimensi**: Admin Pusat dan Cabang dapat mengelola staf spesifik (*Washer*, *Ironer*, *Driver*) dengan status dinamis.
 
 ---
 
