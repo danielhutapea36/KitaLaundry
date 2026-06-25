@@ -54,7 +54,7 @@ class OrdersController < ApplicationController
       end
       
       @order.total_price = subtotal.to_i + tax + delivery_charge
-      @order.payment_status = (@order.payment_method == 'online' ? :unpaid : :pending)
+      @order.payment_status = :unpaid
 
 
 

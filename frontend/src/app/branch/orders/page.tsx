@@ -433,7 +433,10 @@ export default function BranchOrdersPage() {
                         {order.status === 'placed' && (
                           <option value="in_process">Start Processing</option>
                         )}
-                        {['assigned_to_branch', 'picked'].includes(order.status) && (
+                        {order.status === 'assigned_to_branch' && (
+                          <option value="picked">Mark Arrived / Picked Up</option>
+                        )}
+                        {order.status === 'picked' && (
                           <option value="in_process">Start Processing</option>
                         )}
                         {order.status === 'in_process' && (
@@ -448,7 +451,7 @@ export default function BranchOrdersPage() {
                       </select>
                     )}
                     
-                    {['assigned_to_branch', 'picked'].includes(order.status) && (
+                    {order.status === 'picked' && (
                       <Button 
                         size="sm" 
                         className="bg-green-500 hover:bg-green-600 text-white"

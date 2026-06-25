@@ -34,6 +34,7 @@ module Admin
       formatted_orders = orders_paginated.map do |order|
         mapped_status = case order.status
                         when 'pending' then 'assigned_to_branch'
+                        when 'picked' then 'picked'
                         when 'processing' then 'in_process'
                         when 'completed' then 'delivered'
                         else order.status
@@ -91,7 +92,8 @@ module Admin
     def status
       order = Order.find(params[:id])
       backend_status = case params[:status]
-                       when 'placed', 'assigned_to_branch', 'picked' then 'pending'
+                       when 'placed', 'assigned_to_branch' then 'pending'
+                       when 'picked' then 'picked'
                        when 'in_process' then 'processing'
                        when 'delivered', 'out_for_delivery' then 'completed'
                        else params[:status]
@@ -105,6 +107,11 @@ module Admin
 
     def assign
       order = Order.find(params[:id])
+      
+      if order.status != 'picked'
+        return render json: { success: false, message: 'Order must be arrived at branch (Picked Up) before assigning to a staff' }, status: :unprocessable_entity
+      end
+      
       staff_id = params[:staffId] || params[:staff_id]
       staff = User.find(staff_id)
       

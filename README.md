@@ -26,6 +26,7 @@ KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yan
 - **Tampilan Invoice Transparan**: Detail invoice kini mencantumkan *Processing Branch* (cabang spesifik) tempat pakaian diproses.
 - **Manajemen Pekerja Multidimensi**: Admin Pusat dan Cabang dapat mengelola staf spesifik (*Washer*, *Ironer*, *Driver*) secara komprehensif, dengan total integrasi staf simulasi hingga 50 pekerja otomatis melalui *seeding*.
 - **Staff Assignment Hard Limit**: Sistem otomatis memblokir penugasan pesanan baru kepada staf yang sedang menangani maksimal 3 pesanan berstatus *Processing* untuk mencegah beban kerja berlebih (Overwork Protection).
+- **Strict Multi-Stage Workflow**: Alur penugasan dibuat ketat. Pesanan harus ditandai sebagai *Arrived / Picked Up* di cabang terlebih dahulu sebelum Admin Cabang dapat melemparnya (Assign Staff) kepada staf mesin cuci. Mencegah error operasional barang belum datang tapi sudah diproses.
 
 ---
 
