@@ -21,10 +21,10 @@ module Admin
       if params[:search].present?
         search_term = params[:search].strip.downcase
         if search_term.start_with?("ord-")
-          order_id = search_term.gsub("ord-", "").to_i
-          orders = orders.where(id: order_id)
+          order_id = search_term.gsub("ord-", "")
+          orders = orders.where("CAST(id AS text) LIKE ?", "%#{order_id}%")
         else
-          orders = orders.where(id: search_term.to_i)
+          orders = orders.where("CAST(id AS text) LIKE ?", "%#{search_term}%")
         end
       end
 

@@ -73,9 +73,9 @@ export default function BranchOrdersPage() {
         const ordersData = response.data.data || response.data.orders || []
         setOrders(ordersData)
         setPagination({
-          page: response.data.page || 1,
-          totalPages: response.data.totalPages || 1,
-          total: response.data.total || ordersData.length
+          page: response.data.pagination?.currentPage || 1,
+          totalPages: response.data.pagination?.totalPages || 1,
+          total: response.data.pagination?.totalItems || ordersData.length
         })
         
         // Calculate stats from all orders
