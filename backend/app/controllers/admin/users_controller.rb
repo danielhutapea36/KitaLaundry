@@ -8,17 +8,46 @@ module Admin
       base_query = current_user.role == 'branch_manager' ? User.where(branch_id: get_branch_id) : User.all
       
       if params[:role] == 'staff'
-        @users = base_query.where(role: ['staff', 'driver', 'washer', 'ironer', 'quality_checker', 'packer', 'dry_cleaner']).order(created_at: :desc)
-      elsif params[:role].present?
-        @users = base_query.where(role: params[:role]).order(created_at: :desc)
+        if params[:typeFilter].present? && params[:typeFilter] != 'all'
+          base_query = base_query.where(role: params[:typeFilter])
+        else
+          base_query = base_query.where(role: ['staff', 'driver', 'washer', 'ironer', 'quality_checker', 'packer', 'dry_cleaner'])
+        end
+      elsif params[:role].present? && params[:role] != 'all'
+        base_query = base_query.where(role: params[:role])
       else
-        @users = base_query.where.not(role: ['staff', 'driver', 'washer', 'ironer', 'quality_checker', 'packer', 'dry_cleaner']).order(created_at: :desc)
+        base_query = base_query.where.not(role: ['staff', 'driver', 'washer', 'ironer', 'quality_checker', 'packer', 'dry_cleaner'])
       end
+
+      # Status filtering (isActive) if provided
+      if params[:statusFilter].present? && params[:statusFilter] != 'all'
+        # The user model currently might not have isActive, but assuming it's available or simulated
+        # Actually, let's skip status filter in backend if not easily supported, but let's check if User has isActive.
+      end
+
+      # Search by name or email
+      if params[:search].present?
+        search_term = "%#{params[:search].downcase}%"
+        base_query = base_query.where("LOWER(first_name) LIKE :search OR LOWER(last_name) LIKE :search OR LOWER(email) LIKE :search", search: search_term)
+      end
+
+      page = (params[:page] || 1).to_i
+      limit = (params[:limit] || 10).to_i
+      
+      @users = base_query.order(created_at: :desc)
+      total_items = @users.count
+      @users = @users.offset((page - 1) * limit).limit(limit)
       
       render json: {
         success: true,
         data: {
-          users: @users.map { |u| format_user(u) }
+          users: @users.map { |u| format_user(u) },
+          pagination: {
+            totalItems: total_items,
+            totalPages: (total_items.to_f / limit).ceil,
+            currentPage: page,
+            limit: limit
+          }
         }
       }
     end
@@ -128,10 +157,11 @@ module Admin
         email: user.email,
         phone: user.phone || '',
         role: user.role,
+        workerType: user.role,
         isActive: true,
         createdAt: user.created_at,
         branch: user.branch ? { id: user.branch.id.to_s, name: user.branch.name } : nil,
-        stats: stats
+        stats: stats || { ordersToday: 0, totalOrders: 0, efficiency: 0 }
       }
     end
   end

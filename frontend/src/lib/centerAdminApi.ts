@@ -77,8 +77,15 @@ class CenterAdminAPI {
 
 
   // Staff
-  async getStaff() {
-    const response = await fetch(`${API_BASE_URL}/admin/users?role=staff`, {
+  async getStaff(params?: { page?: number; limit?: number; search?: string; typeFilter?: string; statusFilter?: string }) {
+    const queryParams = new URLSearchParams({ role: 'staff' })
+    if (params?.page) queryParams.append('page', params.page.toString())
+    if (params?.limit) queryParams.append('limit', params.limit.toString())
+    if (params?.search) queryParams.append('search', params.search)
+    if (params?.typeFilter && params.typeFilter !== 'all') queryParams.append('typeFilter', params.typeFilter)
+    if (params?.statusFilter && params.statusFilter !== 'all') queryParams.append('statusFilter', params.statusFilter)
+
+    const response = await fetch(`${API_BASE_URL}/admin/users?${queryParams.toString()}`, {
       headers: this.getAuthHeaders(),
       credentials: 'include'
     })
@@ -94,7 +101,8 @@ class CenterAdminAPI {
            staff: data.data.users.map((u: any) => ({
              ...u,
              stats: u.stats || { ordersToday: 0, totalOrders: 0, efficiency: 100 }
-           }))
+           })),
+           pagination: data.data.pagination
          }
        }
     }

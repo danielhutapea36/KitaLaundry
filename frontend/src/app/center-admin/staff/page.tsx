@@ -21,6 +21,7 @@ import {
 } from 'lucide-react'
 import { branchApi } from '@/lib/centerAdminApi'
 import toast from 'react-hot-toast'
+import { Pagination } from '@/components/ui/Pagination'
 
 interface StaffMember {
   _id: string
@@ -65,6 +66,12 @@ export default function BranchStaffPage() {
   const [typeFilter, setTypeFilter] = useState('all')
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   
+  // Pagination
+  const [page, setPage] = useState(1)
+  const [limit] = useState(10)
+  const [totalPages, setTotalPages] = useState(1)
+  const [totalStaff, setTotalStaff] = useState(0)
+  
   // Modal states
   const [showAddModal, setShowAddModal] = useState(false)
   const [showEditModal, setShowEditModal] = useState(false)
@@ -84,10 +91,12 @@ export default function BranchStaffPage() {
   const fetchStaff = async () => {
     try {
       setLoading(true)
-      const response = await branchApi.getStaff()
+      const response = await branchApi.getStaff({ page, limit, search: searchTerm, typeFilter, statusFilter })
       if (response.success) {
         setStaff(response.data.staff || [])
-        setBranchInfo(response.data.branch)
+        setTotalPages(response.data.pagination?.totalPages || 1)
+        setTotalStaff(response.data.pagination?.totalItems || 0)
+        if (response.data.branch) setBranchInfo(response.data.branch)
       }
     } catch (err: any) {
       toast.error(err.message || 'Failed to load staff')
@@ -108,9 +117,20 @@ export default function BranchStaffPage() {
   }
 
   useEffect(() => {
-    fetchStaff()
     fetchWorkerTypes()
   }, [])
+
+  useEffect(() => {
+    fetchStaff()
+  }, [page, typeFilter, statusFilter])
+
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      if (page !== 1) setPage(1)
+      else fetchStaff()
+    }, 500)
+    return () => clearTimeout(delayDebounceFn)
+  }, [searchTerm])
 
   const handleToggleAvailability = async (staffId: string) => {
     try {
@@ -242,15 +262,8 @@ export default function BranchStaffPage() {
     return type?.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'General'
   }
 
-  const filteredStaff = staff.filter(member => {
-    const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         member.email.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesStatus = statusFilter === 'all' || 
-                         (statusFilter === 'active' && member.isActive) ||
-                         (statusFilter === 'inactive' && !member.isActive)
-    const matchesType = typeFilter === 'all' || member.workerType === typeFilter
-    return matchesSearch && matchesStatus && matchesType
-  })
+  // Use staff directly instead of filtering client-side
+  const filteredStaff = staff
 
   const activeCount = staff.filter(s => s.isActive).length
   const totalOrdersToday = staff.reduce((sum, s) => sum + s.stats.ordersToday, 0)
@@ -390,7 +403,7 @@ export default function BranchStaffPage() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="p-6 border-b border-gray-200">
           <h2 className="text-lg font-semibold text-gray-800">
-            Pekerja ({filteredStaff.length})
+            Pekerja ({totalStaff})
           </h2>
         </div>
         
@@ -468,6 +481,20 @@ export default function BranchStaffPage() {
                 </div>
               </div>
             ))}
+            
+            {/* Pagination Component */}
+            {totalPages > 1 && (
+              <div className="p-6 border-t border-gray-200">
+                <Pagination
+                  current={page}
+                  pages={totalPages}
+                  total={totalStaff}
+                  limit={limit}
+                  onPageChange={setPage}
+                  itemName="pekerja"
+                />
+              </div>
+            )}
           </div>
         )}
       </div>
