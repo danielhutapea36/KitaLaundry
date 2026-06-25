@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   post '/auth/login', to: 'authentication#login'
+  post '/auth/oauth', to: 'authentication#oauth'
   post '/auth/register', to: 'users#create'
   get '/auth/profile', to: 'authentication#profile'
   post '/auth/verify-email', to: 'authentication#verify_email'

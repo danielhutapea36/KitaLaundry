@@ -92,6 +92,26 @@ branches.each_with_index do |branch, index|
   )
 end
 
+# 10 Staff per branch (50 total)
+staff_members = []
+roles = [:washer, :ironer, :driver, :staff]
+
+branches.each_with_index do |branch, branch_index|
+  10.times do |i|
+    role = roles[i % roles.length]
+    staff_members << User.create!(
+      email: "staff#{i+1}.branch#{branch_index+1}@kitalaundry.com",
+      password: "Password123!",
+      role: role,
+      first_name: "Staff#{i+1}",
+      last_name: branch.name.split(' ').last,
+      phone: "08116002#{(branch_index * 10 + i).to_s.rjust(3, '0')}",
+      email_verified_at: Time.current,
+      branch: branch
+    )
+  end
+end
+
 # 20 Customers (4 per cabang)
 customers = []
 20.times do |i|

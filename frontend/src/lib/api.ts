@@ -83,7 +83,16 @@ api.interceptors.response.use(
 
 // Export real APIs and mix with mocks for remaining features
 export const authAPI = {
-  login: (credentials: { email: string; password: string }) => api.post('/auth/login', credentials),
+  login: async (credentials: any) => {
+    const response = await api.post('/auth/login', credentials)
+    return response.data
+  },
+  
+  oauth: async (provider: string, token: string) => {
+    const response = await api.post('/auth/oauth', { provider, token })
+    return response.data
+  },
+
   register: (userData: any) => api.post('/auth/register', userData),
   getProfile: () => api.get('/auth/profile'),
   verifyEmail: (token: string) => api.post('/auth/verify-email', { token }),

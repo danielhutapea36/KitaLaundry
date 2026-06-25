@@ -6,6 +6,8 @@ KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yan
 - **Frontend**: Next.js 14, React, Tailwind CSS, TypeScript.
 - **Backend**: Ruby on Rails 8 (API mode), PostgreSQL.
 - **Autentikasi & Keamanan**: JWT (JSON Web Tokens), `bcrypt`, **Google reCAPTCHA v3**.
+- **Login Sosial (OAuth)**: Mendukung *Login/Register* instan menggunakan **Google** dan **Facebook**.
+- **Validasi Keamanan Ekstra**: Validasi *password* dinamis terintegrasi di *frontend* (Huruf besar, kecil, angka, simbol).
 - **Auto-Logout Sesi**: Sistem mendeteksi inaktivitas pengguna (30 menit) di frontend dan otomatis mengakhiri sesi untuk mencegah penyalahgunaan.
 - **Payment Gateway**: Integrasi **Xendit** (Pembuatan Invoice Otomatis & Webhook Callback).
 - **Penyimpanan Berkas**: **Cloudinary** (via ActiveStorage) untuk Avatar, Struk Pembayaran, dan Bukti Kondisi Pakaian.
@@ -22,7 +24,7 @@ KitaLaundry adalah sistem manajemen operasional dan layanan binatu (laundry) yan
 - **Pemesanan Hybrid & Multilayanan**: Mendukung pemilihan menu campuran (contoh: Kiloan digabung dengan Cuci Sepatu Premium) dalam satu kali keranjang *checkout*.
 - **Peta Rute Riil (OpenStreetMap)**: Kalkulasi otomatis jarak antar (KM) dari lokasi *laundry* ke alamat pelanggan menggunakan API Geocoding (Nominatim) dan Routing (OSRM) yang 100% gratis.
 - **Tampilan Invoice Transparan**: Detail invoice kini mencantumkan *Processing Branch* (cabang spesifik) tempat pakaian diproses.
-- **Manajemen Pekerja Multidimensi**: Admin Pusat dan Cabang dapat mengelola staf spesifik (*Washer*, *Ironer*, *Driver*) dengan status dinamis.
+- **Manajemen Pekerja Multidimensi**: Admin Pusat dan Cabang dapat mengelola staf spesifik (*Washer*, *Ironer*, *Driver*) secara komprehensif, dengan total integrasi staf simulasi hingga 50 pekerja otomatis melalui *seeding*.
 
 ---
 

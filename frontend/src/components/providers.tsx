@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast'
 import { useState } from 'react'
 import { AutoLogoutProvider } from './AutoLogoutProvider'
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
@@ -17,10 +18,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
   }))
 
   const recaptchaKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''
+  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || 'dummy-client-id'
 
   return (
-    <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
-      <QueryClientProvider client={queryClient}>
+    <GoogleOAuthProvider clientId={googleClientId}>
+      <GoogleReCaptchaProvider reCaptchaKey={recaptchaKey}>
+        <QueryClientProvider client={queryClient}>
         <AutoLogoutProvider>
           {children}
         </AutoLogoutProvider>
@@ -53,8 +56,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
               },
             },
           }}
-        />
-      </QueryClientProvider>
-    </GoogleReCaptchaProvider>
+          />
+        </QueryClientProvider>
+      </GoogleReCaptchaProvider>
+    </GoogleOAuthProvider>
   )
 }
